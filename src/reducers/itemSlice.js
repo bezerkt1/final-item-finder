@@ -13,7 +13,7 @@ const initialState = [
     created: "2023-11-29T18:32:53.205Z",
     sellerId: "id",
     location: [],
-    favorite: false,
+    favorite: true,
   },
   {
     id: uuidv4(),

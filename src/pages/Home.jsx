@@ -7,7 +7,7 @@ import { addFavorite } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 import TopAppBar from "../lib/TopAppBar";
-import Navbar from "../lib/BottomNavbar";
+import BottomNavbar from "../lib/BottomNavbar";
 
 const Home = () => {
   const items = useSelector((store) => store.items);
@@ -39,7 +39,7 @@ const Home = () => {
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <Navbar />
+      <BottomNavbar />
     </>
   );
 };
