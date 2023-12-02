@@ -52,10 +52,15 @@ const itemSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
-    addFavorite: (state) => {
-      state.favorite= !state.favorite;
-    }
-  }
+    addFavorite: (state, action) => {
+       // find item to update
+       const index = state.findIndex((item) => item.id === action.payload.id);
+       // if item found, update state
+       if (index !== -1) {
+         state[index].favorite = !state[index].favorite;
+       }
+    },
+  },
 });
 
 export const { addFavorite } = itemSlice.actions;
