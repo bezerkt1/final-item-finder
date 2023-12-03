@@ -1,51 +1,31 @@
-// form to log in
-
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Label, Card, TextInput, Checkbox } from "flowbite-react";
+import { Label, Card, TextInput, Alert } from "flowbite-react";
 import { getToken } from "../reducers/loginSlice";
 import { setIsNew } from "../reducers/registerSlice";
 import CustomButton from "../lib/CustomButton";
-
-/*
-Example of using login token to fetch data:
-
-fetch('URL', {
-  method: 'GET',
-  headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': login.token_type + ' ' + login.access_token
-  })
-})
-*/
 
 const LoginForm = () => {
   const [isValid, setIsValid] = useState(true);
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
-    remember: false,
   });
 
   const dispatch = useDispatch();
   const login = useSelector((state) => state.login);
 
-  useEffect(() => {
-    if (loginData.username.length > 0) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
-  }, [loginData.username]);
-
   const handleConfirm = (e) => {
     e.preventDefault();
     dispatch(getToken(loginData)).then(() => {
-      if (login.access_token.length > 1) {
+      if (login.access_token !== null) {
         // does this mean username + password authenticated? yes, well guessed! although I might look into a better way of checking
+        // updated to check if null instead
         setIsOpen(false); // if yes, navigate to home page
+      } else {
+        setIsValid(false);
       }
     });
   };
@@ -58,6 +38,9 @@ const LoginForm = () => {
           <h3 className="text-xl mx-auto font-medium text-gray-900 dark:text-white">
             Login
           </h3>
+          {!isValid && (
+            <Alert color="failure">Wrong username or password</Alert>
+          )}
           <div>
             <div className="mb-2 block">
               <Label htmlFor="username" value="Username" />
@@ -70,8 +53,7 @@ const LoginForm = () => {
                 setLoginData({ ...loginData, username: event.target.value })
               }
               required
-              color={!isValid && "failure"}
-              helperText={!isValid && "Please enter a username"}
+              autoComplete="username"
             />
           </div>
           <div>
@@ -86,17 +68,8 @@ const LoginForm = () => {
                 setLoginData({ ...loginData, password: event.target.value })
               }
               required
+              autoComplete="current-password"
             />
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="remember"
-              checked={loginData.remember}
-              onChange={() =>
-                setLoginData({ ...loginData, remember: !loginData.remember })
-              }
-            />
-            <Label htmlFor="remember">Remember me</Label>
           </div>
           <div className="flex flex-col items-center gap-3">
             <CustomButton

@@ -4,15 +4,22 @@ import { appPages } from "../routes/AppRoutes";
 
 const BottomNavbar = () => {
   return (
-    <Navbar fluid className="fixed bottom-0 left-0 w-full list-none bg-emerald-500">
-      {appPages.map(({ path, name, icon, index, menus }) =>
-        menus.includes("navbar") && (
-          <Navbar.Link as={NavLink} to={path} key={index} className="flex flex-col items-center">
+    <Navbar
+      fluid
+      className="fixed bottom-0 left-0 w-full list-none bg-emerald-500"
+    >
+      {appPages
+        .filter((page) => page.menus.includes("navbar"))
+        .map(({ path, name, icon }, index) => (
+          <Navbar.Link
+            key={index}
+            href={path}
+            className="flex flex-col items-center"
+          >
             {icon}
             {name}
           </Navbar.Link>
-        )
-      )}
+        ))}
     </Navbar>
   );
 };
