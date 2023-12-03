@@ -91,16 +91,11 @@ const loginSlice = createSlice({
         state.isLoading = false;
         state.isValid = false;
       })
-      .addCase(validateToken.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(validateToken.fulfilled, (state) => {
-        state.isLoading = false;
         state.isValid = true;
       })
       .addCase(validateToken.rejected, (state, action) => {
         console.log(action);
-        state.isLoading = false;
         state.access_token = null;
         state.token_type = null;
         state.isValid = false;
