@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import LoginRequired from "../lib/LoginRequired";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import About from "../pages/About";
@@ -42,7 +43,8 @@ export const appPages = [
     component: Favorites,
     menus: ["topAppBar", "navbar"],
     path: "/favorites",
-    icon: <MdFavorite />
+    icon: <MdFavorite />,
+    loginRequired: true
   },
   {
     name: "Not Found",
@@ -65,7 +67,17 @@ const AppRoutes = () => {
           return <Route key={index} path={page.path} element={<Navigate to="/home" />} />
         }
 
-        return <Route key={index} path={page.path} element={<page.component />} />
+        return (
+          <Route 
+            key={index} 
+            path={page.path} 
+            element={
+              page?.loginRequired ?
+              <LoginRequired><page.component /></LoginRequired> :
+              <page.component />
+            } 
+          />
+        )
     })}
     </Routes>
   )      
