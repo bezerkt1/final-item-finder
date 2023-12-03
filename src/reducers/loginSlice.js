@@ -10,31 +10,28 @@ const initialState = {
 };
 
 if (initialState.access_token !== null && initialState.token_type !== null) {
-  initialState.isValid = true;
-}
-
-export const validateToken = createAsyncThunk(
-  "login/validateToken",
-  async (payload, thunkAPI) => {
-    const state = thunkAPI.getState();
-    try {
-      const response = await fetch(`${url}validate/`, {
-        method: "GET",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: `${state.login.token_type} ${state.login.access_token}`,
-        }),
-      });
-      if (!response.ok) {
-        localStorage.removeItem("token_type");
-        localStorage.removeItem("access_token");
-        throw new Error("Network response was not ok");
-      }
-    } catch (error) {
-      return thunkAPI.rejectWithValue("something went wrong");
+  try {
+    const response = await fetch(`${url}validate/`, {
+      headers: new Headers({
+        Authorization: `${initialState.token_type} ${initialState.access_token}`,
+      }),
+    });
+    if (!response.ok) {
+      localStorage.removeItem("token_type");
+      localStorage.removeItem("access_token");
+      initialState.token_type = null;
+      initialState.access_token = null;
+      throw new Error("Network response was not ok");
     }
+    initialState.isValid = true;
+  } catch (error) {
+    localStorage.removeItem("token_type");
+    localStorage.removeItem("access_token");
+    initialState.token_type = null;
+    initialState.access_token = null;
+    console.log(error);
   }
-);
+}
 
 export const getToken = createAsyncThunk(
   "login/getToken",
@@ -73,6 +70,7 @@ const loginSlice = createSlice({
       localStorage.removeItem("token_type");
       state.access_token = "";
       state.token_type = "";
+      state.isValid = false;
     },
   },
   extraReducers: (builder) => {
@@ -89,15 +87,6 @@ const loginSlice = createSlice({
       .addCase(getToken.rejected, (state, action) => {
         console.log(action);
         state.isLoading = false;
-        state.isValid = false;
-      })
-      .addCase(validateToken.fulfilled, (state) => {
-        state.isValid = true;
-      })
-      .addCase(validateToken.rejected, (state, action) => {
-        console.log(action);
-        state.access_token = null;
-        state.token_type = null;
         state.isValid = false;
       });
   },
