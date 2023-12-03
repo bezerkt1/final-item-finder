@@ -42,6 +42,12 @@ const loginSlice = createSlice({
       console.log("state", state);
       console.log("action", action);
     },
+    logout: (state) => {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("token_type");
+      state.access_token = null;
+      state.token_type = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -62,6 +68,6 @@ const loginSlice = createSlice({
   },
 });
 
-export const { test } = loginSlice.actions;
+export const { test, logout } = loginSlice.actions;
 
 export default loginSlice.reducer;
