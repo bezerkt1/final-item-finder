@@ -2,7 +2,7 @@
 // list of categories to search by category
 
 import { ListGroup, Label, TextInput } from "flowbite-react";
-import ListCategory from "../lib/ListCategory";
+import Category from "../lib/Category";
 import { BsTools } from "react-icons/bs";
 import { PiTreeEvergreenFill } from "react-icons/pi";
 import { MdSearch, MdOutlinePedalBike, MdSportsEsports, MdOutlineSportsSoccer } from "react-icons/md";
@@ -51,7 +51,7 @@ const Search = () => {
       <h3 className="text-zinc-500 font-bold ml-5 mb-2">Categories</h3>
       <ListGroup className="w-screen rounded-none">
         {categories.map(({ name, icon, id}) => (
-          <ListCategory name={name} icon={icon} key={id} />
+          <Category name={name} icon={icon} key={id} />
         ))}
       </ListGroup>
     </>

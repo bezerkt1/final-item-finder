@@ -5,7 +5,7 @@ import { addFavorite } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 
-const ListItem = ({ title, desc, id, favorite }) => {
+const Item = ({ title, desc, id, favorite }) => {
   return (
     <ListGroup.Item as="div" className="text-zinc-500">
       <div className="flex">
@@ -30,4 +30,4 @@ const ListItem = ({ title, desc, id, favorite }) => {
   );
 };
 
-export default ListItem;
+export default Item;

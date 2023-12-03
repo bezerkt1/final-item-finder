@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ListGroup } from "flowbite-react";
 import TopAppBar from "../lib/TopAppBar";
 import BottomNavbar from "../lib/BottomNavbar";
-import ListItem from "../lib/ListItem";
+import Item from "../lib/Item";
 
 const Favorites = () => {
   const [ faveItems, setFaveItems ] = useState();
@@ -21,7 +21,7 @@ const Favorites = () => {
       {/* List of favorited items */}
       <ListGroup className="w-screen rounded-none">
         {faveItems?.map(({ title, desc, id, favorite }) => (
-          <ListItem key={id} title={title} desc={desc} id={id} favorite={favorite} />
+          <Item key={id} title={title} desc={desc} id={id} favorite={favorite} />
         ))}
       </ListGroup>
       <BottomNavbar />

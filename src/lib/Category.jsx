@@ -1,7 +1,7 @@
 import { ListGroup } from "flowbite-react";
 import { IconContext } from "react-icons";
 
-const ListCategory = ({ icon, name }) => {
+const Category = ({ icon, name }) => {
   return (
     <ListGroup.Item className="text-zinc-500" >
       <div className="flex gap-5 h-20 items-center">
@@ -14,4 +14,4 @@ const ListCategory = ({ icon, name }) => {
   );
 };
 
-export default ListCategory;
+export default Category;
