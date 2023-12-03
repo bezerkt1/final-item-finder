@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import LoginRequired from "../lib/LoginRequired";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
@@ -9,7 +8,6 @@ import Search from "../pages/Search";
 import Favorites from "../pages/Favorites";
 import NotFound from "../pages/NotFound";
 import { MdHome, MdSearch, MdFavorite, MdAddBox } from "react-icons/md";
-import { validateToken } from "../reducers/loginSlice";
 
 export const appPages = [
   {
@@ -59,13 +57,6 @@ export const appPages = [
 
 const AppRoutes = () => {
   const login = useSelector((state) => state.login);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (login.access_token !== null && login.token_type !== null) {
-      dispatch(validateToken());
-    }
-  }, []);
 
   return (
     <Routes>
