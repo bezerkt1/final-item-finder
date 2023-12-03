@@ -31,9 +31,11 @@ const Home = () => {
 
             <div className="fixed right-0 mr-5">
               {favorite ? (
-                  <MdFavorite onClick={() => dispatch(addFavorite({id: id}))} />
+                <MdFavorite onClick={() => dispatch(addFavorite({ id: id }))} />
               ) : (
-                  <MdOutlineFavoriteBorder onClick={() => dispatch(addFavorite({id: id}))}/> 
+                <MdOutlineFavoriteBorder
+                  onClick={() => dispatch(addFavorite({ id: id }))}
+                />
               )}
             </div>
           </ListGroup.Item>

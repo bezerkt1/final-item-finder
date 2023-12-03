@@ -1,9 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 const LoginRequired = ({ children }) => {
-  const accessToken = useSelector(state => state.login.access_token);
+  const accessToken = useSelector((state) => state.isValid);
 
   if (!accessToken) {
     return <Navigate to="/" />;

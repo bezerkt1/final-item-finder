@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Label, Card, TextInput } from "flowbite-react";
+import { Label, Card, TextInput, Alert } from "flowbite-react";
 import { setIsNew } from "../reducers/registerSlice";
 import CustomButton from "../lib/CustomButton";
 
@@ -10,6 +10,7 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
+  const [alert, setAlert] = useState({ show: false, color: "", text: "" });
   // empty form for now, need to add logic later
   const [formData, setFormData] = useState({
     email: "",
@@ -25,9 +26,23 @@ const RegisterForm = () => {
       headers: new Headers({
         "Content-Type": "application/json",
       }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    }).then((response) => {
+      if (response.status === 200) {
+        setAlert({
+          show: true,
+          color: "success",
+          text: "Successfully created user! You may now log in.",
+        });
+      } else {
+        response.json().then((data) => {
+          let message = data.detail;
+          if (!message) {
+            message = "Sorry. Something went wrong.";
+          }
+          setAlert({ show: true, color: "failure", text: message });
+        });
+      }
+    });
   };
 
   return (
@@ -37,7 +52,7 @@ const RegisterForm = () => {
           <h3 className="text-xl mx-auto font-medium text-gray-900 dark:text-white">
             Register New User
           </h3>
-
+          {alert.show && <Alert color={alert.color}>{alert.text}</Alert>}
           <div>
             <div className="mb-2 block">
               <Label htmlFor="email" value="Email" />
@@ -65,6 +80,7 @@ const RegisterForm = () => {
                 setFormData({ ...formData, username: event.target.value })
               }
               required
+              autoComplete="username"
             />
           </div>
 
@@ -80,6 +96,7 @@ const RegisterForm = () => {
                 setFormData({ ...formData, password: event.target.value })
               }
               required
+              autoComplete="new-password"
             />
           </div>
 

@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import LoginRequired from "../lib/LoginRequired";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
@@ -8,6 +9,7 @@ import Search from "../pages/Search";
 import Favorites from "../pages/Favorites";
 import NotFound from "../pages/NotFound";
 import { MdHome, MdSearch, MdFavorite, MdAddBox } from "react-icons/md";
+import { validateToken } from "../reducers/loginSlice";
 
 export const appPages = [
   {
@@ -15,28 +17,28 @@ export const appPages = [
     component: Login,
     menus: [],
     path: "/",
-    icon: null
+    icon: null,
   },
   {
     name: "Home",
     component: Home,
     menus: ["topAppBar", "navbar"],
     path: "/home",
-    icon: <MdHome />
+    icon: <MdHome />,
   },
   {
     name: "About",
     component: About,
     menus: [],
     path: "/about",
-    icon: null
+    icon: null,
   },
   {
     name: "Search",
     component: Search,
     menus: ["navbar"],
     path: "/search",
-    icon: <MdSearch />
+    icon: <MdSearch />,
   },
   {
     name: "Favorites",
@@ -44,43 +46,58 @@ export const appPages = [
     menus: ["topAppBar", "navbar"],
     path: "/favorites",
     icon: <MdFavorite />,
-    loginRequired: true
+    loginRequired: true,
   },
   {
     name: "Not Found",
     component: NotFound,
     menus: [],
-    path: '*',
-    icon: null
-  }
-]
-
+    path: "*",
+    icon: null,
+  },
+];
 
 const AppRoutes = () => {
-  const accessToken = useSelector(state => state.login.access_token);
-  console.log("accessToken", accessToken)
+  const login = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (login.access_token !== null && login.token_type !== null) {
+      dispatch(validateToken());
+    }
+  }, []);
 
   return (
     <Routes>
       {appPages.map((page, index) => {
-        if (page.name === "Login" && accessToken) {
-          return <Route key={index} path={page.path} element={<Navigate to="/home" />} />
+        if (page.name === "Login" && login.isValid) {
+          return (
+            <Route
+              key={index}
+              path={page.path}
+              element={<Navigate to="/home" />}
+            />
+          );
         }
 
         return (
-          <Route 
-            key={index} 
-            path={page.path} 
+          <Route
+            key={index}
+            path={page.path}
             element={
-              page?.loginRequired ?
-              <LoginRequired><page.component /></LoginRequired> :
-              <page.component />
-            } 
+              page?.loginRequired ? (
+                <LoginRequired>
+                  <page.component />
+                </LoginRequired>
+              ) : (
+                <page.component />
+              )
+            }
           />
-        )
-    })}
+        );
+      })}
     </Routes>
-  )      
-}
+  );
+};
 
 export default AppRoutes;
