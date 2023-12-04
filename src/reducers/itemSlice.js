@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from 'uuid';
 
+const url = "http://basternet.ddns.net:8777/items/";
+
 // placeholder data for items
 const initialState = [
   {
@@ -52,6 +54,23 @@ const itemSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
+    addItem: (state, action) => {
+      return [
+        ...state,
+        {
+          name: action.payload.name,
+          price: action.payload.price,
+          id: uuidv4(),
+          description: action.payload.description,
+          image: "https://picsum.photos/100/100)",
+          location: action.payload.location,
+          user_id: action.payload.user_id,
+          category_id: action.payload.cateogory_id,
+          favorite: false,
+          created: action.payload.created,
+        },
+      ];
+    },
     addFavorite: (state, action) => {
        // find item to update
        const index = state.findIndex((item) => item.id === action.payload.id);
@@ -63,5 +82,5 @@ const itemSlice = createSlice({
   },
 });
 
-export const { addFavorite } = itemSlice.actions;
+export const { addFavorite, addItem } = itemSlice.actions;
 export default itemSlice.reducer;

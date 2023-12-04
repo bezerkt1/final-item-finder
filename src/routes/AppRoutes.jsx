@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import Search from "../pages/Search";
 import Favorites from "../pages/Favorites";
+import AddItem from "../pages/AddItem";
 import NotFound from "../pages/NotFound";
 import { MdHome, MdSearch, MdFavorite, MdAddBox } from "react-icons/md";
 
@@ -44,6 +45,14 @@ export const appPages = [
     menus: ["topAppBar", "navbar"],
     path: "/favorites",
     icon: <MdFavorite />,
+    // loginRequired: true,
+  },
+  {
+    name: "AddItem",
+    component: AddItem,
+    menus: ["topAppBar", "navbar"],
+    path: "/additem",
+    icon: <MdAddBox />,
     // loginRequired: true,
   },
   {
