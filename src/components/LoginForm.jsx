@@ -21,9 +21,7 @@ const LoginForm = () => {
     e.preventDefault();
     dispatch(getToken(loginData)).then(() => {
       if (login.access_token !== null) {
-        // does this mean username + password authenticated? yes, well guessed! although I might look into a better way of checking
-        // updated to check if null instead
-        setIsOpen(false); // if yes, navigate to home page
+        setIsValid(true);
       } else {
         setIsValid(false);
       }

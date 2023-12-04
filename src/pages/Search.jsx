@@ -1,7 +1,8 @@
 // search bar to search for item
 // list of categories to search by category
+
 import { ListGroup, Label, TextInput } from "flowbite-react";
-import { IconContext } from "react-icons";
+import Category from "../lib/Category";
 import { BsTools } from "react-icons/bs";
 import { PiTreeEvergreenFill } from "react-icons/pi";
 import { MdSearch, MdOutlinePedalBike, MdSportsEsports, MdOutlineSportsSoccer } from "react-icons/md";
@@ -50,18 +51,11 @@ const Search = () => {
       <h3 className="text-zinc-500 font-bold ml-5 mb-2">Categories</h3>
       <ListGroup className="w-screen rounded-none">
         {categories.map(({ name, icon, id}) => (
-          <ListGroup.Item className="text-zinc-500 key={id}">
-            <div className="flex gap-5 h-20 items-center">
-              <IconContext.Provider value={{ size: "2rem" }}>
-                {icon}
-              </IconContext.Provider>
-              {name}
-            </div>
-          </ListGroup.Item>
+          <Category name={name} icon={icon} key={id} />
         ))}
       </ListGroup>
     </>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;
