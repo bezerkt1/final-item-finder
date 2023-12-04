@@ -1,5 +1,6 @@
 // info page explaining the company's mission
 // tie into Agenda 2030
+import { Link } from "react-router-dom";
 import logo from "/lendify.png";
 import gif from "/SDG12.gif";
 
@@ -24,8 +25,9 @@ const About = () => {
 
       <section>
         <h3 className="text-xl font-bold">Our Mission</h3>
-        <p>Our mission is to contribute to the UN's 2030 Agenda, specifically SDG 
-          Goal 12 for Responsible Consumption and Production by "reducing waste 
+        <p>Our mission is to contribute to the UN's 2030 Agenda, specifically 
+          <Link className="decoration-solid" to="https://sdgs.un.org/goals/goal12"> SDG Goal 12 </Link>
+          for Responsible Consumption and Production by "reducing waste 
           generation through prevention, reduction, recycling and reuse."
         </p>
       </section>
