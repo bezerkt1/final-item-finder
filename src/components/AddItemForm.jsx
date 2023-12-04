@@ -109,3 +109,6 @@ const AddItemForm = () => {
 };
 
 export default AddItemForm;
+
+// new item details saving to local state but 
+// need to check if posting to api
