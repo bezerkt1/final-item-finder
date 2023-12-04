@@ -1,11 +1,12 @@
 // map thru items array, sorted by newest
 // use in Home.jsx and Favorites.jsx
-
+import { useDispatch } from "react-redux";
 import { addFavorite } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 
 const Item = ({ title, desc, id, favorite }) => {
+  const dispatch = useDispatch();
   return (
     <ListGroup.Item as="div" className="text-zinc-500">
       <div className="flex">
