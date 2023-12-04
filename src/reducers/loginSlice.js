@@ -5,8 +5,8 @@ const url = "http://basternet.ddns.net:8777/";
 const initialState = {
   isLoading: false,
   isValid: false,
-  access_token: localStorage.getItem("access_token"),
-  token_type: localStorage.getItem("token_type"),
+  access_token: null,
+  token_type: null,
 };
 
 if (initialState.access_token !== null && initialState.token_type !== null) {
@@ -17,16 +17,12 @@ if (initialState.access_token !== null && initialState.token_type !== null) {
       }),
     });
     if (!response.ok) {
-      localStorage.removeItem("token_type");
-      localStorage.removeItem("access_token");
       initialState.token_type = null;
       initialState.access_token = null;
       throw new Error("Network response was not ok");
     }
     initialState.isValid = true;
   } catch (error) {
-    localStorage.removeItem("token_type");
-    localStorage.removeItem("access_token");
     initialState.token_type = null;
     initialState.access_token = null;
     console.log(error);
@@ -48,8 +44,6 @@ export const getToken = createAsyncThunk(
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("token_type", data.token_type);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
@@ -66,8 +60,6 @@ const loginSlice = createSlice({
       console.log("action", action);
     },
     logout: (state) => {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("token_type");
       state.access_token = "";
       state.token_type = "";
       state.isValid = false;

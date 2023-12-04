@@ -1,14 +1,22 @@
-import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import loginReducer from "./reducers/loginSlice";
 import registerReducer from "./reducers/registerSlice";
 import itemReducer from "./reducers/itemSlice";
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore, FLUSH,
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
   REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER, } from "redux-persist";
+  REGISTER,
+} from "redux-persist";
 
 const reducer = combineReducers({
   login: loginReducer,
@@ -17,21 +25,21 @@ const reducer = combineReducers({
 });
 
 const persistConfig = {
-  key: 'Root',
+  key: "Root",
   storage,
-  whitelist: ['items'],
+  whitelist: ["items", "login"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => 
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
-})
+    }),
+});
 
 export const persistor = persistStore(store);
