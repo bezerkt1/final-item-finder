@@ -3,13 +3,11 @@ import { useDispatch } from "react-redux";
 import { addItem } from "../reducers/itemSlice";
 import { Select, Label, TextInput } from "flowbite-react";
 import CustomButton from "../lib/CustomButton";
-import { v4 as uuidv4 } from 'uuid';
-
 
 const AddItemForm = () => {
   const dispatch = useDispatch();
   // placeholder state to save input
-  const [newItem, setNewItem] = useState([
+  const [newItem, setNewItem] = useState(
     {
       name: "",
       price: "",
@@ -17,25 +15,22 @@ const AddItemForm = () => {
       category: "",
       created: "",
     },
-  ]);
+  );
 
+  // save date created on click
   const handleClick = () => {
     let dateCreated = new Date().toLocaleDateString("sv-SE");
     setNewItem({...newItem, created: dateCreated });
   };
 
+  // save new item on submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatchEvent(addItem({
+    dispatch(addItem({
       name: newItem.name,
       price: newItem.price,
-      id: uuidv4(),
       description: newItem.description,
-      image: "https://picsum.photos/100/100)",
-      location: null,
-      user_id: null,
       category_id: newItem.category,
-      favorite: false,
       created: newItem.created,
     }))
   };
