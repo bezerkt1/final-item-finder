@@ -14,7 +14,7 @@ const Item = ({ name, description, id, favorite }) => {
     <ListGroup.Item as="div" className="text-zinc-500">
       <div className="flex">
         <div className="w-16 h-16 bg-[url(https://picsum.photos/100/100)] bg-cover"></div>
-      
+
         <div className="flex ml-5 flex-col justify-center">
           <p className="font-bold">{name}</p>
           <p className="font-normal">{description}</p>
@@ -22,13 +22,13 @@ const Item = ({ name, description, id, favorite }) => {
       </div>
 
       <div className="fixed right-0 mr-5">
-      {/*   {favorite ? (
+        {favorite ? (
           <MdFavorite onClick={() => dispatch(addFavorite({ id: id }))} />
         ) : (
           <MdOutlineFavoriteBorder
             onClick={() => dispatch(addFavorite({ id: id }))}
           />
-        )} */}
+        )}
 
         {login.isValid && (
           <FaTrash onClick={() => dispatch(removeItem({ id: id }))} />

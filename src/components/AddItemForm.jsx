@@ -7,36 +7,36 @@ import CustomButton from "../lib/CustomButton";
 const AddItemForm = () => {
   const dispatch = useDispatch();
   // placeholder state to save input
-  const [newItem, setNewItem] = useState(
-    {
-      name: "",
-      price: "",
-      description: "",
-      category: "",
-      created: "",
-    },
-  );
+  const [newItem, setNewItem] = useState({
+    name: "",
+    price: "",
+    description: "",
+    category: "",
+    created: "",
+  });
 
-  // save date created on click
+  // save date created on click the database will save the date an item is created
   const handleClick = () => {
-    let dateCreated = new Date().toLocaleDateString("sv-SE");
-    setNewItem({...newItem, created: dateCreated });
+    //let dateCreated = new Date().toLocaleDateString("sv-SE");
+    //setNewItem({ ...newItem, created: dateCreated });
   };
 
   // save new item on submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addItem({
-      name: newItem.name,
-      price: newItem.price,
-      description: newItem.description,
-      category_id: newItem.category,
-      created: newItem.created,
-    }))
+    dispatch(
+      addItem({
+        name: newItem.name,
+        price: newItem.price,
+        description: newItem.description,
+        category_id: newItem.category,
+        //created: newItem.created,
+      })
+    );
   };
 
   return (
-    <form className="w-4/5 md:w-2/4 lg:w-1/4" onSubmit={handleSubmit} >
+    <form className="w-4/5 md:w-2/4 lg:w-1/4" onSubmit={handleSubmit}>
       <div className="mb-4">
         <div className="mb-2 block">
           <Label htmlFor="name" value="Name of item" />
@@ -69,12 +69,14 @@ const AddItemForm = () => {
         <div className="mb-2 block">
           <Label htmlFor="description" value="Description" />
         </div>
-        <TextInput 
-          id="description" 
-          type="text" 
+        <TextInput
+          id="description"
+          type="text"
           placeholder="Ryobi grass trimmer 18V"
           value={newItem.description}
-          onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
+          onChange={(e) =>
+            setNewItem({ ...newItem, description: e.target.value })
+          }
         />
       </div>
 
@@ -82,13 +84,19 @@ const AddItemForm = () => {
         <div className="mb-2 block">
           <Label htmlFor="category" value="Select category" />
         </div>
-        <Select id="category" required onChange={(e) => setNewItem({...newItem, category: e.target.value })}>
-          <option defaultValue="" hidden >---Select---</option>
-          <option value="1" >Household tools</option>
-          <option value="2" >Gardening</option>
-          <option value="3" >Gaming</option>
-          <option value="4" >Transportation</option>
-          <option value="5" >Sports & Leisure</option>
+        <Select
+          id="category"
+          required
+          onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+        >
+          <option defaultValue="" hidden>
+            ---Select---
+          </option>
+          <option value="1">Household tools</option>
+          <option value="2">Gardening</option>
+          <option value="3">Gaming</option>
+          <option value="4">Transportation</option>
+          <option value="5">Sports & Leisure</option>
         </Select>
       </div>
 
@@ -110,5 +118,5 @@ const AddItemForm = () => {
 
 export default AddItemForm;
 
-// new item details saving to local state but 
+// new item details saving to local state but
 // need to check if posting to api

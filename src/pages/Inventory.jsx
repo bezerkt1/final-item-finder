@@ -9,15 +9,14 @@ import Item from "../lib/Item";
 
 const Inventory = () => {
   const items = useSelector((store) => store.items);
-  console.log(items);
 
   return (
     <>
       <TopAppBar>Your items</TopAppBar>
       {/* List of items added by user */}
       <ListGroup className="w-screen rounded-none">
-        {items?.map(({ name, description, id }) => (
-          <Item key={id} name={name} description={description} id={id}  />
+        {items.itemsArray?.map(({ name, description, id }) => (
+          <Item key={id} name={name} description={description} id={id} />
         ))}
       </ListGroup>
       <BottomNavbar />
