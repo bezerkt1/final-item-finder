@@ -9,42 +9,44 @@ const initialState = {
   token_type: null,
 };
 
-if (initialState.access_token !== null && initialState.token_type !== null) {
-  try {
-    const response = await fetch(`${url}validate/`, {
-      headers: new Headers({
-        Authorization: `${initialState.token_type} ${initialState.access_token}`,
-      }),
-    });
-    if (!response.ok) {
-      initialState.token_type = null;
-      initialState.access_token = null;
-      throw new Error("Network response was not ok");
+export const validateToken = createAsyncThunk(
+  "login/validateToken",
+  async (payload, thunkAPI) => {
+    console.log("validating...");
+    const state = thunkAPI.getState();
+    try {
+      return fetch(`${url}validate/`, {
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `${state.login.token_type} ${state.login.access_token}`,
+        }),
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+      });
+    } catch (error) {
+      return thunkAPI.rejectWithValue("something went wrong");
     }
-    initialState.isValid = true;
-  } catch (error) {
-    initialState.token_type = null;
-    initialState.access_token = null;
-    console.log(error);
   }
-}
+);
 
 export const getToken = createAsyncThunk(
   "login/getToken",
   async (payload, thunkAPI) => {
     try {
-      const response = await fetch(`${url}token/`, {
+      return fetch(`${url}token/`, {
         method: "POST",
         body: `username=${payload.username}&password=${payload.password}`,
         headers: new Headers({
           "Content-Type": "application/x-www-form-urlencoded",
         }),
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
     }
@@ -55,15 +57,7 @@ const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    test: (state, action) => {
-      console.log("state", state);
-      console.log("action", action);
-    },
-    logout: (state) => {
-      state.access_token = "";
-      state.token_type = "";
-      state.isValid = false;
-    },
+    logout: () => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -71,16 +65,21 @@ const loginSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getToken.fulfilled, (state, action) => {
-        state.isLoading = false;
+        console.log("boop");
         state.access_token = action.payload.access_token;
         state.token_type = action.payload.token_type;
         state.isValid = true;
-      })
-      .addCase(getToken.rejected, (state, action) => {
-        console.log(action);
         state.isLoading = false;
-        state.isValid = false;
-      });
+      })
+      .addCase(getToken.rejected, () => initialState)
+      .addCase(validateToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(validateToken.fulfilled, (state) => {
+        state.isValid = true;
+        state.isLoading = false;
+      })
+      .addCase(validateToken.rejected, () => initialState);
   },
 });
 
