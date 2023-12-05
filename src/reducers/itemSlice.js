@@ -11,19 +11,41 @@ const initialState = {
   isLoading: true,
 };
 
+// export const getItems = createAsyncThunk(
+//   "item/getItems",
+//   async (payload, thunkAPI) => {
+//     try {
+//       return fetch(`${url}items/`).then((response) => {
+//         if (!response.ok) {
+//           throw new Error("Response was not ok");
+//         }
+//         thunkAPI.dispatch(setItems(response.json()));
+//         return response.json();
+//       });
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue("Something went wrong");
+//     }
+//   }
+// );
+
 export const getItems = createAsyncThunk(
   "item/getItems",
-  async (payload, thunkAPI) => {
-    try {
-      return fetch(`${url}items/`).then((response) => {
+  (payload, thunkAPI) => {
+    return fetch(`${url}items/`)
+      .then((response) => {
         if (!response.ok) {
           throw new Error("Response was not ok");
         }
+        thunkAPI.dispatch(setItems(response.json()));
         return response.json();
-      });
-    } catch (error) {
+      })
+      .then(data => {
+        console.log("itemsArray", data);
+        return data;
+      })
+      .catch((error) => {
       return thunkAPI.rejectWithValue("Something went wrong");
-    }
+    });
   }
 );
 
@@ -101,7 +123,7 @@ const itemSlice = createSlice({
   initialState,
   reducers: {
     setItems: (state, action) => {
-      state.itemsArray = action.payload;
+      state.itemsArray.push(action.payload);
     },
     addItem: (state, action) => {
       state.itemsArray.push({
@@ -184,5 +206,5 @@ const itemSlice = createSlice({
   },
 });
 
-export const { addFavorite, addItem, removeItem } = itemSlice.actions;
+export const { addFavorite, addItem, removeItem, setItems } = itemSlice.actions;
 export default itemSlice.reducer;

@@ -3,7 +3,7 @@
 // copy html structure in CustomList.jsx
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getItems, getCategories, getFavorites } from "../reducers/itemSlice";
+import { getItems, getCategories, getFavorites, setItems } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import TopAppBar from "../lib/TopAppBar";
 import BottomNavbar from "../lib/BottomNavbar";
@@ -11,14 +11,13 @@ import Item from "../lib/Item";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const itemsArray = useSelector((state) => state.items.itemsArray);
 
   useEffect(() => {
     dispatch(getItems());
     dispatch(getCategories());
     dispatch(getFavorites());
   }, []);
-
-  const itemsArray = useSelector((state) => state.items.itemsArray);
 
   return (
     <>
