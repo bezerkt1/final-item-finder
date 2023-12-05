@@ -1,47 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from 'uuid';
 
-const url = "http://basternet.ddns.net:8777/items/";
+const url = "http://basternet.ddns.net:8777/items";
 
 // placeholder data for items
-const initialState = [
-  {
-    id: uuidv4(),
-    title: "29th",
-    category: "category",
-    desc: "desc",
-    image: "https://picsum.photos/100/100)",
-    datesUnavailable: [],
-    created: "2023-11-29T18:32:53.205Z",
-    sellerId: "id",
-    location: [],
-    favorite: true,
-  },
-  {
-    id: uuidv4(),
-    title: "28th",
-    category: "category",
-    desc: "desc",
-    image: "https://picsum.photos/100/100)",
-    datesUnavailable: [],
-    created: "2023-11-28T18:32:53.205Z",
-    sellerId: "id",
-    location: [],
-    favorite: false,
-  },
-  {
-    id: uuidv4(),
-    title: "30th",
-    category: "category",
-    desc: "desc",
-    image: "https://picsum.photos/100/100)",
-    datesUnavailable: [],
-    created: "2023-11-30T18:32:53.205Z",
-    sellerId: "id",
-    location: [],
-    favorite: false,
+const initialState = {
+  itemsArray: [],
+  isLoading: true,
+};
+
+export const getItems = createAsyncThunk(
+  async (payload, thunkAPI) => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      const data = await response.json();
+      dispatch(items.actions.setItems(json));
+      return data;
+      
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong");
+    }
   }
-];
+);
 
 {/*
 when fetching items data from API, sort by newest to oldest when saving to global state
@@ -54,33 +37,53 @@ const itemSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
+    setItems: (state, action) => {
+      state.itemsArray = action.payload;
+    },
     addItem: (state, action) => {
-      return [
-        ...state,
-        {
-          name: action.payload.name,
-          price: action.payload.price,
-          id: uuidv4(),
-          description: action.payload.description,
-          image: "https://picsum.photos/100/100)",
-          location: null,
-          user_id: null,
-          category_id: action.payload.cateogory_id,
-          favorite: false,
-          created: action.payload.created,
-        },
-      ];
+      state.itemsArray.push({
+        name: action.payload.name,
+        price: action.payload.price,
+        id: uuidv4(),
+        description: action.payload.description,
+        latitude: 0.0,
+        longitude: 0.0,
+        user_id: 0,
+        category_id: action.payload.category_id,
+      });
+    },
+    removeItem: (state, action) => {
+      // find item to update
+      const index = state.itemsArray.findIndex((item) => item.id === action.payload.id);
+      // remove that item
+      if (index !== -1) {
+        state.itemsArray.splice(index, 1);
+      }
     },
     addFavorite: (state, action) => {
        // find item to update
-       const index = state.findIndex((item) => item.id === action.payload.id);
-       // if item found, update state
+       const index = state.itemsArray.findIndex((item) => item.id === action.payload.id);
+       // change the favorite value of that item
        if (index !== -1) {
-         state[index].favorite = !state[index].favorite;
+         state.itemsArray[index].favorite = !state.itemsArray[index].favorite;
        }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getItems.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getItems.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.itemsArray = action.payload;
+      })
+      .addCase(getItems.rejected, (state, action) => {
+        state.isLoading = false;
+        console.log(action);
+      });
+  },
 });
 
-export const { addFavorite, addItem } = itemSlice.actions;
+export const { addFavorite, addItem, removeItem } = itemSlice.actions;
 export default itemSlice.reducer;

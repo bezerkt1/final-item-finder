@@ -7,6 +7,7 @@ import About from "../pages/About";
 import Search from "../pages/Search";
 import Favorites from "../pages/Favorites";
 import AddItem from "../pages/AddItem";
+import Inventory from "../pages/Inventory";
 import NotFound from "../pages/NotFound";
 import { MdHome, MdSearch, MdFavorite, MdAddBox } from "react-icons/md";
 
@@ -53,6 +54,14 @@ export const appPages = [
     menus: ["topAppBar", "navbar"],
     path: "/additem",
     icon: <MdAddBox />,
+    // loginRequired: true,
+  },
+  {
+    name: "Inventory",
+    component: Inventory,
+    menus: [],
+    path: "/inventory",
+    icon: null,
     // loginRequired: true,
   },
   {

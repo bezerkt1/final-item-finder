@@ -10,21 +10,21 @@ const Favorites = () => {
   const [ faveItems, setFaveItems ] = useState();
   const items = useSelector((store) => store.items);
 
-  useEffect(() => {
-    const filtered = items.filter((item) => item.favorite === true);
-    setFaveItems(filtered);
-  },[items])
+  // useEffect(() => {
+  //   const filtered = items.filter((item) => item.favorite === true);
+  //   setFaveItems(filtered);
+  // },[items])
   
   return (
     <>
       <TopAppBar>Favorites</TopAppBar>
-      {/* List of favorited items */}
+      {/* List of favorited items
       <ListGroup className="w-screen rounded-none">
         {faveItems?.map(({ title, desc, id, favorite }) => (
           <Item key={id} title={title} desc={desc} id={id} favorite={favorite} />
         ))}
-      </ListGroup>
-      <BottomNavbar />
+      </ListGroup> */}
+      <BottomNavbar /> 
     </>
   );
 };
