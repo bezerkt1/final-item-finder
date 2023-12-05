@@ -12,7 +12,7 @@ const initialState = [
     datesUnavailable: [],
     created: "2023-11-29T18:32:53.205Z",
     sellerId: "id",
-    location: [],
+    location: [18.0707, 59.3251],
     favorite: true,
   },
   {
@@ -24,7 +24,7 @@ const initialState = [
     datesUnavailable: [],
     created: "2023-11-28T18:32:53.205Z",
     sellerId: "id",
-    location: [],
+    location: [18.0719, 59.3320],
     favorite: false,
   },
   {
@@ -36,7 +36,7 @@ const initialState = [
     datesUnavailable: [],
     created: "2023-11-30T18:32:53.205Z",
     sellerId: "id",
-    location: [],
+    location: [18.0846, 59.3294],
     favorite: false,
   }
 ];
