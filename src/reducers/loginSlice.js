@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const url = "http://basternet.ddns.net:8777/";
+const url = "https://basternet.ddns.net/lendify";
 
 const initialState = {
   isLoading: false,
@@ -15,7 +15,7 @@ export const validateToken = createAsyncThunk(
     console.log("validating...");
     const state = thunkAPI.getState();
     try {
-      return fetch(`${url}validate/`, {
+      return fetch(`${url}/validate/`, {
         headers: new Headers({
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
@@ -35,7 +35,7 @@ export const getToken = createAsyncThunk(
   "login/getToken",
   async (payload, thunkAPI) => {
     try {
-      return fetch(`${url}token/`, {
+      return fetch(`${url}/token/`, {
         method: "POST",
         body: `username=${payload.username}&password=${payload.password}`,
         headers: new Headers({
