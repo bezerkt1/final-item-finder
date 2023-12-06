@@ -8,6 +8,7 @@ import { ListGroup } from "flowbite-react";
 import TopAppBar from "../lib/TopAppBar";
 import BottomNavbar from "../lib/BottomNavbar";
 import Item from "../lib/Item";
+import ItemMap from "../components/ItemMap";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Home = () => {
     <>
       <TopAppBar>Recently listed items</TopAppBar>
       {/* List of recently added items, should be sorted by newest */}
+      <ItemMap items={items} />
       <ListGroup className="w-screen rounded-none">
         {itemsArray?.map(({ name, description, id }) => (
           <Item

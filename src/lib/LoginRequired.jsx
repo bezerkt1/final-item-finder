@@ -1,13 +1,19 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { validateToken } from "../reducers/loginSlice";
 
 const LoginRequired = ({ children }) => {
-  const accessToken = useSelector((state) => state.isValid);
+  const isValid = useSelector((state) => state.isValid);
+  const dispatch = useDispatch();
 
-  if (!accessToken) {
-    return <Navigate to="/" />;
-  }
+  useEffect(() => {
+    dispatch(validateToken()).then(() => {
+      if (!isValid) {
+        return <Navigate to="/" />;
+      }
+    });
+  }, []);
 
   // User logged in, render the requested route
   return children;
