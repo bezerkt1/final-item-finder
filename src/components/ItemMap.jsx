@@ -16,15 +16,18 @@ const ItemMap = ({items}) => {
       });
     }
 
-    // Add markers for each item
-    items.forEach(item => {
-      console.log("item", item)
+    if (items && items.length > 0) {
+      // Add markers for each item
+      items.forEach(item => {
+        const { longitude, latitude } = item;
+        console.log("item", item)
 
-      new maplibregl.Marker()
-        .setLngLat(item.location) // Set location from item
-        .addTo(map.current);
+        new maplibregl.Marker()
+          .setLngLat([longitude, latitude]) // Set location from item
+          .addTo(map.current);
 
-    });
+      });
+    }
   }, [items]);  
 
   return (
