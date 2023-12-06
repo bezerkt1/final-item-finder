@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Label, Card, TextInput, Alert } from "flowbite-react";
 import { setIsNew } from "../reducers/registerSlice";
+import { API_URL } from '../config/config';
 import CustomButton from "../lib/CustomButton";
 
 const RegisterForm = () => {
@@ -20,7 +21,7 @@ const RegisterForm = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    fetch("http://basternet.ddns.net:8777/users/", {
+    fetch(`${API_URL}/users/`, {
       method: "POST",
       body: JSON.stringify(formData),
       headers: new Headers({
