@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { API_URL } from '../config/config';
 
-const url = "https://basternet.ddns.net/lendify/";
+
 
 // placeholder data for items
 const initialState = {
@@ -15,7 +16,7 @@ export const getItems = createAsyncThunk(
   "item/getItems",
   async (payload, thunkAPI) => {
     try {
-      const response = await fetch(`${url}items/`);
+      const response = await fetch(`${API_URL}/items/`);
         if (!response.ok) {
           throw new Error("Response was not ok");
         }
@@ -30,7 +31,7 @@ export const getItems = createAsyncThunk(
 // export const getItems = createAsyncThunk(
 //   "item/getItems",
 //   (payload, thunkAPI) => {
-//     return fetch(`${url}items/`)
+//     return fetch(`${API_URL}/items/`)
 //       .then((response) => {
 //         if (!response.ok) {
 //           throw new Error("Response was not ok");
@@ -51,7 +52,7 @@ export const getFavorites = createAsyncThunk(
   "item/getFavorites",
   async (payload, thunkAPI) => {
     try {
-      const response = await fetch(`${url}items/favorites`, {
+      const response = await fetch(`${API_URL}/items/favorites`, {
         headers: new Headers({
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
@@ -71,7 +72,7 @@ export const getCategories = createAsyncThunk(
   "item/getCategories",
   async (payload, thunkAPI) => {
     try {
-      const response = await fetch(`${url}categories/`);
+      const response = await fetch(`${API_URL}/categories/`);
         if (!response.ok) {
           throw new Error("Response was not ok");
         }
@@ -86,7 +87,7 @@ export const favoriteItem = createAsyncThunk(
   "item/favoriteItem",
   async (payload, thunkAPI) => {
     try {
-      const response = await fetch(`${url}items/favorite/${payload}`, {
+      const response = await fetch(`${API_URL}/items/favorite/${payload}`, {
         headers: new Headers({
           method: "PATCH",
           "Content-Type": "application/json",
