@@ -1,6 +1,6 @@
 // list items with favorites = true
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getFavorites } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import { persistor } from "../store";
@@ -12,19 +12,19 @@ const Favorites = () => {
   const favorites = useSelector((state) => state.items.favorites);
   const dispatch = useDispatch();
 
+  // check that favorites state has been rehydrated before loading list
   useEffect(() => {
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
      }
-  }, []);
+  }, [favorites]);
 
   return (
     <>
       <TopAppBar>Favorites</TopAppBar>
-      {/* List of favorited items */}
       <ListGroup className="w-screen rounded-none">
         {favorites?.map(
-          ({ name, price, id, description, category_id, favorite }) => (
+          ({ name, price, id, description, category_id }) => (
             <Item
               key={id}
               name={name}
@@ -32,7 +32,6 @@ const Favorites = () => {
               id={id}
               description={description}
               category_id={category_id}
-              favorite={favorite}
             />
           )
         )}

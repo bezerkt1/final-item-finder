@@ -1,9 +1,10 @@
 // list of newly added items
 // map through items and sort by newest
 // copy html structure in CustomList.jsx
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getItems, getCategories, getFavorites } from "../reducers/itemSlice";
+import { persistor } from "../store";
 import { ListGroup } from "flowbite-react";
 import TopAppBar from "../lib/TopAppBar";
 import BottomNavbar from "../lib/BottomNavbar";
@@ -17,7 +18,9 @@ const Home = () => {
   useEffect(() => {
     dispatch(getItems());
     dispatch(getCategories());
-    dispatch(getFavorites());
+    if (persistor.getState().favorites) {
+      dispatch(getFavorites());
+    }
   }, []);
 
   return (

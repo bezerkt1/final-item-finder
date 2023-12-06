@@ -2,7 +2,8 @@
 // use in Home.jsx and Favorites.jsx
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addFavorite, removeItem, removeFavorite } from "../reducers/itemSlice";
+import { getFavorites, addFavorite, removeItem, removeFavorite } from "../reducers/itemSlice";
+import { persistor } from "../store";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
@@ -11,17 +12,21 @@ const Item = ({ name, price, description, category_id, id }) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
   const dispatch = useDispatch();
-
   const [ inFavorites, setInFavorites ] = useState(false);
 
+  // check that favorites state has been rehydrated before loading list
   useEffect(() => {
-    const index = favorites.indexOf({id});
+    if (persistor.getState().favorites) {
+      dispatch(getFavorites());
+     }
+
+    const index = favorites.findIndex((item) => item.id === id);
     if (index !== -1) {
       setInFavorites(true);
     } else {
       setInFavorites(false);
     }
-  },[]);
+  }, [favorites]);
 
   const handleAddFavorite = () => {
     dispatch(

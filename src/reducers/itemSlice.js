@@ -131,6 +131,12 @@ const itemSlice = createSlice({
       }
     },
     addFavorite: (state, action) => {
+      const index = state.favorites.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (index !== -1) {
+        return
+      }
       state.favorites.push({
         name: action.payload.name,
         price: action.payload.price,
