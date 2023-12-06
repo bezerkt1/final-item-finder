@@ -134,7 +134,7 @@ const itemSlice = createSlice({
       state.favorites.push({
         name: action.payload.name,
         price: action.payload.price,
-        id: uuidv4(),
+        id: action.payload.id,
         description: action.payload.description,
         latitude: 0.0, // pull from user's location
         longitude: 0.0, // pull from user's location

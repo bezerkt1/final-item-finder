@@ -7,9 +7,10 @@ import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-const Item = ({ name, price, description, category_id, id, favorite }) => {
+const Item = ({ name, price, description, category_id, id }) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
+  const dispatch = useDispatch();
 
   const [ inFavorites, setInFavorites ] = useState(false);
 
@@ -25,11 +26,11 @@ const Item = ({ name, price, description, category_id, id, favorite }) => {
   const handleAddFavorite = () => {
     dispatch(
       addFavorite({
-        name: {name},
-        price: {price},
-        description: {description},
-        category_id: {category_id},
-        favorite: true,
+        name: name,
+        price: price,
+        id: id,
+        description: description,
+        category_id: category_id,
         //created: newItem.created,
       })
     );
@@ -41,7 +42,6 @@ const Item = ({ name, price, description, category_id, id, favorite }) => {
     setInFavorites(false);
   };
 
-  const dispatch = useDispatch();
   return (
     <ListGroup.Item as="div" className="relative text-zinc-500">
       <div className="flex">
