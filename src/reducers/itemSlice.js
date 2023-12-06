@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { API_URL } from '../config/config';
 
-
-
 // placeholder data for items
 const initialState = {
   itemsArray: [],
@@ -104,15 +102,6 @@ export const favoriteItem = createAsyncThunk(
   }
 );
 
-{
-  /*
-when fetching items data from API, sort by newest to oldest when saving to global state
-  setItems(
-    [...items].sort((a, b) => b.createdAt - a.createdAt)
-  );
-*/
-}
-
 const itemSlice = createSlice({
   name: "items",
   initialState,
@@ -123,9 +112,9 @@ const itemSlice = createSlice({
         price: action.payload.price,
         id: uuidv4(),
         description: action.payload.description,
-        latitude: 0.0,
-        longitude: 0.0,
-        user_id: 0,
+        latitude: 0.0, // pull from user's location
+        longitude: 0.0, // pull from user's location
+        user_id: 0, // pull from login credentials
         category_id: action.payload.category_id,
       });
     },
@@ -145,9 +134,9 @@ const itemSlice = createSlice({
         price: action.payload.price,
         id: uuidv4(),
         description: action.payload.description,
-        latitude: 0.0,
-        longitude: 0.0,
-        user_id: 0,
+        latitude: 0.0, // pull from user's location
+        longitude: 0.0, // pull from user's location
+        user_id: 0, // pull from login credentials
         category_id: action.payload.category_id,
       });
     },

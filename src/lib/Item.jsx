@@ -43,6 +43,7 @@ const Item = ({ name, description, id }) => {
           />
         )}
 
+        {/*  possible to make this icon show only for items listed by user?? */}
         {login.isValid && (
           <FaTrash className="mt-2" onClick={() => dispatch(removeItem({ id: id }))} />
         )}
