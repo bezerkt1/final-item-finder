@@ -3,6 +3,8 @@
 
 import { ListGroup, Label, TextInput } from "flowbite-react";
 import Category from "../lib/Category";
+import TopAppBar from "../lib/TopAppBar";
+import BottomNavbar from "../lib/BottomNavbar";
 import { BsTools } from "react-icons/bs";
 import { PiTreeEvergreenFill } from "react-icons/pi";
 import { MdSearch, MdOutlinePedalBike, MdSportsEsports, MdOutlineSportsSoccer } from "react-icons/md";
@@ -39,6 +41,7 @@ const Search = () => {
 
   return (
     <>
+      <TopAppBar>Search</TopAppBar>
       {/* Search input field - onChange render list of relevant items */}
       <form className="flex flex-col m-5 gap-2">
         <Label htmlFor="inputSearch" value="What are you looking for?" className="text-zinc-500"></Label>
@@ -54,6 +57,7 @@ const Search = () => {
           <Category name={name} icon={icon} key={id} />
         ))}
       </ListGroup>
+      <BottomNavbar />
     </>
   );
 };

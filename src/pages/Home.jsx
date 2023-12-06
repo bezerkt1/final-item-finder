@@ -3,7 +3,7 @@
 // copy html structure in CustomList.jsx
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getItems, getCategories, getFavorites, setItems } from "../reducers/itemSlice";
+import { getItems, getCategories, getFavorites } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import TopAppBar from "../lib/TopAppBar";
 import BottomNavbar from "../lib/BottomNavbar";
@@ -24,13 +24,12 @@ const Home = () => {
       <TopAppBar>Recently listed items</TopAppBar>
       {/* List of recently added items, should be sorted by newest */}
       <ListGroup className="w-screen rounded-none">
-        {itemsArray?.map(({ name, description, id, favorite }) => (
+        {itemsArray?.map(({ name, description, id }) => (
           <Item
             key={id}
             name={name}
             description={description}
             id={id}
-            favorite={favorite}
           />
         ))}
       </ListGroup>

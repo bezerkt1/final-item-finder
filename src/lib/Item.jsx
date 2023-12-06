@@ -1,13 +1,26 @@
 // map thru items array, sorted by newest
 // use in Home.jsx and Favorites.jsx
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addFavorite, removeItem } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-const Item = ({ name, description, id, favorite }) => {
+const Item = ({ name, description, id }) => {
   const login = useSelector((state) => state.login);
+  const favorites = useSelector((state) => state.items.favorites);
+
+  const [ inFavorites, setInFavorites ] = useState(false);
+
+  useEffect(() => {
+    const index = favorites.indexOf({id});
+    if (index !== -1) {
+      setInFavorites(true);
+    } else {
+      setInFavorites(false);
+    }
+  },[]);
 
   const dispatch = useDispatch();
   return (
@@ -22,7 +35,7 @@ const Item = ({ name, description, id, favorite }) => {
       </div>
 
       <div className="fixed right-0 mr-5">
-        {favorite ? (
+        {inFavorites ? (
           <MdFavorite onClick={() => dispatch(addFavorite({ id: id }))} />
         ) : (
           <MdOutlineFavoriteBorder
