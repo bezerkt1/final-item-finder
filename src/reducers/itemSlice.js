@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { API_URL } from '../config/config';
+import { API_URL } from "../config/config";
 
 // placeholder data for items
 const initialState = {
@@ -15,10 +15,10 @@ export const getItems = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await fetch(`${API_URL}/items/`);
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return await response.json();
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return await response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
@@ -57,10 +57,10 @@ export const getFavorites = createAsyncThunk(
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
       });
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
@@ -72,10 +72,10 @@ export const getCategories = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await fetch(`${API_URL}/categories/`);
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
@@ -93,10 +93,10 @@ export const favoriteItem = createAsyncThunk(
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
       });
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
@@ -135,7 +135,7 @@ const itemSlice = createSlice({
         (item) => item.id === action.payload.id
       );
       if (index !== -1) {
-        return
+        return;
       }
       state.favorites.push({
         name: action.payload.name,
@@ -154,9 +154,9 @@ const itemSlice = createSlice({
         (item) => item.id === action.payload.id
       );
       if (index !== -1) {
-      state.favorites.splice(index, 1);
+        state.favorites.splice(index, 1);
       }
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -206,5 +206,6 @@ const itemSlice = createSlice({
   },
 });
 
-export const { addFavorite, addItem, removeItem, removeFavorite } = itemSlice.actions;
+export const { addFavorite, addItem, removeItem, removeFavorite } =
+  itemSlice.actions;
 export default itemSlice.reducer;
