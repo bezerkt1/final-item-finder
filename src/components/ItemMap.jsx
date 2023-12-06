@@ -20,7 +20,7 @@ const ItemMap = ({items}) => {
       // Add markers for each item
       items.forEach(item => {
         const { longitude, latitude } = item;
-        console.log("item", item)
+        //console.log("item", item)
 
         new maplibregl.Marker()
           .setLngLat([longitude, latitude]) // Set location from item

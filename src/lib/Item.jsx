@@ -24,17 +24,17 @@ const Item = ({ name, description, id }) => {
 
   const dispatch = useDispatch();
   return (
-    <ListGroup.Item as="div" className="text-zinc-500">
+    <ListGroup.Item as="div" className="relative text-zinc-500">
       <div className="flex">
         <div className="w-16 h-16 bg-[url(https://picsum.photos/100/100)] bg-cover"></div>
 
-        <div className="flex ml-5 flex-col justify-center">
+        <div className="flex ml-5 flex-col justify-center text-left">
           <p className="font-bold">{name}</p>
           <p className="font-normal">{description}</p>
         </div>
       </div>
 
-      <div className="fixed right-0 mr-5">
+      <div className="absolute right-0 mr-5">
         {inFavorites ? (
           <MdFavorite onClick={() => dispatch(addFavorite({ id: id }))} />
         ) : (
@@ -44,7 +44,7 @@ const Item = ({ name, description, id }) => {
         )}
 
         {login.isValid && (
-          <FaTrash onClick={() => dispatch(removeItem({ id: id }))} />
+          <FaTrash className="mt-2" onClick={() => dispatch(removeItem({ id: id }))} />
         )}
       </div>
     </ListGroup.Item>
