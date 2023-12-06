@@ -44,7 +44,7 @@ export const appPages = [
     menus: ["topAppBar", "navbar"],
     path: "/favorites",
     icon: <MdFavorite />,
-    // loginRequired: true,
+    loginRequired: true,
   },
   {
     name: "Not Found",
