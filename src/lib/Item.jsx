@@ -2,12 +2,12 @@
 // use in Home.jsx and Favorites.jsx
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addFavorite, removeItem } from "../reducers/itemSlice";
+import { addFavorite, removeItem, removeFavorite } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-const Item = ({ name, description, id }) => {
+const Item = ({ name, price, description, category_id, id, favorite }) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
 
@@ -21,6 +21,25 @@ const Item = ({ name, description, id }) => {
       setInFavorites(false);
     }
   },[]);
+
+  const handleAddFavorite = () => {
+    dispatch(
+      addFavorite({
+        name: {name},
+        price: {price},
+        description: {description},
+        category_id: {category_id},
+        favorite: true,
+        //created: newItem.created,
+      })
+    );
+    setInFavorites(true);
+  };
+
+  const handleRemoveFavorite = () => {
+    dispatch(removeFavorite({ id: id }));
+    setInFavorites(false);
+  };
 
   const dispatch = useDispatch();
   return (
@@ -36,11 +55,9 @@ const Item = ({ name, description, id }) => {
 
       <div className="absolute right-0 mr-5">
         {inFavorites ? (
-          <MdFavorite onClick={() => dispatch(addFavorite({ id: id }))} />
+          <MdFavorite onClick={handleRemoveFavorite} />
         ) : (
-          <MdOutlineFavoriteBorder
-            onClick={() => dispatch(addFavorite({ id: id }))}
-          />
+          <MdOutlineFavoriteBorder onClick={handleAddFavorite} />
         )}
 
         {/*  possible to make this icon show only for items listed by user?? */}

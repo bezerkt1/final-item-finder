@@ -21,7 +21,7 @@ const Favorites = () => {
       {/* List of favorited items
       <ListGroup className="w-screen rounded-none">
         {faveItems?.map(({ title, desc, id, favorite }) => (
-          <Item key={id} title={title} desc={desc} id={id} favorite={favorite} />
+          <Item key={id} name={name} price={price} description={description} category_id={category_id} favorite={favorite} />
         ))}
       </ListGroup> */}
       <BottomNavbar /> 

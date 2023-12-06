@@ -49,6 +49,7 @@ export const getItems = createAsyncThunk(
 export const getFavorites = createAsyncThunk(
   "item/getFavorites",
   async (payload, thunkAPI) => {
+    const state = thunkAPI.getState();
     try {
       const response = await fetch(`${API_URL}/items/favorites`, {
         headers: new Headers({
@@ -114,6 +115,7 @@ const itemSlice = createSlice({
         description: action.payload.description,
         latitude: 0.0, // pull from user's location
         longitude: 0.0, // pull from user's location
+        favorite: false, // temp to test favorite
         user_id: 0, // pull from login credentials
         category_id: action.payload.category_id,
       });
@@ -136,10 +138,19 @@ const itemSlice = createSlice({
         description: action.payload.description,
         latitude: 0.0, // pull from user's location
         longitude: 0.0, // pull from user's location
+        favorite: true, // temp to test favorite
         user_id: 0, // pull from login credentials
         category_id: action.payload.category_id,
       });
     },
+    removeFavorite: (state, action) => {
+      const index = state.favorites.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (index !== -1) {
+      state.favorites.splice(index, 1);
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -189,5 +200,5 @@ const itemSlice = createSlice({
   },
 });
 
-export const { addFavorite, addItem, removeItem } = itemSlice.actions;
+export const { addFavorite, addItem, removeItem, removeFavorite } = itemSlice.actions;
 export default itemSlice.reducer;
