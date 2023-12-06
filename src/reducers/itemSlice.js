@@ -123,8 +123,8 @@ const itemSlice = createSlice({
         price: action.payload.price,
         id: uuidv4(),
         description: action.payload.description,
-        latitude: 0.0,
-        longitude: 0.0,
+        longitude: action.payload.longitude,
+        latitude: action.payload.latitude,
         user_id: 0,
         category_id: action.payload.category_id,
       });
