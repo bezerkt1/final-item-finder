@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector} from "react-redux";
 import { addItem } from "../reducers/itemSlice";
-import { Select, Label, TextInput } from "flowbite-react";
+import { Select, Label, TextInput, Button } from "flowbite-react";
 import CustomButton from "../lib/CustomButton";
+import LocationButton from "../lib/LocationButton";
+import SelectLocationMap from "./SelectLocationMap";
+import { DEFAULT_LOCATION } from '../config/config';
 
 const AddItemForm = () => {
   const dispatch = useDispatch();
@@ -13,7 +16,16 @@ const AddItemForm = () => {
     description: "",
     category: "",
     created: "",
+    longitude: "",
+    latitude: "",
   });
+
+  const { longitude, latitude } = useSelector(state => state.location);
+
+  useEffect(() => {
+    setNewItem(newItem => ({ ...newItem, longitude: longitude, latitude: latitude }));
+
+  }, [longitude, latitude]);
 
   // save date created on click the database will save the date an item is created
   const handleClick = () => {
@@ -31,6 +43,8 @@ const AddItemForm = () => {
         description: newItem.description,
         category_id: newItem.category,
         //created: newItem.created,
+        longitude: newItem.longitude,
+        latitude: newItem.latitude
       })
     );
   };
@@ -98,6 +112,47 @@ const AddItemForm = () => {
           <option value="4">Transportation</option>
           <option value="5">Sports & Leisure</option>
         </Select>
+      </div>
+
+      <div className="mb-4">
+        <div className="mb-2 block">
+          <Label value="Select pickup location" />
+        </div>
+        <SelectLocationMap
+          startLocation={longitude && latitude ? [longitude, latitude] : DEFAULT_LOCATION}
+          selectedLocation={(lng, lat) => {
+            console.log("selected cords", lng, lat)
+            setNewItem({ ...newItem, longitude: lng, latitude: lat })
+          }}
+        />
+      </div>
+
+      <div className="mb-4">
+        <LocationButton />
+      </div>
+
+      <div className="mb-4">
+        <div className="mb-2 block">
+          <Label htmlFor="longitude" value="Longitude" />
+        </div>
+        <TextInput
+          id="longitude"
+          type="text"
+          value={newItem.longitude}
+          readOnly
+        />
+      </div>
+
+      <div className="mb-4">
+        <div className="mb-2 block">
+          <Label htmlFor="latitude" value="Latitude" />
+        </div>
+        <TextInput
+          id="latitude"
+          type="text"
+          value={newItem.latitude}
+          readOnly
+        />
       </div>
 
       {/* 

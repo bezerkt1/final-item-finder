@@ -24,7 +24,7 @@ const Home = () => {
     <>
       <TopAppBar>Recently listed items</TopAppBar>
       {/* List of recently added items, should be sorted by newest */}
-      <ItemMap items={itemsArray} />
+      <ItemMap items={itemsArray} startLocation={[18.0686, 59.3293]} />
       <ListGroup className="w-screen rounded-none">
         {itemsArray?.map(({ name, description, id }) => (
           <Item
