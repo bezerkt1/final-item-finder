@@ -164,7 +164,6 @@ const itemSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getItems.fulfilled, (state, action) => {
-        console.log("pop");
         state.itemsArray = action.payload;
         state.isLoading = false;
       })

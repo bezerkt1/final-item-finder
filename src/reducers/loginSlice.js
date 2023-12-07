@@ -64,7 +64,6 @@ const loginSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getToken.fulfilled, (state, action) => {
-        console.log("boop");
         state.access_token = action.payload.access_token;
         state.token_type = action.payload.token_type;
         state.isValid = true;
