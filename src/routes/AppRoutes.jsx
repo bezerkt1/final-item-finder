@@ -36,7 +36,7 @@ export const appPages = [
   {
     name: "Search",
     component: Search,
-    menus: [], // removed from navbar for demo
+    menus: ["navbar"],
     path: "/search",
     icon: <MdSearch />,
   },

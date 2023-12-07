@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { API_URL } from "../config/config";
 
-// placeholder data for items
 const initialState = {
   itemsArray: [],
   categories: [],
@@ -24,27 +23,6 @@ export const getItems = createAsyncThunk(
     }
   }
 );
-
-// thunk using .then .catch instead of try catch
-// export const getItems = createAsyncThunk(
-//   "item/getItems",
-//   (payload, thunkAPI) => {
-//     return fetch(`${API_URL}/items/`)
-//       .then((response) => {
-//         if (!response.ok) {
-//           throw new Error("Response was not ok");
-//         }
-//         thunkAPI.dispatch(setItems(response.json()));
-//         return response.json();
-//       })
-//       .then(data => {
-//         return data;
-//       })
-//       .catch((error) => {
-//       return thunkAPI.rejectWithValue("Something went wrong");
-//     });
-//   }
-// );
 
 export const getFavorites = createAsyncThunk(
   "item/getFavorites",
@@ -85,10 +63,11 @@ export const getCategories = createAsyncThunk(
 export const favoriteItem = createAsyncThunk(
   "item/favoriteItem",
   async (payload, thunkAPI) => {
+    const state = thunkAPI.getState();
     try {
       const response = await fetch(`${API_URL}/items/favorite/${payload}`, {
+        method: "PATCH",
         headers: new Headers({
-          method: "PATCH",
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
@@ -96,6 +75,31 @@ export const favoriteItem = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Response was not ok");
       }
+      return response.json();
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong");
+    }
+  }
+);
+
+export const createItem = createAsyncThunk(
+  "item/createItem",
+  async (payload, thunkAPI) => {
+    console.log("Executing createItem");
+    const state = thunkAPI.getState();
+    try {
+      console.log("Making fetch request");
+      const response = await fetch(`${API_URL}/items/` , {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `${state.login.token_type} ${state.login.access_token}`,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      console.log("Received response", response);
       return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
@@ -202,7 +206,20 @@ const itemSlice = createSlice({
       .addCase(favoriteItem.rejected, (state, action) => {
         state.isLoading = false;
         console.log(action);
-      });
+      })
+      .addCase(createItem.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.itemsArray.push(action.payload);
+        console.log(action.payload);
+      })
+      .addCase(createItem.rejected, (state, action) => {
+        state.isLoading = false;
+        console.log(action);
+      })
+      ;
   },
 });
 

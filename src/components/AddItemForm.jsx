@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { addItem } from "../reducers/itemSlice";
+import { createItem } from "../reducers/itemSlice";
 import { useNavigate } from "react-router-dom";
 import { Select, Label, TextInput, Button } from "flowbite-react";
 import CustomButton from "../lib/CustomButton";
 import LocationButton from "../lib/LocationButton";
 import SelectLocationMap from "./SelectLocationMap";
 import { DEFAULT_LOCATION } from '../config/config';
+import { v4 as uuidv4 } from "uuid";
+
 
 const AddItemForm = () => {
   const dispatch = useDispatch();
@@ -15,12 +18,14 @@ const AddItemForm = () => {
   // placeholder state to save input
   const [newItem, setNewItem] = useState({
     name: "",
-    price: "",
+    price: 0,
+    id: uuidv4(),
     description: "",
-    category: "",
-    created: "",
-    longitude: "",
-    latitude: "",
+    user_id: 0,
+    latitude: 0,
+    longitude: 0,
+    favorite: false,
+    category_id: 0
   });
 
   const { longitude, latitude } = useSelector(state => state.location);
@@ -35,22 +40,15 @@ const AddItemForm = () => {
     //let dateCreated = new Date().toLocaleDateString("sv-SE");
     //setNewItem({ ...newItem, created: dateCreated });
     setTimeout(() => {navigate('/home')}, 2000);
+    console.log("clicked");
+
   };
 
   // save new item on submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addItem({
-        name: newItem.name,
-        price: newItem.price,
-        description: newItem.description,
-        category_id: newItem.category,
-        //created: newItem.created,
-        longitude: newItem.longitude,
-        latitude: newItem.latitude
-      })
-    );
+    console.log("dispatched");
+    dispatch(createItem(newItem));
   };
 
   return (
@@ -75,7 +73,7 @@ const AddItemForm = () => {
         </div>
         <TextInput
           id="price"
-          type="number"
+          type="text"
           placeholder="ex: 100"
           required
           value={newItem.price}
@@ -105,7 +103,7 @@ const AddItemForm = () => {
         <Select
           id="category"
           required
-          onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+          onChange={(e) => setNewItem({ ...newItem, category_id: e.target.value })}
         >
           <option defaultValue="" hidden>
             ---Select---
