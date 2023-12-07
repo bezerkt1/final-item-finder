@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Label, Card, TextInput, Alert } from "flowbite-react";
 import { setIsNew } from "../reducers/registerSlice";
 import { API_URL } from '../config/config';
@@ -10,6 +11,7 @@ import CustomButton from "../lib/CustomButton";
 const RegisterForm = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const [alert, setAlert] = useState({ show: false, color: "", text: "" });
   // empty form for now, need to add logic later
@@ -34,6 +36,7 @@ const RegisterForm = () => {
           color: "success",
           text: "Successfully created user! You may now log in.",
         });
+        // setTimeout(() => {navigate('/home')}, 2000); // if want to redirect to home after successful registration
       } else {
         response.json().then((data) => {
           let message = data.detail;

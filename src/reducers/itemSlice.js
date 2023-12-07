@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { API_URL } from '../config/config';
-
-
+import { API_URL } from "../config/config";
 
 // placeholder data for items
 const initialState = {
@@ -17,10 +15,10 @@ export const getItems = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await fetch(`${API_URL}/items/`);
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return await response.json();
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return await response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
@@ -51,6 +49,7 @@ export const getItems = createAsyncThunk(
 export const getFavorites = createAsyncThunk(
   "item/getFavorites",
   async (payload, thunkAPI) => {
+    const state = thunkAPI.getState();
     try {
       const response = await fetch(`${API_URL}/items/favorites`, {
         headers: new Headers({
@@ -58,10 +57,10 @@ export const getFavorites = createAsyncThunk(
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
       });
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
@@ -73,10 +72,10 @@ export const getCategories = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await fetch(`${API_URL}/categories/`);
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
@@ -94,24 +93,15 @@ export const favoriteItem = createAsyncThunk(
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
       });
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
   }
 );
-
-{
-  /*
-when fetching items data from API, sort by newest to oldest when saving to global state
-  setItems(
-    [...items].sort((a, b) => b.createdAt - a.createdAt)
-  );
-*/
-}
 
 const itemSlice = createSlice({
   name: "items",
@@ -125,7 +115,8 @@ const itemSlice = createSlice({
         description: action.payload.description,
         longitude: action.payload.longitude,
         latitude: action.payload.latitude,
-        user_id: 0,
+        favorite: false, // temp to test favorite
+        user_id: 0, // pull from login credentials
         category_id: action.payload.category_id,
       });
     },
@@ -140,16 +131,31 @@ const itemSlice = createSlice({
       }
     },
     addFavorite: (state, action) => {
+      const index = state.favorites.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (index !== -1) {
+        return;
+      }
       state.favorites.push({
         name: action.payload.name,
         price: action.payload.price,
-        id: uuidv4(),
+        id: action.payload.id,
         description: action.payload.description,
-        latitude: 0.0,
-        longitude: 0.0,
-        user_id: 0,
+        latitude: 0.0, // pull from user's location
+        longitude: 0.0, // pull from user's location
+        favorite: true, // temp to test favorite
+        user_id: 0, // pull from login credentials
         category_id: action.payload.category_id,
       });
+    },
+    removeFavorite: (state, action) => {
+      const index = state.favorites.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.favorites.splice(index, 1);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -200,5 +206,6 @@ const itemSlice = createSlice({
   },
 });
 
-export const { addFavorite, addItem, removeItem } = itemSlice.actions;
+export const { addFavorite, addItem, removeItem, removeFavorite } =
+  itemSlice.actions;
 export default itemSlice.reducer;

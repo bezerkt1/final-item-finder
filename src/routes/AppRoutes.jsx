@@ -29,7 +29,7 @@ export const appPages = [
   {
     name: "About",
     component: About,
-    menus: [],
+    menus: ["topAppBar"],
     path: "/about",
     icon: null,
   },
@@ -43,7 +43,7 @@ export const appPages = [
   {
     name: "Favorites",
     component: Favorites,
-    menus: ["topAppBar", "navbar"],
+    menus: ["navbar"],
     path: "/favorites",
     icon: <MdFavorite />,
     loginRequired: true,
@@ -51,7 +51,7 @@ export const appPages = [
   {
     name: "AddItem",
     component: AddItem,
-    menus: ["topAppBar", "navbar"],
+    menus: ["navbar"],
     path: "/additem",
     icon: <MdAddBox />,
     // loginRequired: true,
@@ -59,7 +59,7 @@ export const appPages = [
   {
     name: "Inventory",
     component: Inventory,
-    menus: [],
+    menus: ["topAppBar"],
     path: "/inventory",
     icon: null,
     // loginRequired: true,

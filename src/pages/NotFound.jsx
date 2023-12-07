@@ -7,10 +7,6 @@ import CustomButton from "../lib/CustomButton";
 const NotFound = () => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate("/home");
-  };
-
   return (
     <div className="flex flex-col h-screen justify-center gap-10">
       <div className="flex flex-col items-center">
@@ -29,7 +25,7 @@ const NotFound = () => {
         >
           Go to Home page
         </CustomButton>
-        
+
         <CustomButton
           color="success"
           className="bg-emerald-500"
