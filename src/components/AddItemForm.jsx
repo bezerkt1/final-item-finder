@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { addItem } from "../reducers/itemSlice";
+import { useNavigate } from "react-router-dom";
 import { Select, Label, TextInput, Button } from "flowbite-react";
 import CustomButton from "../lib/CustomButton";
 import LocationButton from "../lib/LocationButton";
@@ -9,6 +10,8 @@ import { DEFAULT_LOCATION } from '../config/config';
 
 const AddItemForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   // placeholder state to save input
   const [newItem, setNewItem] = useState({
     name: "",
@@ -31,6 +34,7 @@ const AddItemForm = () => {
   const handleClick = () => {
     //let dateCreated = new Date().toLocaleDateString("sv-SE");
     //setNewItem({ ...newItem, created: dateCreated });
+    setTimeout(() => {navigate('/home')}, 2000);
   };
 
   // save new item on submit
@@ -162,7 +166,7 @@ const AddItemForm = () => {
       <CustomButton
         type="submit"
         color="success"
-        className="m-auto bg-emerald-500"
+        className="mx-auto mb-4 bg-emerald-500"
         onClick={handleClick}
       >
         Submit
