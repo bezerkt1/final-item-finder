@@ -16,10 +16,9 @@ const Home = () => {
   const itemsArray = useSelector((state) => state.items.itemsArray);
 
   useEffect(() => {
-    // if (persistor.getState().itemsArray) {
-    //   dispatch(getItems());
-    // }
-    dispatch(getItems());
+    if (persistor.getState().itemsArray) {
+      dispatch(getItems());
+    }
 
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
