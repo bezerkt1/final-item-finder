@@ -4,6 +4,8 @@ import { addItem } from "../reducers/itemSlice";
 import { Select, Label, TextInput, Button } from "flowbite-react";
 import CustomButton from "../lib/CustomButton";
 import LocationButton from "../lib/LocationButton";
+import SelectLocationMap from "./SelectLocationMap";
+import { DEFAULT_LOCATION } from '../config/config';
 
 const AddItemForm = () => {
   const dispatch = useDispatch();
@@ -113,6 +115,19 @@ const AddItemForm = () => {
       </div>
 
       <div className="mb-4">
+        <div className="mb-2 block">
+          <Label value="Select pickup location" />
+        </div>
+        <SelectLocationMap
+          startLocation={longitude && latitude ? [longitude, latitude] : DEFAULT_LOCATION}
+          selectedLocation={(lng, lat) => {
+            console.log("selected cords", lng, lat)
+            setNewItem({ ...newItem, longitude: lng, latitude: lat })
+          }}
+        />
+      </div>
+
+      <div className="mb-4">
         <LocationButton />
       </div>
 
@@ -123,7 +138,8 @@ const AddItemForm = () => {
         <TextInput
           id="longitude"
           type="text"
-          value={longitude}
+          value={newItem.longitude}
+          readOnly
         />
       </div>
 
@@ -134,7 +150,8 @@ const AddItemForm = () => {
         <TextInput
           id="latitude"
           type="text"
-          value={latitude}
+          value={newItem.latitude}
+          readOnly
         />
       </div>
 

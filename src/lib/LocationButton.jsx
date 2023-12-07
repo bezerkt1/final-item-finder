@@ -10,7 +10,6 @@ const LocationButton = () => {
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log("longcord ", position.coords.longitude)
         dispatch(setLocation({
           longitude: position.coords.longitude,
           latitude: position.coords.latitude
@@ -24,7 +23,7 @@ const LocationButton = () => {
   };
 
   return (
-      <Button onClick={getLocation}>Get Location</Button>
+      <Button onClick={getLocation}>Get my location</Button>
   );
 };
   
