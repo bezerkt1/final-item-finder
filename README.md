@@ -46,4 +46,4 @@ Items can be favorited by pressing on the heart next to their name and you can v
 ## View it live
 
 The project can be viewed on Netlify on the following link
-https://deploy-preview-10--earnest-horse-76c12f.netlify.app/
+https://earnest-horse-76c12f.netlify.app/
