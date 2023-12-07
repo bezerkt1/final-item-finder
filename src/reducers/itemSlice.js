@@ -113,8 +113,8 @@ const itemSlice = createSlice({
         price: action.payload.price,
         id: uuidv4(),
         description: action.payload.description,
-        latitude: 0.0, // pull from user's location
-        longitude: 0.0, // pull from user's location
+        longitude: action.payload.longitude,
+        latitude: action.payload.latitude,
         favorite: false, // temp to test favorite
         user_id: 0, // pull from login credentials
         category_id: action.payload.category_id,

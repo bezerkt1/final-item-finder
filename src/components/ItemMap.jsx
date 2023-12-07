@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-const ItemMap = ({items}) => {
+const ItemMap = ({items, startLocation}) => {
   const mapContainer= useRef(null);
   const map = useRef(null);
 
@@ -11,7 +11,7 @@ const ItemMap = ({items}) => {
       map.current = new maplibregl.Map({
         container: mapContainer.current, // Referencing the map container
         style: 'https://api.maptiler.com/maps/basic-v2/style.json?key=WmV5NqhpUv7xCFrD85kS', // Style URL
-        center: [18.0686, 59.3293], // Starting position [lng, lat]
+        center: [18.0686, 59.3293],
         zoom: 12
       });
     }
