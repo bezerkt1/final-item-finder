@@ -2,7 +2,7 @@
 // tie into Agenda 2030
 import { Link } from "react-router-dom";
 import TopAppBar from "../lib/TopAppBar";
-import logo from "/lendify.png";
+import logo from "/logo-gray.png";
 import gif from "/SDG12.gif";
 
 const About = () => {
