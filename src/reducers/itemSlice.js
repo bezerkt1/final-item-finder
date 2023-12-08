@@ -65,8 +65,10 @@ export const getCategories = createAsyncThunk(
 export const favoriteItem = createAsyncThunk(
   "item/favoriteItem",
   async (payload, thunkAPI) => {
+    console.log("Executing favoriteItem");
     const state = thunkAPI.getState();
     try {
+      console.log("Making patch request");
       const response = await fetch(`${API_URL}/items/favorite/${payload}`, {
         method: "PATCH",
         headers: new Headers({
@@ -77,6 +79,7 @@ export const favoriteItem = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Response was not ok");
       }
+      console.log("Received favoriteItem response", response);
       return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
@@ -110,33 +113,37 @@ export const createItem = createAsyncThunk(
   }
 );
 
+export const deleteItem = createAsyncThunk(
+  "item/deleteItem",
+  async (payload, thunkAPI) => {
+    console.log("Executing deleteItem");
+    const state = thunkAPI.getState();
+    try {
+      console.log("Making delete request");
+      const response = await fetch(`${API_URL}/items/${payload}` , {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `${state.login.token_type} ${state.login.access_token}`,
+        }),
+        body: `id: ${payload}`,
+        mode: "no-cors"
+      });
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      console.log("Received deleteItem response", response);
+      return response.json();
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong");
+    }
+  }
+);
+
 const itemSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
-    addItem: (state, action) => {
-      state.itemsArray.push({
-        name: action.payload.name,
-        price: action.payload.price,
-        id: uuidv4(),
-        description: action.payload.description,
-        longitude: action.payload.longitude,
-        latitude: action.payload.latitude,
-        favorite: false, // temp to test favorite
-        user_id: 0, // pull from login credentials
-        category_id: action.payload.category_id,
-      });
-    },
-    removeItem: (state, action) => {
-      // find item to update
-      const index = state.itemsArray.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      // remove that item
-      if (index !== -1) {
-        state.itemsArray.splice(index, 1);
-      }
-    },
     addFavorite: (state, action) => {
       const index = state.favorites.findIndex(
         (item) => item.id === action.payload.id
@@ -206,7 +213,7 @@ const itemSlice = createSlice({
       .addCase(favoriteItem.fulfilled, (state, action) => {
         state.isLoading = false;
         state.favorites.push(action.payload);
-        console.log(action.payload);
+        console.log("faveoriteItem payload", action.payload);
       })
       .addCase(favoriteItem.rejected, (state, action) => {
         state.isLoading = false;
@@ -218,9 +225,27 @@ const itemSlice = createSlice({
       .addCase(createItem.fulfilled, (state, action) => {
         state.isLoading = false;
         state.itemsArray.push(action.payload);
-        console.log(action.payload);
+        console.log("createItem payload", action.payload);
       })
       .addCase(createItem.rejected, (state, action) => {
+        state.isLoading = false;
+        console.log(action);
+      })
+      .addCase(deleteItem.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // find item
+        const index = state.itemsArray.findIndex(
+          (item) => item.id === action.payload);
+        // remove that item
+        if (index !== -1) {
+          state.itemsArray.splice(index, 1);
+        }
+        console.log("deleteItem payload", action.payload);
+      })
+      .addCase(deleteItem.rejected, (state, action) => {
         state.isLoading = false;
         console.log(action);
       })
@@ -228,6 +253,6 @@ const itemSlice = createSlice({
   },
 });
 
-export const { addFavorite, addItem, removeItem, removeFavorite } =
+export const { addFavorite, removeFavorite } =
   itemSlice.actions;
 export default itemSlice.reducer;

@@ -43,7 +43,7 @@ const AddItemForm = () => {
     e.preventDefault();
     console.log("dispatched", newItem);
     dispatch(createItem(newItem));
-    // setTimeout(() => {navigate('/home')}, 2000);
+    setTimeout(() => {navigate('/home')}, 2000);
   };
 
   return (

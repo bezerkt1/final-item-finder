@@ -2,13 +2,13 @@
 // use in Home.jsx and Favorites.jsx
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getFavorites, addFavorite, removeItem, removeFavorite, favoriteItem } from "../reducers/itemSlice";
+import { getFavorites, addFavorite, removeFavorite, favoriteItem, deleteItem } from "../reducers/itemSlice";
 import { persistor } from "../store";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-const Item = ({ name, price, description, category_id, id }) => {
+const Item = ({ name, price, description, category_id, id, latitude, longitude, favorite, user_id }) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Item = ({ name, price, description, category_id, id }) => {
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
      }
-
+  // find items that are in favorites array and set state to true/false
     const index = favorites.findIndex((item) => item.id === id);
     if (index !== -1) {
       setInFavorites(true);
@@ -28,22 +28,19 @@ const Item = ({ name, price, description, category_id, id }) => {
     }
   }, [favorites]);
 
-  // placeholder state to save input
-  const [faveItem, setFaveItem] = useState({
-    name: name,
-    price: 0,
-    description: description,
-    user_id: 0,
-    latitude: 0.0,
-    longitude: 0.0,
-    category_id: 0,
-    id: id
-     //created: newItem.created,
-  });
-
   const handleAddFavorite = () => {
-    console.log("faveItem", faveItem);
-    dispatch(favoriteItem({ id: id }));
+    //dispatch(favoriteItem({ id: id }));
+    dispatch(favoriteItem({
+      name: name,
+      price: price,
+      id: id,
+      description: description,
+      latitude: latitude,
+      longitude: longitude,
+      favorite: favorite,
+      user_id: user_id,
+      category_id: category_id
+    }))
     setInFavorites(true);
   };
 
@@ -72,7 +69,7 @@ const Item = ({ name, price, description, category_id, id }) => {
 
         {/*  possible to make this icon show only for items listed by user?? */}
         {login.isValid && (
-          <FaTrash className="mt-2" onClick={() => dispatch(removeItem({ id: id }))} />
+          <FaTrash className="mt-2" onClick={() => dispatch(deleteItem(id)) } />
         )}
       </div>
     </ListGroup.Item>
