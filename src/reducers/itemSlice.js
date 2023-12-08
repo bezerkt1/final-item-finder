@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 import { API_URL } from "../config/config";
 
 const initialState = {
   itemsArray: [],
+  myItems: [],
   categories: [],
   favorites: [],
   isLoading: true,
@@ -14,6 +14,27 @@ export const getItems = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await fetch(`${API_URL}/items/`);
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      return await response.json();
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong");
+    }
+  }
+);
+
+export const getMyItems = createAsyncThunk(
+  "item/getMyItems",
+  async (payload, thunkAPI) => {
+    try {
+      console.log("Making fetch my items request");
+      const response = await fetch(`${API_URL}/items/user/me/`, {
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `${state.login.token_type} ${state.login.access_token}`,
+        }),
+      });
       if (!response.ok) {
         throw new Error("Response was not ok");
       }
@@ -75,11 +96,40 @@ export const favoriteItem = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
+        body: `id: ${payload}`,
+        mode: "no-cors"
       });
       if (!response.ok) {
         throw new Error("Response was not ok");
       }
       console.log("Received favoriteItem response", response);
+      return response.json();
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong");
+    }
+  }
+);
+
+export const deleteFavorite = createAsyncThunk(
+  "item/deleteFavorite",
+  async (payload, thunkAPI) => {
+    console.log("Executing deleteFavorite");
+    const state = thunkAPI.getState();
+    try {
+      console.log("Making patch request");
+      const response = await fetch(`${API_URL}/items/favorite/${payload}`, {
+        method: "PATCH",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `${state.login.token_type} ${state.login.access_token}`,
+        }),
+        body: `id: ${payload}`,
+        mode: "no-cors"
+      });
+      if (!response.ok) {
+        throw new Error("Response was not ok");
+      }
+      console.log("Received deleteFavorite response", response);
       return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
@@ -144,25 +194,6 @@ const itemSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
-    addFavorite: (state, action) => {
-      const index = state.favorites.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      if (index !== -1) {
-        return;
-      }
-      state.favorites.push({
-        name: action.payload.name,
-        price: action.payload.price,
-        id: action.payload.id,
-        description: action.payload.description,
-        latitude: 0.0, // pull from user's location
-        longitude: 0.0, // pull from user's location
-        favorite: true, // temp to test favorite
-        user_id: 0, // pull from login credentials
-        category_id: action.payload.category_id,
-      });
-    },
     removeFavorite: (state, action) => {
       const index = state.favorites.findIndex(
         (item) => item.id === action.payload.id
@@ -182,6 +213,17 @@ const itemSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getItems.rejected, (state, action) => {
+        state.isLoading = false;
+        console.log(action);
+      })
+      .addCase(getMyItems.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMyItems.fulfilled, (state, action) => {
+        state.myItems = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(getMyItems.rejected, (state, action) => {
         state.isLoading = false;
         console.log(action);
       })
@@ -246,6 +288,24 @@ const itemSlice = createSlice({
         console.log("deleteItem payload", action.payload);
       })
       .addCase(deleteItem.rejected, (state, action) => {
+        state.isLoading = false;
+        console.log(action);
+      })
+      .addCase(deleteFavorite.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteFavorite.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // find item
+        const index = state.favorites.findIndex(
+          (item) => item.id === action.payload);
+        // remove that item
+        if (index !== -1) {
+          state.favorites.splice(index, 1);
+        }
+        console.log("deleteFavorite payload", action.payload);
+      })
+      .addCase(deleteFavorite.rejected, (state, action) => {
         state.isLoading = false;
         console.log(action);
       })
