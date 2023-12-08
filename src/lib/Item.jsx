@@ -2,7 +2,7 @@
 // use in Home.jsx and Favorites.jsx
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getFavorites, addFavorite, removeItem, removeFavorite } from "../reducers/itemSlice";
+import { getFavorites, addFavorite, createItem, removeItem, removeFavorite, favoriteItem } from "../reducers/itemSlice";
 import { persistor } from "../store";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
@@ -30,7 +30,7 @@ const Item = ({ name, price, description, category_id, id }) => {
 
   const handleAddFavorite = () => {
     dispatch(
-      addFavorite({
+      favoriteItem({
         name: name,
         price: price,
         id: id,

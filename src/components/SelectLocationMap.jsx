@@ -30,7 +30,7 @@ const SelectLocationMap = ({items, startLocation, selectedLocation}) => {
     locationMarkerRef.current.on('dragend', () => {
       const {lng, lat} = locationMarkerRef.current.getLngLat();
       console.log('Marker position:', lng, lat);
-      selectedLocation(lng, lat); 
+      selectedLocation(parseFloat(lng.toFixed(6)), parseFloat(lat.toFixed(6))); 
     
     });
   }, [startLocation]);  

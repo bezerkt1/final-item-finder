@@ -19,12 +19,10 @@ const AddItemForm = () => {
   const [newItem, setNewItem] = useState({
     name: "",
     price: 0,
-    id: uuidv4(),
     description: "",
     user_id: 0,
-    latitude: 0,
-    longitude: 0,
-    favorite: false,
+    latitude: 0.0,
+    longitude: 0.0,
     category_id: 0
   });
 
@@ -47,7 +45,7 @@ const AddItemForm = () => {
   // save new item on submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("dispatched");
+    console.log("dispatched", newItem);
     dispatch(createItem(newItem));
   };
 

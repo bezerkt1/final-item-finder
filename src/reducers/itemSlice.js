@@ -95,6 +95,7 @@ export const createItem = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
+        body: JSON.stringify(payload),
       });
       if (!response.ok) {
         throw new Error("Response was not ok");
