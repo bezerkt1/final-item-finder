@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector} from "react-redux";
-import { addItem } from "../reducers/itemSlice";
 import { createItem } from "../reducers/itemSlice";
 import { useNavigate } from "react-router-dom";
 import { Select, Label, TextInput, Button } from "flowbite-react";
@@ -8,7 +7,6 @@ import CustomButton from "../lib/CustomButton";
 import LocationButton from "../lib/LocationButton";
 import SelectLocationMap from "./SelectLocationMap";
 import { DEFAULT_LOCATION } from '../config/config';
-import { v4 as uuidv4 } from "uuid";
 
 
 const AddItemForm = () => {
@@ -34,19 +32,18 @@ const AddItemForm = () => {
   }, [longitude, latitude]);
 
   // save date created on click the database will save the date an item is created
-  const handleClick = () => {
+  //const handleClick = () => {
     //let dateCreated = new Date().toLocaleDateString("sv-SE");
     //setNewItem({ ...newItem, created: dateCreated });
-    setTimeout(() => {navigate('/home')}, 2000);
-    console.log("clicked");
-
-  };
+    //console.log("clicked");
+  //};
 
   // save new item on submit
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("dispatched", newItem);
     dispatch(createItem(newItem));
+    // setTimeout(() => {navigate('/home')}, 2000);
   };
 
   return (
@@ -163,7 +160,7 @@ const AddItemForm = () => {
         type="submit"
         color="success"
         className="mx-auto mb-4 bg-emerald-500"
-        onClick={handleClick}
+        //onClick={handleClick}
       >
         Submit
       </CustomButton>

@@ -29,6 +29,7 @@ export const getFavorites = createAsyncThunk(
   async (payload, thunkAPI) => {
     const state = thunkAPI.getState();
     try {
+      console.log("Making fetch faves request");
       const response = await fetch(`${API_URL}/items/favorites`, {
         headers: new Headers({
           "Content-Type": "application/json",
@@ -38,6 +39,7 @@ export const getFavorites = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Response was not ok");
       }
+      console.log("Received getFavorites response", response);
       return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
@@ -88,7 +90,7 @@ export const createItem = createAsyncThunk(
     console.log("Executing createItem");
     const state = thunkAPI.getState();
     try {
-      console.log("Making fetch request");
+      console.log("Making post request");
       const response = await fetch(`${API_URL}/items/` , {
         method: "POST",
         headers: new Headers({
@@ -100,7 +102,7 @@ export const createItem = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Response was not ok");
       }
-      console.log("Received response", response);
+      console.log("Received createItem response", response);
       return response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
@@ -203,6 +205,8 @@ const itemSlice = createSlice({
       })
       .addCase(favoriteItem.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.favorites.push(action.payload);
+        console.log(action.payload);
       })
       .addCase(favoriteItem.rejected, (state, action) => {
         state.isLoading = false;
