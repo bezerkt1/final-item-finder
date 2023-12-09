@@ -14,7 +14,7 @@ const BottomNavbar = () => {
           <Navbar.Link
             key={index}
             href={path}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center lg:mx-10"
           >
             {icon}
             {name}

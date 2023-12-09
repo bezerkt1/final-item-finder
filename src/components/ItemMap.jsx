@@ -31,7 +31,7 @@ const ItemMap = ({items, startLocation}) => {
   }, [items]);  
 
   return (
-    <div ref={mapContainer} style={{ height: '400px' }} />
+    <div ref={mapContainer} className="h-96 lg:h-screen" />
   );
 };
 

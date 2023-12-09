@@ -22,7 +22,7 @@ const Favorites = () => {
   return (
     <>
       <TopAppBar>Favorites</TopAppBar>
-      <ListGroup className="w-screen rounded-none">
+      <ListGroup className="w-screen rounded-none lg:mt-5">
         {favorites?.map(({ name, price, id, description, category_id }) => (
           <Item
             key={id}

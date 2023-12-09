@@ -9,41 +9,45 @@ const About = () => {
   return (
     <>
       <TopAppBar>About Us</TopAppBar>
-      <div className="m-auto w-4/5 md:w-2/4 lg:w-1/4">
-        <header className="my-6">
+      <div className="m-auto w-4/5 md:max-w-full md:mx-auto">
+        <header className="my-6 text-center md:mx-auto">
           <img src={logo} />
           <h3 className="text-l text-center">
             Reducing waste generation through reuse
           </h3>
         </header>
 
-        <section className="my-4">
-          <h3 className="text-xl font-bold">About Us</h3>
-          <p>
-            We are an online platform that connects people who have household
-            items to loan with those who want to borrow them.
-          </p>
-        </section>
+        <div className="md:flex md:gap-10">
+          <div className="md:flex-1">
+            <section className="my-4">
+              <h3 className="text-xl font-bold">About Us</h3>
+              <p>
+                We are an online platform that connects people who have household
+                items to loan with those who want to borrow them.
+              </p>
+            </section>
 
-        <div className="w-2/4 my-4 m-auto">
-          <img src={gif} />
+            <section>
+              <h3 className="text-xl font-bold">Our Mission</h3>
+              <p>
+                Our mission is to contribute to the UN's 2030 Agenda, specifically
+                <Link
+                  className="decoration-solid"
+                  to="https://sdgs.un.org/goals/goal12"
+                >
+                  {" "}
+                  SDG Goal 12{" "}
+                </Link>
+                for Responsible Consumption and Production by "reducing waste
+                generation through prevention, reduction, recycling and reuse."
+              </p>
+            </section>
+          </div>
+
+          <div className="w-2/4 my-4 m-auto md:flex-1">
+            <img src={gif} />
+          </div>
         </div>
-
-        <section>
-          <h3 className="text-xl font-bold">Our Mission</h3>
-          <p>
-            Our mission is to contribute to the UN's 2030 Agenda, specifically
-            <Link
-              className="decoration-solid"
-              to="https://sdgs.un.org/goals/goal12"
-            >
-              {" "}
-              SDG Goal 12{" "}
-            </Link>
-            for Responsible Consumption and Production by "reducing waste
-            generation through prevention, reduction, recycling and reuse."
-          </p>
-        </section>
       </div>
     </>
   );

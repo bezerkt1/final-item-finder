@@ -14,7 +14,7 @@ const Inventory = () => {
     <>
       <TopAppBar>Your items</TopAppBar>
       {/* List of items added by user */}
-      <ListGroup className="w-screen rounded-none">
+      <ListGroup className="w-screen rounded-none lg:mt-5">
         {items.itemsArray?.map(({ name, description, id }) => (
           <Item key={id} name={name} description={description} id={id} />
         ))}

@@ -36,7 +36,7 @@ const SelectLocationMap = ({items, startLocation, selectedLocation}) => {
   }, [startLocation]);  
 
   return (
-    <div ref={mapContainer} style={{ height: '400px' }} />
+    <div ref={mapContainer} className="h-96" />
   );
 };
 

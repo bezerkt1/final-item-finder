@@ -30,13 +30,16 @@ const Home = () => {
   return (
     <>
       <TopAppBar>Recently listed items</TopAppBar>
-      {/* List of recently added items, should be sorted by newest */}
-      <ItemMap items={itemsArray} startLocation={[18.0686, 59.3293]} />
-      <ListGroup className="w-screen rounded-none pb-20">
-        {itemsArray?.map(({ name, description, id }) => (
-          <Item key={id} name={name} description={description} id={id} />
-        ))}
-      </ListGroup>
+      <div className="lg:flex lg:flex-row-reverse lg:mx-10 lg:mt-5">
+        <div className="lg:w-full lg:h-screen">
+          <ItemMap items={itemsArray} startLocation={[18.0686, 59.3293]} />
+        </div>
+        <ListGroup className="w-screen rounded-none pb-20">
+          {itemsArray?.map(({ name, description, id }) => (
+            <Item key={id} name={name} description={description} id={id} />
+          ))}
+        </ListGroup>
+      </div>
       <BottomNavbar />
     </>
   );
