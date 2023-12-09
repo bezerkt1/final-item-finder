@@ -19,6 +19,7 @@ export const getItems = createAsyncThunk(
       }
       return await response.json();
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue("Something went wrong");
     }
   }
@@ -27,6 +28,7 @@ export const getItems = createAsyncThunk(
 export const getMyItems = createAsyncThunk(
   "item/getMyItems",
   async (payload, thunkAPI) => {
+    const state = thunkAPI.getState();
     try {
       console.log("Making fetch my items request");
       const response = await fetch(`${API_URL}/items/user/me/`, {
@@ -40,6 +42,7 @@ export const getMyItems = createAsyncThunk(
       }
       return await response.json();
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue("Something went wrong");
     }
   }
@@ -63,6 +66,7 @@ export const getFavorites = createAsyncThunk(
       console.log("Received getFavorites response", response);
       return response.json();
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue("Something went wrong");
     }
   }
@@ -78,6 +82,7 @@ export const getCategories = createAsyncThunk(
       }
       return response.json();
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue("Something went wrong");
     }
   }
@@ -96,8 +101,7 @@ export const favoriteItem = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
-        body: `id: ${payload}`,
-        mode: "no-cors"
+        body: `id: ${payload}`
       });
       if (!response.ok) {
         throw new Error("Response was not ok");
@@ -105,33 +109,7 @@ export const favoriteItem = createAsyncThunk(
       console.log("Received favoriteItem response", response);
       return response.json();
     } catch (error) {
-      return thunkAPI.rejectWithValue("Something went wrong");
-    }
-  }
-);
-
-export const deleteFavorite = createAsyncThunk(
-  "item/deleteFavorite",
-  async (payload, thunkAPI) => {
-    console.log("Executing deleteFavorite");
-    const state = thunkAPI.getState();
-    try {
-      console.log("Making patch request");
-      const response = await fetch(`${API_URL}/items/favorite/${payload}`, {
-        method: "PATCH",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: `${state.login.token_type} ${state.login.access_token}`,
-        }),
-        body: `id: ${payload}`,
-        mode: "no-cors"
-      });
-      if (!response.ok) {
-        throw new Error("Response was not ok");
-      }
-      console.log("Received deleteFavorite response", response);
-      return response.json();
-    } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue("Something went wrong");
     }
   }
@@ -150,7 +128,7 @@ export const createItem = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
-        body: JSON.stringify(payload),
+        mode: "no-cors"
       });
       if (!response.ok) {
         throw new Error("Response was not ok");
@@ -158,6 +136,7 @@ export const createItem = createAsyncThunk(
       console.log("Received createItem response", response);
       return response.json();
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue("Something went wrong");
     }
   }
@@ -176,8 +155,7 @@ export const deleteItem = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
-        body: `id: ${payload}`,
-        mode: "no-cors"
+        body: `id: ${payload}`
       });
       if (!response.ok) {
         throw new Error("Response was not ok");
@@ -185,6 +163,7 @@ export const deleteItem = createAsyncThunk(
       console.log("Received deleteItem response", response);
       return response.json();
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue("Something went wrong");
     }
   }
@@ -225,6 +204,7 @@ const itemSlice = createSlice({
       })
       .addCase(getMyItems.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.payload;
         console.log(action);
       })
       .addCase(getCategories.pending, (state) => {
@@ -255,7 +235,7 @@ const itemSlice = createSlice({
       .addCase(favoriteItem.fulfilled, (state, action) => {
         state.isLoading = false;
         state.favorites.push(action.payload);
-        console.log("faveoriteItem payload", action.payload);
+        console.log("favoriteItem payload", action.payload);
       })
       .addCase(favoriteItem.rejected, (state, action) => {
         state.isLoading = false;
@@ -291,28 +271,10 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
-      .addCase(deleteFavorite.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteFavorite.fulfilled, (state, action) => {
-        state.isLoading = false;
-        // find item
-        const index = state.favorites.findIndex(
-          (item) => item.id === action.payload);
-        // remove that item
-        if (index !== -1) {
-          state.favorites.splice(index, 1);
-        }
-        console.log("deleteFavorite payload", action.payload);
-      })
-      .addCase(deleteFavorite.rejected, (state, action) => {
-        state.isLoading = false;
-        console.log(action);
-      })
       ;
   },
 });
 
-export const { addFavorite, removeFavorite } =
+export const { removeFavorite } =
   itemSlice.actions;
 export default itemSlice.reducer;

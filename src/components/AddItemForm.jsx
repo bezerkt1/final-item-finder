@@ -18,7 +18,6 @@ const AddItemForm = () => {
     name: "",
     price: 0,
     description: "",
-    user_id: 0,
     latitude: 0.0,
     longitude: 0.0,
     category_id: 0
@@ -28,7 +27,6 @@ const AddItemForm = () => {
 
   useEffect(() => {
     setNewItem(newItem => ({ ...newItem, longitude: longitude, latitude: latitude }));
-
   }, [longitude, latitude]);
 
   // save date created on click the database will save the date an item is created
@@ -98,7 +96,7 @@ const AddItemForm = () => {
         <Select
           id="category"
           required
-          onChange={(e) => setNewItem({ ...newItem, category_id: e.target.value })}
+          onChange={(e) => setNewItem({ ...newItem, category_id: parseInt(e.target.value) })}
         >
           <option defaultValue="" hidden>
             ---Select---
@@ -119,7 +117,7 @@ const AddItemForm = () => {
           startLocation={longitude && latitude ? [longitude, latitude] : DEFAULT_LOCATION}
           selectedLocation={(lng, lat) => {
             console.log("selected cords", lng, lat)
-            setNewItem({ ...newItem, longitude: lng, latitude: lat })
+            setNewItem({ ...newItem, longitude: parseFloat(lng.toFixed(6)), latitude: parseFloat(lat.toFixed(6)) })
           }}
         />
       </div>

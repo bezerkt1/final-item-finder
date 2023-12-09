@@ -14,6 +14,7 @@ import ItemMap from "../components/ItemMap";
 const Home = () => {
   const dispatch = useDispatch();
   const itemsArray = useSelector((state) => state.items.itemsArray);
+  const favorites = useSelector((state) => state.items.favorites);
 
   useEffect(() => {
     dispatch(getItems());
@@ -23,7 +24,7 @@ const Home = () => {
     }
 
     dispatch(getCategories());
-  }, []);
+  }, [itemsArray, favorites]);
 
   return (
     <>
