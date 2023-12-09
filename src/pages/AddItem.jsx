@@ -9,7 +9,7 @@ const AddItem = () => {
       <div className="flex flex-col w-full h-screen items-center mt-8">
         <AddItemForm />
       </div>
-      {/* <BottomNavbar />  hidden for now as it hides the submit btn */}
+      <BottomNavbar />
     </>
   );
 };

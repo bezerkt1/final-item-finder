@@ -54,7 +54,7 @@ const AddItemForm = () => {
   };
 
   return (
-    <form className="w-4/5 md:w-2/4 lg:w-full lg:flex-col" onSubmit={handleSubmit}>
+    <form className="w-4/5 pb-20 md:w-2/4 md:pb-15 lg:w-full lg:flex-col" onSubmit={handleSubmit}>
       <div className="lg:flex lg:justify-center lg:mx-10 lg:gap-10">
         <div className="lg:w-full">
           <div className="mb-4">
