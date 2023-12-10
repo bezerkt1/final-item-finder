@@ -5,11 +5,12 @@ import Login from "../pages/Login";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Search from "../pages/Search";
+import Messages from "../pages/Messages";
 import Favorites from "../pages/Favorites";
 import AddItem from "../pages/AddItem";
 import Inventory from "../pages/Inventory";
 import NotFound from "../pages/NotFound";
-import { MdHome, MdSearch, MdFavorite, MdAddBox } from "react-icons/md";
+import { MdHome, MdSearch, MdFavorite, MdAddBox, MdMessage } from "react-icons/md";
 
 export const appPages = [
   {
@@ -63,6 +64,14 @@ export const appPages = [
     path: "/inventory",
     icon: null,
     // loginRequired: true,
+  },
+  {
+    name: "Messages",
+    component: Messages,
+    menus: ["navbar"],
+    path: "/messages",
+    icon: <MdMessage />,
+    loginRequired: true,
   },
   {
     name: "Not Found",

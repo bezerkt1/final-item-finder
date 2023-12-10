@@ -7,6 +7,7 @@ import loginReducer from "./reducers/loginSlice";
 import registerReducer from "./reducers/registerSlice";
 import itemReducer from "./reducers/itemSlice";
 import locationReducer from "./reducers/locationSlice";
+import messageReducer from "./reducers/messageSlice";
 import storage from "redux-persist/lib/storage";
 
 import {
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   user: registerReducer,
   items: itemReducer,
   location: locationReducer,
+  messages: messageReducer,
 });
 
 const persistConfig = {

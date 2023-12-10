@@ -13,6 +13,7 @@ const Home = () => {
   const itemsArray = useSelector((state) => state.items.itemsArray);
 
   useEffect(() => {
+    dispatch(getItems());
     if (persistor.getState().itemsArray) {
       dispatch(getItems());
     }
@@ -33,12 +34,13 @@ const Home = () => {
         </div>
         <div className="lg:w-1/2">
           <ListGroup className="w-full pb-20">
-            {itemsArray?.map(({ name, description, id }) => (
+            {itemsArray?.map(({ name, description, id, user_id  }) => (
               <Item
                 key={id}
                 name={name}
                 description={description}
                 id={id}
+                user_id={user_id}
                 className="bg-white rounded-lg shadow-md p-4 mb-4"
               />
             ))}
