@@ -4,13 +4,16 @@ import BottomNavbar from "../lib/BottomNavbar";
 
 const AddItem = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <TopAppBar>List New Item</TopAppBar>
-      <div className="flex flex-col w-full h-screen items-center mt-8">
-        <AddItemForm />
-      </div>
-      {/* <BottomNavbar />  hidden for now as it hides the submit btn */}
-    </>
+      <main className="flex-1 flex items-center justify-center">
+        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+          <h1 className="text-2xl font-bold mb-4">List New Item</h1>
+          <AddItemForm />
+        </div>
+      </main>
+      <BottomNavbar />
+    </div>
   );
 };
 

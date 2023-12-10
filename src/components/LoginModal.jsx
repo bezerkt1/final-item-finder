@@ -5,32 +5,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { getToken } from "../reducers/loginSlice";
 
-/*
-Example of using login token to fetch data:
-
-fetch('URL', {
-  method: 'GET',
-  headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': login.token_type + ' ' + login.access_token
-  })
-})
-*/
-
 const LoginModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isValid, setIsValid] = useState(true);
-  const [loginData, setloginData] = useState({ username: "", password: "" });
+  const [loginData, setLoginData] = useState({ username: "", password: "" });
 
   const dispatch = useDispatch();
   const login = useSelector((state) => state.login);
 
   useEffect(() => {
-    if (loginData.username.length > 0) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
+    setIsValid(loginData.username.length > 0);
   }, [loginData.username]);
 
   const handleConfirm = () => {
@@ -44,7 +28,9 @@ const LoginModal = () => {
   return (
     <>
       {login.token && <h1>{login.token}</h1>}
-      <Button onClick={() => setIsOpen(true)}>Login</Button>
+      <Button onClick={() => setIsOpen(true)} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300">
+        Login
+      </Button>
       <Modal
         dismissible
         show={isOpen}
@@ -55,39 +41,39 @@ const LoginModal = () => {
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              Login
-            </h3>
+            <h3 className="text-xl font-medium text-gray-900">Login</h3>
             <div>
-              <div className="mb-2 block">
-                <Label htmlFor="username" value="Username" />
-              </div>
+              <Label htmlFor="username" value="Username" />
               <TextInput
                 id="username"
                 value={loginData.username}
                 onChange={(event) =>
-                  setloginData({ ...loginData, username: event.target.value })
+                  setLoginData({ ...loginData, username: event.target.value })
                 }
                 required
                 color={!isValid && "failure"}
                 helperText={!isValid && "Please enter a username"}
+                className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:border-blue-500"
               />
             </div>
             <div>
-              <div className="mb-2 block">
-                <Label htmlFor="password" value="Your password" />
-              </div>
+              <Label htmlFor="password" value="Your password" />
               <TextInput
                 id="password"
                 type="password"
                 value={loginData.password}
                 onChange={(event) =>
-                  setloginData({ ...loginData, password: event.target.value })
+                  setLoginData({ ...loginData, password: event.target.value })
                 }
+                className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:border-blue-500"
               />
             </div>
             <div className="w-full">
-              <Button disabled={!isValid} onClick={() => handleConfirm()}>
+              <Button
+                disabled={!isValid}
+                onClick={() => handleConfirm()}
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300"
+              >
                 Confirm
               </Button>
             </div>

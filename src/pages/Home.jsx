@@ -1,6 +1,3 @@
-// list of newly added items
-// map through items and sort by newest
-// copy html structure in CustomList.jsx
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getItems, getCategories, getFavorites } from "../reducers/itemSlice";
@@ -29,17 +26,29 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <TopAppBar>Recently listed items</TopAppBar>
-      {/* List of recently added items, should be sorted by newest */}
-      <ItemMap items={itemsArray} startLocation={[18.0686, 59.3293]} />
-      <ListGroup className="w-screen rounded-none pb-20">
-        {itemsArray?.map(({ name, description, id, user_id }) => (
-          <Item key={id} name={name} description={description} id={id} user_id={user_id} />
-        ))}
-      </ListGroup>
+    <div className="flex flex-col min-h-screen">
+      <TopAppBar>Recently Listed Items</TopAppBar>
+      <div className="lg:flex lg:mx-10 lg:mt-5">
+        <div className="lg:w-1/2 lg:h-screen">
+          <ItemMap items={itemsArray} startLocation={[18.0686, 59.3293]} />
+        </div>
+        <div className="lg:w-1/2">
+          <ListGroup className="w-full pb-20">
+            {itemsArray?.map(({ name, description, id, user_id  }) => (
+              <Item
+                key={id}
+                name={name}
+                description={description}
+                id={id}
+                user_id={user_id}
+                className="bg-white rounded-lg shadow-md p-4 mb-4"
+              />
+            ))}
+          </ListGroup>
+        </div>
+      </div>
       <BottomNavbar />
-    </>
+    </div>
   );
 };
 
