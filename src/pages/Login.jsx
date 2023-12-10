@@ -1,6 +1,3 @@
-// first page user sees
-// login or option to register as new user
-
 import { useSelector } from "react-redux";
 import LoginForm from "../components/LoginForm";
 import RegisterForm from "../components/RegisterForm";
@@ -21,5 +18,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// need to fix responsive sizing, works now for mobile only

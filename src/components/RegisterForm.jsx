@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Label, Card, TextInput, Alert } from "flowbite-react";
 import { setIsNew } from "../reducers/registerSlice";
-import { API_URL } from '../config/config';
+import { API_URL } from "../config/config";
 import CustomButton from "../lib/CustomButton";
 
 const RegisterForm = () => {
@@ -14,7 +14,6 @@ const RegisterForm = () => {
   const navigate = useNavigate();
 
   const [alert, setAlert] = useState({ show: false, color: "", text: "" });
-  // empty form for now, need to add logic later
   const [formData, setFormData] = useState({
     email: "",
     username: "",

@@ -38,27 +38,16 @@ export const getMyItems = createAsyncThunk(
         }),
       });
       if (!response.ok) {
-        throw new Error("Response was not ok");
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
       console.log("Received getMyItems response", response);
       return await response.json();
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue("Something went wrong");
+      return thunkAPI.rejectWithValue({ error: error.message });
     }
   },
-  // for getMyItems optimistic update
-  {
-    onMutate: (newItem) => {
-      thunkAPI.dispatch(addItem(newItem));
-    },
-    onError: (error, newItem, thunkAPI) => {
-      thunkAPI.dispatch(removeItem(newItem));
-    },
-    onSettled: (newItem, thunkAPI) => {
-      thunkAPI.dispatch(updateItem(newItem));
-    },
-  }
 );
 
 export const getFavorites = createAsyncThunk(
@@ -74,13 +63,14 @@ export const getFavorites = createAsyncThunk(
         }),
       });
       if (!response.ok) {
-        throw new Error("Response was not ok");
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
       console.log("Received getFavorites response", response);
       return response.json();
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue("Something went wrong");
+      return thunkAPI.rejectWithValue({ error: error.message });
     }
   }
 );
@@ -114,16 +104,17 @@ export const favoriteItem = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
-        body: `id: ${payload}`
+        body: `id: ${payload}`,
       });
       if (!response.ok) {
-        throw new Error("Response was not ok");
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
       console.log("Received favoriteItem response", response);
       return response.json();
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue("Something went wrong");
+      return thunkAPI.rejectWithValue({ error: error.message });
     }
   }
 );
@@ -135,22 +126,23 @@ export const createItem = createAsyncThunk(
     const state = thunkAPI.getState();
     try {
       console.log("Making post request");
-      const response = await fetch(`${API_URL}/items/` , {
+      const response = await fetch(`${API_URL}/items/`, {
         method: "POST",
         headers: new Headers({
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
-        mode: "no-cors"
+        mode: "no-cors",
       });
       if (!response.ok) {
-        throw new Error("Response was not ok");
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
       console.log("Received createItem response", response);
       return response.json();
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue("Something went wrong");
+      return thunkAPI.rejectWithValue({ error: error.message });
     }
   }
 );
@@ -162,22 +154,23 @@ export const deleteItem = createAsyncThunk(
     const state = thunkAPI.getState();
     try {
       console.log("Making delete request");
-      const response = await fetch(`${API_URL}/items/${payload}` , {
+      const response = await fetch(`${API_URL}/items/${payload}`, {
         method: "DELETE",
         headers: new Headers({
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
-        body: `id: ${payload}`
+        body: `id: ${payload}`,
       });
       if (!response.ok) {
-        throw new Error("Response was not ok");
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
       console.log("Received deleteItem response", response);
       return response.json();
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue("Something went wrong");
+      return thunkAPI.rejectWithValue({ error: error.message });
     }
   }
 );
@@ -194,19 +187,6 @@ const itemSlice = createSlice({
         state.favorites.splice(index, 1);
       }
     },
-    // for getMyItems optimistic update
-    addItem: (state, action) => {
-      state.push(action.payload);
-    },
-    removeItem: (state, action) => {
-      return state.filter((item) => item.id !== action.payload);
-    },
-    updateItem: (state, action) => {
-      const index = state.findIndex((item) => item.id === action.payload.id);
-      if (index !== -1) {
-        state[index] = action.payload;
-      }
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -286,7 +266,8 @@ const itemSlice = createSlice({
         state.isLoading = false;
         // find item
         const index = state.itemsArray.findIndex(
-          (item) => item.id === action.payload);
+          (item) => item.id === action.payload
+        );
         // remove that item
         if (index !== -1) {
           state.itemsArray.splice(index, 1);
@@ -296,8 +277,7 @@ const itemSlice = createSlice({
       .addCase(deleteItem.rejected, (state, action) => {
         state.isLoading = false;
         console.log(action);
-      })
-      ;
+      });
   },
 });
 

@@ -52,7 +52,7 @@ export const appPages = [
   {
     name: "AddItem",
     component: AddItem,
-    menus: ["navbar"],
+    menus: ["topAppBar"],
     path: "/additem",
     icon: <MdAddBox />,
     // loginRequired: true,

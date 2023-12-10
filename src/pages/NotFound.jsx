@@ -1,4 +1,3 @@
-// default not found pg
 import { useNavigate } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { PiBinocularsFill } from "react-icons/pi";

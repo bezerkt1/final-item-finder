@@ -1,6 +1,3 @@
-// list of newly added items
-// map through items and sort by newest
-// copy html structure in CustomList.jsx
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMyItems } from "../reducers/itemSlice";

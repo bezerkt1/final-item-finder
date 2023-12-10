@@ -11,7 +11,6 @@ const TopAppBar = ({ children }) => {
     (item) =>
       item.menus.includes("topAppBar") && (item.loginRequired ? isValid : true)
   );
-  // console.log("menuItems", menuItems);
 
   return (
     <div className="w-full">

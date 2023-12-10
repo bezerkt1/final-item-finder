@@ -1,6 +1,3 @@
-// search bar to search for item
-// list of categories to search by category
-
 import { ListGroup, Label, TextInput } from "flowbite-react";
 import Category from "../lib/Category";
 import TopAppBar from "../lib/TopAppBar";

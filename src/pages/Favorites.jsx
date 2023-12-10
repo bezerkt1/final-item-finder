@@ -1,4 +1,3 @@
-// list items with favorites = true
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getItems, getFavorites } from "../reducers/itemSlice";
@@ -15,12 +14,10 @@ const Favorites = () => {
 
   // check that favorites state has been rehydrated before loading list
   useEffect(() => {
-    dispatch(getItems());
-
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
     }
-  }, [itemsArray, favorites]);
+  }, [favorites]);
 
   return (
     <>
