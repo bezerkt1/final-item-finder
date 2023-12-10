@@ -4,6 +4,7 @@ import { API_URL } from '../config/config';
 const initialState = {
   isLoading: false,
   isValid: false,
+  userId: false,
   access_token: null,
   token_type: null,
 };
@@ -23,6 +24,7 @@ export const validateToken = createAsyncThunk(
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        return response.json();
       });
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
@@ -73,8 +75,9 @@ const loginSlice = createSlice({
       .addCase(validateToken.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(validateToken.fulfilled, (state) => {
+      .addCase(validateToken.fulfilled, (state, action) => {
         state.isValid = true;
+        state.userId = action.payload.id;
         state.isLoading = false;
       })
       .addCase(validateToken.rejected, () => initialState);

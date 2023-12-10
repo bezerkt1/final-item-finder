@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getFavorites, addFavorite, removeItem, removeFavorite } from "../reducers/itemSlice";
+import { sendMessage } from "../reducers/messageSlice";
 import { persistor } from "../store";
 import { ListGroup } from "flowbite-react";
-import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
+import { MdOutlineFavoriteBorder, MdFavorite, MdMessage } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-const Item = ({ name, price, description, category_id, id }) => {
+const Item = ({ name, price, description, category_id, id, user_id }) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
   const dispatch = useDispatch();
@@ -27,6 +28,11 @@ const Item = ({ name, price, description, category_id, id }) => {
       setInFavorites(false);
     }
   }, [favorites]);
+
+  const handleSendMessage = (userId, itemName) => {
+    const message = `Hi! I would like to borrow ${itemName}`; // Define your preset message
+    dispatch(sendMessage({ userId, message: message }));
+  };
 
   const handleAddFavorite = () => {
     dispatch(
@@ -64,6 +70,8 @@ const Item = ({ name, price, description, category_id, id }) => {
         ) : (
           <MdOutlineFavoriteBorder onClick={handleAddFavorite} />
         )}
+
+        <MdMessage className="mt-2" onClick={() => handleSendMessage(user_id, name)} />
 
         {/*  possible to make this icon show only for items listed by user?? */}
         {login.isValid && (
