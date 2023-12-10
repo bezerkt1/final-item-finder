@@ -124,9 +124,6 @@ const AddItemForm = () => {
           upload image
           */}
           
-        </div>
-        
-        <div className="lg:w-full">
           <div className="mb-4">
             <div className="mb-2 block">
               <Label value="Select pickup location" />
