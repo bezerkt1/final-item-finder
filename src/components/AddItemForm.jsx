@@ -1,56 +1,52 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector} from "react-redux";
-import { addItem } from "../reducers/itemSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { createItem } from "../reducers/itemSlice";
 import { useNavigate } from "react-router-dom";
-import { Select, Label, TextInput, Button } from "flowbite-react";
+import { Select, Label, TextInput } from "flowbite-react";
 import CustomButton from "../lib/CustomButton";
 import LocationButton from "../lib/LocationButton";
 import SelectLocationMap from "./SelectLocationMap";
-import { DEFAULT_LOCATION } from '../config/config';
+import { DEFAULT_LOCATION } from "../config/config";
 
 const AddItemForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // placeholder state to save input
   const [newItem, setNewItem] = useState({
-    name: "",
-    price: "",
-    description: "",
-    category: "",
-    created: "",
-    longitude: "",
-    latitude: "",
+    name: "", //string
+    price: 0, //integer
+    description: "", //string
+    latitude: 0.0, //number
+    longitude: 0.0, //number
+    category_id: 0, //integer
   });
 
-  const { longitude, latitude } = useSelector(state => state.location);
+  const { longitude, latitude } = useSelector((state) => state.location);
 
   useEffect(() => {
-    setNewItem(newItem => ({ ...newItem, longitude: longitude, latitude: latitude }));
-
+    setNewItem((newItem) => ({
+      ...newItem,
+      longitude: longitude,
+      latitude: latitude,
+    }));
   }, [longitude, latitude]);
 
   // save date created on click the database will save the date an item is created
-  const handleClick = () => {
-    //let dateCreated = new Date().toLocaleDateString("sv-SE");
-    //setNewItem({ ...newItem, created: dateCreated });
-    setTimeout(() => {navigate('/home')}, 2000);
-  };
+  //const handleClick = () => {
+  //let dateCreated = new Date().toLocaleDateString("sv-SE");
+  //setNewItem({ ...newItem, created: dateCreated });
+  //console.log("clicked");
+  //};
 
   // save new item on submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addItem({
-        name: newItem.name,
-        price: newItem.price,
-        description: newItem.description,
-        category_id: newItem.category,
-        //created: newItem.created,
-        longitude: newItem.longitude,
-        latitude: newItem.latitude
-      })
-    );
+    console.log("dispatched", newItem);
+    dispatch(createItem(newItem));
+    setTimeout(() => {
+      navigate("/home");
+    }, 2000);
   };
 
   return (
@@ -77,11 +73,13 @@ const AddItemForm = () => {
             </div>
             <TextInput
               id="price"
-              type="number"
+              type="text"
               placeholder="ex: 100"
               required
               value={newItem.price}
-              onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
+              onChange={(e) =>
+                setNewItem({ ...newItem, price: parseInt(e.target.value) })
+              }
             />
           </div>
 
@@ -107,36 +105,40 @@ const AddItemForm = () => {
             <Select
               id="category"
               required
-              onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+              onChange={(e) =>
+                setNewItem({ ...newItem, category_id: parseInt(e.target.value) })
+              }
             >
               <option defaultValue="" hidden>
                 ---Select---
               </option>
-              <option value="1">Household tools</option>
-              <option value="2">Gardening</option>
-              <option value="3">Gaming</option>
-              <option value="4">Transportation</option>
-              <option value="5">Sports & Leisure</option>
+              <option value="1">Garden</option>
+              <option value="2">Building</option>
+              <option value="3">Electronics</option>
+              <option value="4">Vehicles</option>
             </Select>
           </div>
 
-           {/* 
-          upload image
-          */}
-          
           <div className="mb-4">
             <div className="mb-2 block">
               <Label value="Select pickup location" />
             </div>
             <SelectLocationMap
-              startLocation={longitude && latitude ? [longitude, latitude] : DEFAULT_LOCATION}
+              startLocation={
+                longitude && latitude ? [longitude, latitude] : DEFAULT_LOCATION
+              }
               selectedLocation={(lng, lat) => {
-                console.log("selected cords", lng, lat)
-                setNewItem({ ...newItem, longitude: lng, latitude: lat })
+                console.log("selected cords", lng, lat);
+                setNewItem({
+                  ...newItem,
+                  longitude: parseFloat(lng.toFixed(6)),
+                  latitude: parseFloat(lat.toFixed(6)),
+                });
               }}
             />
           </div>
-
+        </div>
+        <div className="lg:w-full">
           <div className="mb-4">
             <LocationButton />
           </div>
@@ -171,7 +173,7 @@ const AddItemForm = () => {
         type="submit"
         color="success"
         className="mx-auto my-4 bg-emerald-500"
-        onClick={handleClick}
+        //onClick={handleClick}
       >
         Submit
       </CustomButton>
@@ -180,6 +182,3 @@ const AddItemForm = () => {
 };
 
 export default AddItemForm;
-
-// new item details saving to local state but
-// need to check if posting to api

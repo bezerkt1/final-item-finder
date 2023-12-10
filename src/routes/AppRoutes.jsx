@@ -37,7 +37,7 @@ export const appPages = [
   {
     name: "Search",
     component: Search,
-    menus: [], // removed from navbar for demo
+    menus: ["navbar"],
     path: "/search",
     icon: <MdSearch />,
   },
@@ -52,7 +52,7 @@ export const appPages = [
   {
     name: "AddItem",
     component: AddItem,
-    menus: ["navbar"],
+    menus: ["topAppBar"],
     path: "/additem",
     icon: <MdAddBox />,
     // loginRequired: true,

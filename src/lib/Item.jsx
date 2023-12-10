@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getFavorites, addFavorite, removeItem, removeFavorite } from "../reducers/itemSlice";
+import {
+  getFavorites,
+  favoriteItem,
+  removeFavorite,
+  deleteItem,
+} from "../reducers/itemSlice";
 import { sendMessage } from "../reducers/messageSlice";
 import { persistor } from "../store";
 import { ListGroup } from "flowbite-react";
@@ -17,7 +22,7 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
     }
-
+    // find items that are in favorites array and set state to true/false
     const index = favorites.findIndex((item) => item.id === id);
     if (index !== -1) {
       setInFavorites(true);
@@ -32,20 +37,12 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
   };
 
   const handleAddFavorite = () => {
-    dispatch(
-      addFavorite({
-        name: name,
-        price: price,
-        id: id,
-        description: description,
-        category_id: category_id,
-      })
-    );
+    dispatch(favoriteItem(id));
     setInFavorites(true);
   };
 
   const handleRemoveFavorite = () => {
-    dispatch(removeFavorite({ id: id }));
+    dispatch(removeFavorite(id));
     setInFavorites(false);
   };
 
@@ -65,10 +62,13 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
           <MdOutlineFavoriteBorder className="cursor-pointer" onClick={handleAddFavorite} />
         )}
 
-        <MdMessage className="mt-2" onClick={() => handleSendMessage(user_id, name)} />
+        <MdMessage
+          className="mt-2"
+          onClick={() => handleSendMessage(user_id, name)}
+        />
 
         {login.isValid && (
-          <FaTrash className="text-gray-500 mt-2 cursor-pointer" onClick={() => dispatch(removeItem({ id: id }))} />
+          <FaTrash className="text-gray-500 mt-2 cursor-pointer" onClick={() => dispatch(deleteItem(id))} />
         )}
       </div>
     </ListGroup.Item>

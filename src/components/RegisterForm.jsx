@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Label, Card, TextInput, Alert } from "flowbite-react";
 import { setIsNew } from "../reducers/registerSlice";
-import { API_URL } from '../config/config';
+import { API_URL } from "../config/config";
 import CustomButton from "../lib/CustomButton";
 
 const RegisterForm = () => {

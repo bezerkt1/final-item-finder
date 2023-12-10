@@ -10,8 +10,8 @@ const LocationButton = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         dispatch(setLocation({
-          longitude: position.coords.longitude,
-          latitude: position.coords.latitude
+          longitude: position.coords.longitude.toFixed(6),
+          latitude: position.coords.latitude.toFixed(6)
         }));
       }, (error) => {
         console.error('Error Code = ' + error.code + ' - ' + error.message);
