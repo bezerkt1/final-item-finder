@@ -2,36 +2,47 @@ import React, { useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-const ItemMap = ({items, startLocation}) => {
-  const mapContainer= useRef(null);
+const ItemMap = ({ items, startLocation }) => {
+  const mapContainer = useRef(null);
   const map = useRef(null);
 
   useEffect(() => {
     if (!map.current) {
       map.current = new maplibregl.Map({
-        container: mapContainer.current, // Referencing the map container
-        style: 'https://api.maptiler.com/maps/basic-v2/style.json?key=WmV5NqhpUv7xCFrD85kS', // Style URL
-        center: [18.0686, 59.3293],
+        container: mapContainer.current,
+        style: 'https://api.maptiler.com/maps/basic-v2/style.json?key=WmV5NqhpUv7xCFrD85kS',
+        center: startLocation || [18.0686, 59.3293],
         zoom: 12
       });
     }
 
     if (items && items.length > 0) {
-      // Add markers for each item
       items.forEach(item => {
         const { longitude, latitude } = item;
-        //console.log("item", item)
-
         new maplibregl.Marker()
-          .setLngLat([longitude, latitude]) // Set location from item
+          .setLngLat([longitude, latitude])
           .addTo(map.current);
-
       });
     }
-  }, [items]);  
+
+    // Update map size on window resize
+    window.addEventListener('resize', () => {
+      if (map.current) {
+        map.current.resize();
+      }
+    });
+
+    // Cleanup
+    return () => {
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+    };
+  }, [items, startLocation]);
 
   return (
-    <div ref={mapContainer} style={{ height: '400px' }} />
+    <div ref={mapContainer} className="h-96 lg:h-screen w-full" />
   );
 };
 

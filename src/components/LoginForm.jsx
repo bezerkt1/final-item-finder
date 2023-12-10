@@ -31,18 +31,14 @@ const LoginForm = () => {
   return (
     <>
       {login.token && <h1>{login.token}</h1>}
-      <Card className="md:w-2/4 lg:w-1/4">
+      <Card className="md:w-2/4 lg:w-1/4 bg-white shadow-md rounded-md p-4">
         <form className="space-y-2">
-          <h3 className="text-xl mx-auto font-medium text-gray-900 dark:text-white">
-            Login
-          </h3>
+          <h3 className="text-xl font-medium text-gray-900">Login</h3>
           {!isValid && (
             <Alert color="failure">Wrong username or password</Alert>
           )}
           <div>
-            <div className="mb-2 block">
-              <Label htmlFor="username" value="Username" />
-            </div>
+            <Label htmlFor="username" value="Username" />
             <TextInput
               id="username"
               type="text"
@@ -52,12 +48,11 @@ const LoginForm = () => {
               }
               required
               autoComplete="username"
+              className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:border-blue-500"
             />
           </div>
           <div>
-            <div className="mb-2 block">
-              <Label htmlFor="password" value="Your password" />
-            </div>
+            <Label htmlFor="password" value="Your password" />
             <TextInput
               id="password"
               type="password"
@@ -67,22 +62,23 @@ const LoginForm = () => {
               }
               required
               autoComplete="current-password"
+              className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:border-blue-500"
             />
           </div>
           <div className="flex flex-col items-center gap-3">
             <CustomButton
               color="success"
-              className="bg-emerald-500"
               disabled={!isValid}
               onClick={(e) => handleConfirm(e)}
               type="submit"
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300"
             >
               Confirm
             </CustomButton>
-            <p className="text-xs">
+            <p className="text-sm">
               Not a member? Click{" "}
               <button
-                className="underline"
+                className="underline text-blue-500 focus:outline-none"
                 onClick={() => dispatch(setIsNew())}
               >
                 here

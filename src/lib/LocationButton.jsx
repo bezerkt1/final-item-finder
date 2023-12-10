@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLocation } from '../reducers/locationSlice';
 import { Button } from 'flowbite-react';
 
-
 const LocationButton = () => {
   const dispatch = useDispatch();
   const { longitude, latitude } = useSelector(state => state.location);
@@ -23,8 +22,13 @@ const LocationButton = () => {
   };
 
   return (
-      <Button onClick={getLocation}>Get my location</Button>
+    <Button
+      onClick={getLocation}
+      className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-300 ease-in-out"
+    >
+      Get my location
+    </Button>
   );
 };
   
-  export default LocationButton;
+export default LocationButton;

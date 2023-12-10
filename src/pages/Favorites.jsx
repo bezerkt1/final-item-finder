@@ -12,7 +12,7 @@ const Favorites = () => {
   const itemsArray = useSelector((state) => state.items.itemsArray);
   const dispatch = useDispatch();
 
-  // check that favorites state has been rehydrated before loading list
+  // Check that favorites state has been rehydrated before loading the list
   useEffect(() => {
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
@@ -20,22 +20,25 @@ const Favorites = () => {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <TopAppBar>Favorites</TopAppBar>
-      <ListGroup className="w-screen rounded-none">
-        {favorites?.map(({ name, price, id, description, category_id }) => (
-          <Item
-            key={id}
-            name={name}
-            price={price}
-            id={id}
-            description={description}
-            category_id={category_id}
-          />
-        ))}
-      </ListGroup>
+      <main className="flex-1 bg-gray-100 p-4 lg:p-8">
+        <ListGroup className="w-full">
+          {favorites?.map(({ name, price, id, description, category_id }) => (
+            <Item
+              key={id}
+              name={name}
+              price={price}
+              id={id}
+              description={description}
+              category_id={category_id}
+              className="bg-white rounded-lg shadow-md p-4 mb-4"
+            />
+          ))}
+        </ListGroup>
+      </main>
       <BottomNavbar />
-    </>
+    </div>
   );
 };
 
