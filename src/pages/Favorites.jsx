@@ -14,6 +14,8 @@ const Favorites = () => {
 
   // Check that favorites state has been rehydrated before loading the list
   useEffect(() => {
+    dispatch(getFavorites());
+
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
     }

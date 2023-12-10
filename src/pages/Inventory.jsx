@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { persistor } from "../store";
 import { getMyItems } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import TopAppBar from "../lib/TopAppBar";
@@ -16,6 +17,11 @@ const Inventory = () => {
   // tried useRef to save prev state, tried isLoading global state, still won't refresh...
   useEffect(() => {
     dispatch(getMyItems());
+
+    if (persistor.getState().myItems) {
+      dispatch(getMyItems());
+    }
+
   }, [itemsArray]);
 
   return (

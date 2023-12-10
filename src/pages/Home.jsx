@@ -13,6 +13,8 @@ const Home = () => {
   const itemsArray = useSelector((state) => state.items.itemsArray);
 
   useEffect(() => {
+    dispatch(getItems());
+    
     if (persistor.getState().itemsArray) {
       dispatch(getItems());
     }
