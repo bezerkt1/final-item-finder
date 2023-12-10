@@ -101,11 +101,10 @@ const AddItemForm = () => {
           <option defaultValue="" hidden>
             ---Select---
           </option>
-          <option value="1">Household tools</option>
-          <option value="2">Gardening</option>
-          <option value="3">Gaming</option>
-          <option value="4">Transportation</option>
-          <option value="5">Sports & Leisure</option>
+          <option value="1">Garden</option>
+          <option value="2">Building</option>
+          <option value="3">Electronics</option>
+          <option value="4">Vehicles</option>
         </Select>
       </div>
 

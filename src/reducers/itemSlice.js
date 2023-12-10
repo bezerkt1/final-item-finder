@@ -40,6 +40,7 @@ export const getMyItems = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Response was not ok");
       }
+      console.log("Received getMyItems response", response);
       return await response.json();
     } catch (error) {
       console.log(error);
