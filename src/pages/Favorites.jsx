@@ -17,7 +17,7 @@ const Favorites = () => {
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
     }
-  }, [favorites]);
+  }, []);
 
   return (
     <>

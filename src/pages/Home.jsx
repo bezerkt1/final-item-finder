@@ -24,7 +24,7 @@ const Home = () => {
     }
 
     dispatch(getCategories());
-  }, [itemsArray, favorites]);
+  }, []);
 
   return (
     <>
