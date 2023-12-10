@@ -137,8 +137,6 @@ const AddItemForm = () => {
               }}
             />
           </div>
-        </div>
-        <div className="lg:w-full">
           <div className="mb-4">
             <LocationButton />
           </div>
