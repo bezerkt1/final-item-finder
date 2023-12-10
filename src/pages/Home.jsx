@@ -16,6 +16,7 @@ const Home = () => {
   const itemsArray = useSelector((state) => state.items.itemsArray);
 
   useEffect(() => {
+    dispatch(getItems());
     if (persistor.getState().itemsArray) {
       dispatch(getItems());
     }
@@ -33,8 +34,8 @@ const Home = () => {
       {/* List of recently added items, should be sorted by newest */}
       <ItemMap items={itemsArray} startLocation={[18.0686, 59.3293]} />
       <ListGroup className="w-screen rounded-none pb-20">
-        {itemsArray?.map(({ name, description, id }) => (
-          <Item key={id} name={name} description={description} id={id} />
+        {itemsArray?.map(({ name, description, id, user_id }) => (
+          <Item key={id} name={name} description={description} id={id} user_id={user_id} />
         ))}
       </ListGroup>
       <BottomNavbar />
