@@ -1,6 +1,3 @@
-// search bar to search for item
-// list of categories to search by category
-
 import { ListGroup, Label, TextInput } from "flowbite-react";
 import Category from "../lib/Category";
 import TopAppBar from "../lib/TopAppBar";
@@ -15,7 +12,6 @@ import {
 } from "react-icons/md";
 
 const Search = () => {
-  // temp category array; may need to change to global state
   const categories = [
     {
       id: 1,
@@ -47,12 +43,11 @@ const Search = () => {
   return (
     <>
       <TopAppBar>Search</TopAppBar>
-      {/* Search input field - onChange render list of relevant items */}
-      <form className="flex flex-col m-5 gap-2">
+      <form className="m-5">
         <Label
           htmlFor="inputSearch"
           value="What are you looking for?"
-          className="text-zinc-500"
+          className="text-zinc-500 block mb-2"
         ></Label>
         <div className="flex gap-4">
           <TextInput
@@ -60,14 +55,13 @@ const Search = () => {
             type="text"
             icon={MdSearch}
             placeholder="Search keyword or category"
-            className="w-full"
+            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500"
           ></TextInput>
         </div>
       </form>
 
-      {/* List of item categories - onClick render list of items in that category */}
       <h3 className="text-zinc-500 font-bold ml-5 mb-2">Categories</h3>
-      <ListGroup className="w-screen rounded-none pb-20">
+      <ListGroup className="w-full">
         {categories.map(({ name, icon, id }) => (
           <Category name={name} icon={icon} key={id} />
         ))}

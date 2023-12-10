@@ -1,5 +1,3 @@
-// map thru items array, sorted by newest
-// use in Home.jsx and Favorites.jsx
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getFavorites, addFavorite, removeItem, removeFavorite } from "../reducers/itemSlice";
@@ -12,13 +10,12 @@ const Item = ({ name, price, description, category_id, id }) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
   const dispatch = useDispatch();
-  const [ inFavorites, setInFavorites ] = useState(false);
+  const [inFavorites, setInFavorites] = useState(false);
 
-  // check that favorites state has been rehydrated before loading list
   useEffect(() => {
     if (persistor.getState().favorites) {
       dispatch(getFavorites());
-     }
+    }
 
     const index = favorites.findIndex((item) => item.id === id);
     if (index !== -1) {
@@ -36,7 +33,6 @@ const Item = ({ name, price, description, category_id, id }) => {
         id: id,
         description: description,
         category_id: category_id,
-        //created: newItem.created,
       })
     );
     setInFavorites(true);
@@ -48,26 +44,23 @@ const Item = ({ name, price, description, category_id, id }) => {
   };
 
   return (
-    <ListGroup.Item as="div" className="relative text-zinc-500">
-      <div className="flex">
-        <div className="w-16 h-16 bg-[url(https://picsum.photos/100/100)] bg-cover"></div>
+    <ListGroup.Item as="div" className="relative text-gray-700 border-b border-gray-300 py-4 flex items-center">
+      <div className="w-16 h-16 bg-cover bg-gray-300 rounded-full"></div>
 
-        <div className="flex ml-5 flex-col justify-center text-left">
-          <p className="font-bold">{name}</p>
-          <p className="font-normal">{description}</p>
-        </div>
+      <div className="flex ml-5 flex-col">
+        <p className="font-bold text-lg">{name}</p>
+        <p className="font-normal">{description}</p>
       </div>
 
       <div className="absolute right-0 mr-5">
         {inFavorites ? (
-          <MdFavorite onClick={handleRemoveFavorite} />
+          <MdFavorite className="text-red-500 cursor-pointer" onClick={handleRemoveFavorite} />
         ) : (
-          <MdOutlineFavoriteBorder onClick={handleAddFavorite} />
+          <MdOutlineFavoriteBorder className="cursor-pointer" onClick={handleAddFavorite} />
         )}
 
-        {/*  possible to make this icon show only for items listed by user?? */}
         {login.isValid && (
-          <FaTrash className="mt-2" onClick={() => dispatch(removeItem({ id: id }))} />
+          <FaTrash className="text-gray-500 mt-2 cursor-pointer" onClick={() => dispatch(removeItem({ id: id }))} />
         )}
       </div>
     </ListGroup.Item>

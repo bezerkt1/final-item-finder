@@ -26,17 +26,17 @@ const ItemDetail = () => {
   }, [itemId]);
 
   return (
-    <div>
+    <div className="container mx-auto p-4">
       {item ? (
-        <div>
-          <h2>{item.name}</h2>
-          <p>ID: {item.id}</p>
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h2 className="text-2xl font-bold mb-4">{item.name}</h2>
+          <p className="mb-2">ID: {item.id}</p>
           {item.price === 0 ? (
             <p>Price: Free</p>
           ) : item.price ? (
             <p>Price: {item.price}</p>
           ) : null}
-          <p>Description: {item.description}</p>
+          <p className="mb-4">Description: {item.description}</p>
           {/* Display other details as needed */}
         </div>
       ) : (

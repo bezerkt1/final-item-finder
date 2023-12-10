@@ -1,5 +1,3 @@
-// info page explaining the company's mission
-// tie into Agenda 2030
 import { Link } from "react-router-dom";
 import TopAppBar from "../lib/TopAppBar";
 import logo from "/logo-gray.png";
@@ -11,8 +9,8 @@ const About = () => {
       <TopAppBar>About Us</TopAppBar>
       <div className="m-auto w-4/5 md:max-w-full md:mx-auto">
         <header className="my-6 text-center md:mx-auto">
-          <img src={logo} />
-          <h3 className="text-l text-center">
+          <img src={logo} alt="Company Logo" className="w-32 mx-auto" />
+          <h3 className="text-lg text-center mt-4">
             Reducing waste generation through reuse
           </h3>
         </header>
@@ -34,6 +32,8 @@ const About = () => {
                 <Link
                   className="decoration-solid"
                   to="https://sdgs.un.org/goals/goal12"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {" "}
                   SDG Goal 12{" "}
@@ -45,7 +45,7 @@ const About = () => {
           </div>
 
           <div className="w-2/4 my-4 m-auto md:flex-1">
-            <img src={gif} />
+            <img src={gif} alt="SDG 12 GIF" className="w-full" />
           </div>
         </div>
       </div>
@@ -54,12 +54,3 @@ const About = () => {
 };
 
 export default About;
-
-/*
-Relevant SDG
-
-12 Ensure sustainable consumption and production patterns
-Target 12.5
-By 2030, substantially reduce waste generation through prevention, reduction, recycling and reuse
-
-*/

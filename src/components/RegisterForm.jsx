@@ -1,5 +1,3 @@
-// form to register new user
-
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +12,6 @@ const RegisterForm = () => {
   const navigate = useNavigate();
 
   const [alert, setAlert] = useState({ show: false, color: "", text: "" });
-  // empty form for now, need to add logic later
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -36,7 +33,6 @@ const RegisterForm = () => {
           color: "success",
           text: "Successfully created user! You may now log in.",
         });
-        // setTimeout(() => {navigate('/home')}, 2000); // if want to redirect to home after successful registration
       } else {
         response.json().then((data) => {
           let message = data.detail;
@@ -51,16 +47,12 @@ const RegisterForm = () => {
 
   return (
     <>
-      <Card className="md:w-2/4 lg:w-1/4">
-        <form className="space-y-2" onSubmit={() => handleRegister()}>
-          <h3 className="text-xl mx-auto font-medium text-gray-900 dark:text-white">
-            Register New User
-          </h3>
+      <Card className="md:w-2/4 lg:w-1/4 bg-white shadow-md rounded-md p-4">
+        <form className="space-y-2" onSubmit={(e) => handleRegister(e)}>
+          <h3 className="text-xl font-medium text-gray-900">Register New User</h3>
           {alert.show && <Alert color={alert.color}>{alert.text}</Alert>}
           <div>
-            <div className="mb-2 block">
-              <Label htmlFor="email" value="Email" />
-            </div>
+            <Label htmlFor="email" value="Email" />
             <TextInput
               id="email"
               type="email"
@@ -69,13 +61,12 @@ const RegisterForm = () => {
                 setFormData({ ...formData, email: event.target.value })
               }
               required
+              className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:border-blue-500"
             />
           </div>
 
           <div>
-            <div className="mb-2 block">
-              <Label htmlFor="username" value="username" />
-            </div>
+            <Label htmlFor="username" value="Username" />
             <TextInput
               id="username"
               type="text"
@@ -85,13 +76,12 @@ const RegisterForm = () => {
               }
               required
               autoComplete="username"
+              className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:border-blue-500"
             />
           </div>
 
           <div>
-            <div className="mb-2 block">
-              <Label htmlFor="password" value="Password" />
-            </div>
+            <Label htmlFor="password" value="Password" />
             <TextInput
               id="password"
               type="password"
@@ -101,22 +91,23 @@ const RegisterForm = () => {
               }
               required
               autoComplete="new-password"
+              className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:border-blue-500"
             />
           </div>
 
           <div className="flex flex-col items-center gap-3">
             <CustomButton
               color="success"
-              className="bg-emerald-500"
               onClick={(e) => handleRegister(e)}
               type="submit"
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300"
             >
               Confirm
             </CustomButton>
-            <p className="text-xs">
+            <p className="text-sm">
               Already a member? Click{" "}
               <button
-                className="underline"
+                className="underline text-blue-500 focus:outline-none"
                 onClick={() => dispatch(setIsNew())}
               >
                 here

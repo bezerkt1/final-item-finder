@@ -13,13 +13,12 @@ const TopAppBar = ({ children }) => {
     (item) =>
       item.menus.includes("topAppBar") && (item.loginRequired ? isValid : true)
   );
-  // console.log("menuItems", menuItems);
 
   return (
     <div className="w-full">
-      <Navbar fluid className="bg-zinc-300 lg:mx-10">
-        <Button pill color="gray" className="bg-transparent border-transparent" onClick={() => navigate(-1)} >
-          <IoIosArrowBack />
+      <Navbar fluid className="bg-gray-800 text-white lg:mx-10">
+        <Button pill color="gray" className="bg-transparent border-transparent" onClick={() => navigate(-1)}>
+          <IoIosArrowBack className="text-white" />
         </Button>
 
         <Navbar.Brand className="text-xl">{children}</Navbar.Brand>
@@ -28,7 +27,7 @@ const TopAppBar = ({ children }) => {
 
         <Navbar.Collapse>
           {menuItems.map((item, index) => (
-            <Navbar.Link key={index} href={item.path}>
+            <Navbar.Link key={index} href={item.path} className="text-white">
               {item.name}
             </Navbar.Link>
           ))}
@@ -36,7 +35,9 @@ const TopAppBar = ({ children }) => {
           {isValid ? (
             <LogoutButton />
           ) : (
-            <Navbar.Link href="/">Sign in</Navbar.Link>
+            <Navbar.Link href="/" className="text-white">
+              Sign in
+            </Navbar.Link>
           )}
         </Navbar.Collapse>
       </Navbar>
