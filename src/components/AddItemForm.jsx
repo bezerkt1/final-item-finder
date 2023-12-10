@@ -67,21 +67,21 @@ const AddItemForm = () => {
             />
           </div>
 
-      <div className="mb-4">
-        <div className="mb-2 block">
-          <Label htmlFor="price" value="Price in kr" />
-        </div>
-        <TextInput
-          id="price"
-          type="text"
-          placeholder="ex: 100"
-          required
-          value={newItem.price}
-          onChange={(e) =>
-            setNewItem({ ...newItem, price: parseInt(e.target.value) })
-          }
-        />
-      </div>
+          <div className="mb-4">
+            <div className="mb-2 block">
+              <Label htmlFor="price" value="Price in kr" />
+            </div>
+            <TextInput
+              id="price"
+              type="text"
+              placeholder="ex: 100"
+              required
+              value={newItem.price}
+              onChange={(e) =>
+                setNewItem({ ...newItem, price: parseInt(e.target.value) })
+              }
+            />
+          </div>
 
           <div className="mb-4">
             <div className="mb-2 block">
@@ -98,45 +98,46 @@ const AddItemForm = () => {
             />
           </div>
 
-      <div className="mb-4">
-        <div className="mb-2 block">
-          <Label htmlFor="category" value="Select category" />
-        </div>
-        <Select
-          id="category"
-          required
-          onChange={(e) =>
-            setNewItem({ ...newItem, category_id: parseInt(e.target.value) })
-          }
-        >
-          <option defaultValue="" hidden>
-            ---Select---
-          </option>
-          <option value="1">Garden</option>
-          <option value="2">Building</option>
-          <option value="3">Electronics</option>
-          <option value="4">Vehicles</option>
-        </Select>
-      </div>
+          <div className="mb-4">
+            <div className="mb-2 block">
+              <Label htmlFor="category" value="Select category" />
+            </div>
+            <Select
+              id="category"
+              required
+              onChange={(e) =>
+                setNewItem({ ...newItem, category_id: parseInt(e.target.value) })
+              }
+            >
+              <option defaultValue="" hidden>
+                ---Select---
+              </option>
+              <option value="1">Garden</option>
+              <option value="2">Building</option>
+              <option value="3">Electronics</option>
+              <option value="4">Vehicles</option>
+            </Select>
+          </div>
 
-      <div className="mb-4">
-        <div className="mb-2 block">
-          <Label value="Select pickup location" />
+          <div className="mb-4">
+            <div className="mb-2 block">
+              <Label value="Select pickup location" />
+            </div>
+            <SelectLocationMap
+              startLocation={
+                longitude && latitude ? [longitude, latitude] : DEFAULT_LOCATION
+              }
+              selectedLocation={(lng, lat) => {
+                console.log("selected cords", lng, lat);
+                setNewItem({
+                  ...newItem,
+                  longitude: parseFloat(lng.toFixed(6)),
+                  latitude: parseFloat(lat.toFixed(6)),
+                });
+              }}
+            />
+          </div>
         </div>
-        <SelectLocationMap
-          startLocation={
-            longitude && latitude ? [longitude, latitude] : DEFAULT_LOCATION
-          }
-          selectedLocation={(lng, lat) => {
-            console.log("selected cords", lng, lat);
-            setNewItem({
-              ...newItem,
-              longitude: parseFloat(lng.toFixed(6)),
-              latitude: parseFloat(lat.toFixed(6)),
-            });
-          }}
-        />
-      </div>
         <div className="lg:w-full">
           <div className="mb-4">
             <LocationButton />

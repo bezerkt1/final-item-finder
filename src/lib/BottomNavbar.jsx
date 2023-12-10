@@ -1,4 +1,5 @@
 import { Navbar } from "flowbite-react";
+import { NavLink } from "react-router-dom";
 import { appPages } from "../routes/AppRoutes";
 
 const BottomNavbar = () => {
