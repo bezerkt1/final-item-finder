@@ -49,7 +49,10 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
   };
 
   return (
-    <ListGroup.Item as="div" className="relative text-gray-700 border-b border-gray-300 flex items-center">
+    <ListGroup.Item
+      as="div"
+      className="relative text-gray-700 border-b border-gray-300 flex items-center"
+    >
       <div className="w-16 h-16 bg-cover bg-gray-300 rounded-full"></div>
 
       <div className="flex ml-5 flex-col text-left">
@@ -58,11 +61,19 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
       </div>
 
       <div className="absolute right-0 mr-5">
-        {inFavorites ? (
-          <MdFavorite className="text-red-500 cursor-pointer" onClick={handleRemoveFavorite} />
-        ) : (
-          <MdOutlineFavoriteBorder className="cursor-pointer" onClick={handleAddFavorite} />
-        )}
+        {location.pathname !== "/inventory" ? (
+          inFavorites ? (
+            <MdFavorite
+              className="text-red-500 cursor-pointer"
+              onClick={handleRemoveFavorite}
+            />
+          ) : (
+            <MdOutlineFavoriteBorder
+              className="cursor-pointer"
+              onClick={handleAddFavorite}
+            />
+          )
+        ) : null}
 
         <MdMessage
           className="mt-2"
@@ -70,10 +81,11 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
         />
 
         {location.pathname === "/inventory" && login.isValid ? (
-          <FaTrash className="text-gray-500 mt-2 cursor-pointer" onClick={() => dispatch(deleteItem(id))} />
-        ) : (
-          null
-        )}
+          <FaTrash
+            className="text-gray-500 mt-2 cursor-pointer"
+            onClick={() => dispatch(deleteItem(id))}
+          />
+        ) : null}
       </div>
     </ListGroup.Item>
   );
