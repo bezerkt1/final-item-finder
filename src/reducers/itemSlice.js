@@ -104,13 +104,41 @@ export const favoriteItem = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
-        body: `id: ${payload}`,
+        body: JSON.stringify(payload),
       });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText);
       }
       console.log("Received favoriteItem response", response);
+      return response.json();
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
+
+export const removeFavorite = createAsyncThunk(
+  "item/removeFavorite",
+  async (payload, thunkAPI) => {
+    console.log("Executing removeFavorite");
+    const state = thunkAPI.getState();
+    try {
+      console.log("Making patch request");
+      const response = await fetch(`${API_URL}/items/favorite/${payload}`, {
+        method: "PATCH",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `${state.login.token_type} ${state.login.access_token}`,
+        }),
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+      console.log("Received removeFavorite response", response);
       return response.json();
     } catch (error) {
       console.log(error);
@@ -178,16 +206,6 @@ export const deleteItem = createAsyncThunk(
 const itemSlice = createSlice({
   name: "items",
   initialState,
-  reducers: {
-    removeFavorite: (state, action) => {
-      const index = state.favorites.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.favorites.splice(index, 1);
-      }
-    },
-  },
   extraReducers: (builder) => {
     builder
       .addCase(getItems.pending, (state) => {
@@ -247,6 +265,18 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
+      .addCase(removeFavorite.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(removeFavorite.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.favorites = state.favorites.filter((item) => item.id !== action.payload.id);
+        console.log("removeFavorite payload", action.payload);
+      })
+      .addCase(removeFavorite.rejected, (state, action) => {
+        state.isLoading = false;
+        console.log(action);
+      })
       .addCase(createItem.pending, (state) => {
         state.isLoading = true;
       })
@@ -281,6 +311,4 @@ const itemSlice = createSlice({
   },
 });
 
-export const { removeFavorite, addItem, removeItem, updateItem } =
-  itemSlice.actions;
 export default itemSlice.reducer;
