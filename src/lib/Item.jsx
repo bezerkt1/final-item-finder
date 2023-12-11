@@ -47,10 +47,10 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
   };
 
   return (
-    <ListGroup.Item as="div" className="relative text-gray-700 border-b border-gray-300 py-4 flex items-center">
+    <ListGroup.Item as="div" className="relative text-gray-700 border-b border-gray-300 flex items-center">
       <div className="w-16 h-16 bg-cover bg-gray-300 rounded-full"></div>
 
-      <div className="flex ml-5 flex-col">
+      <div className="flex ml-5 flex-col text-left">
         <p className="font-bold text-lg">{name}</p>
         <p className="font-normal">{description}</p>
       </div>

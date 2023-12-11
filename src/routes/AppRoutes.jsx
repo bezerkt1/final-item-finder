@@ -55,7 +55,7 @@ export const appPages = [
     menus: ["topAppBar"],
     path: "/additem",
     icon: <MdAddBox />,
-    // loginRequired: true,
+    loginRequired: true,
   },
   {
     name: "Inventory",
@@ -63,7 +63,7 @@ export const appPages = [
     menus: ["topAppBar"],
     path: "/inventory",
     icon: null,
-    // loginRequired: true,
+    loginRequired: true,
   },
   {
     name: "Messages",
