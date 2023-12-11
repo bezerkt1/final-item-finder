@@ -122,7 +122,7 @@ export const favoriteItem = createAsyncThunk(
 export const createItem = createAsyncThunk(
   "item/createItem",
   async (payload, thunkAPI) => {
-    console.log("Executing createItem");
+    console.log("Executing createItem", payload);
     const state = thunkAPI.getState();
     try {
       console.log("Making post request");
@@ -132,7 +132,7 @@ export const createItem = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
-        mode: "no-cors",
+        body: JSON.stringify(payload),
       });
       if (!response.ok) {
         const errorText = await response.text();
