@@ -61,7 +61,7 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
       </div>
 
       <div className="absolute right-0 mr-5">
-        {location.pathname !== "/inventory" ? (
+        {location.pathname !== "/inventory" && login.isValid ? (
           inFavorites ? (
             <MdFavorite
               className="text-red-500 cursor-pointer"
@@ -75,10 +75,12 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
           )
         ) : null}
 
-        <MdMessage
-          className="mt-2"
-          onClick={() => handleSendMessage(user_id, name)}
-        />
+        {location.pathname !== "/inventory" && login.isValid ? (
+          <MdMessage
+            className="mt-2"
+            onClick={() => handleSendMessage(user_id, name)}
+          />
+        ) : null}
 
         {location.pathname === "/inventory" && login.isValid ? (
           <FaTrash
