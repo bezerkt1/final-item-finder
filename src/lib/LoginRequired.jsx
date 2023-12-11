@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { validateToken } from "../reducers/loginSlice";
 
 const LoginRequired = ({ children }) => {
@@ -8,16 +8,18 @@ const LoginRequired = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(validateToken()).then(() => {
-      if (!isValid) {
-        navigate("/");
-      }
-    });
-  }, [dispatch, navigate, isValid]);
+  // useEffect(() => {
+  //   dispatch(validateToken()).then(() => {
+  //     if (!isValid) {
+  //       navigate("/");
+  //     }
+  //   });
+  // }, [dispatch, navigate, isValid]);
 
   // User logged in, render the requested route
-  return isValid ? children : null;
+
+  const login = useSelector((state) => state.login);
+  return login.isValid ? children : <Navigate to="/" />;
 };
 
 export default LoginRequired;
