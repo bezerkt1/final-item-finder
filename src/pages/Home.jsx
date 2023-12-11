@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getItems, getCategories, getFavorites } from "../reducers/itemSlice";
 import { persistor } from "../store";
@@ -11,6 +11,8 @@ import ItemMap from "../components/ItemMap";
 const Home = () => {
   const dispatch = useDispatch();
   const itemsArray = useSelector((state) => state.items.itemsArray);
+  const userId = useSelector((state) => state.login.userId);
+  const [ notMyItems, setNotMyItems ] = useState();
 
   useEffect(() => {
     dispatch(getItems());
@@ -19,6 +21,11 @@ const Home = () => {
       dispatch(getItems());
     }
   }, []);
+
+  useEffect(() => {
+    setNotMyItems(itemsArray.filter((item) => item.user_id !== userId));
+  },[itemsArray, userId]);
+
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -29,7 +36,7 @@ const Home = () => {
         </div>
         <div className="lg:w-1/2">
           <ListGroup className="w-full pb-20">
-            {itemsArray?.map(({ name, description, id, user_id  }) => (
+            {notMyItems?.map(({ name, description, id, user_id  }) => (
               <Item
                 key={id}
                 name={name}
