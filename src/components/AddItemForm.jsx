@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createItem } from "../reducers/itemSlice";
 import { useNavigate } from "react-router-dom";
@@ -78,7 +78,7 @@ const AddItemForm = () => {
               required
               value={newItem.price}
               onChange={(e) =>
-                setNewItem({ ...newItem, price: parseInt(e.target.value) })
+                setNewItem({ ...newItem, price: parseInt(e.target.value) || 0 })
               }
             />
           </div>
@@ -129,11 +129,11 @@ const AddItemForm = () => {
               }
               selectedLocation={(lng, lat) => {
                 console.log("selected cords", lng, lat);
-                setNewItem({
-                  ...newItem,
+                setNewItem((currentNewItem) => ({
+                  ...currentNewItem,
                   longitude: parseFloat(lng.toFixed(6)),
                   latitude: parseFloat(lat.toFixed(6)),
-                });
+                }))
               }}
             />
           </div>
