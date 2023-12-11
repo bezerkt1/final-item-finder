@@ -9,6 +9,7 @@ const initialState = {
   isLoading: true,
 };
 
+// fetch all items
 export const getItems = createAsyncThunk(
   "item/getItems",
   async (payload, thunkAPI) => {
@@ -25,6 +26,7 @@ export const getItems = createAsyncThunk(
   }
 );
 
+// fetch only items logged in user has added
 export const getMyItems = createAsyncThunk(
   "item/getMyItems",
   async (payload, thunkAPI) => {
@@ -50,6 +52,7 @@ export const getMyItems = createAsyncThunk(
   },
 );
 
+// fetch only items logged in user has favorited
 export const getFavorites = createAsyncThunk(
   "item/getFavorites",
   async (payload, thunkAPI) => {
@@ -75,6 +78,7 @@ export const getFavorites = createAsyncThunk(
   }
 );
 
+// fetch categories
 export const getCategories = createAsyncThunk(
   "item/getCategories",
   async (payload, thunkAPI) => {
@@ -91,6 +95,7 @@ export const getCategories = createAsyncThunk(
   }
 );
 
+// add to favorites list
 export const favoriteItem = createAsyncThunk(
   "item/favoriteItem",
   async (payload, thunkAPI) => {
@@ -119,6 +124,7 @@ export const favoriteItem = createAsyncThunk(
   }
 );
 
+// remove from favorites list
 export const removeFavorite = createAsyncThunk(
   "item/removeFavorite",
   async (payload, thunkAPI) => {
@@ -147,6 +153,7 @@ export const removeFavorite = createAsyncThunk(
   }
 );
 
+// add new item
 export const createItem = createAsyncThunk(
   "item/createItem",
   async (payload, thunkAPI) => {
@@ -175,6 +182,7 @@ export const createItem = createAsyncThunk(
   }
 );
 
+// delete item (only allowed for items added by user)
 export const deleteItem = createAsyncThunk(
   "item/deleteItem",
   async (payload, thunkAPI) => {
@@ -208,6 +216,7 @@ const itemSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
+    // fetch items
       .addCase(getItems.pending, (state) => {
         state.isLoading = true;
       })
@@ -219,6 +228,7 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
+    // fetch items added by user
       .addCase(getMyItems.pending, (state) => {
         state.isLoading = true;
       })
@@ -231,6 +241,7 @@ const itemSlice = createSlice({
         state.error = action.payload;
         console.log(action);
       })
+    // fetch categories
       .addCase(getCategories.pending, (state) => {
         state.isLoading = true;
       })
@@ -242,6 +253,7 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
+    // fetch items favorited by user
       .addCase(getFavorites.pending, (state) => {
         state.isLoading = true;
       })
@@ -253,6 +265,7 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
+    // add item to favorites
       .addCase(favoriteItem.pending, (state) => {
         state.isLoading = true;
       })
@@ -265,6 +278,7 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
+    // remove item from favorites
       .addCase(removeFavorite.pending, (state) => {
         state.isLoading = true;
       })
@@ -277,6 +291,7 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
+    // add new item
       .addCase(createItem.pending, (state) => {
         state.isLoading = true;
       })
@@ -289,19 +304,13 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
+    // delete item 
       .addCase(deleteItem.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(deleteItem.fulfilled, (state, action) => {
         state.isLoading = false;
-        // find item
-        const index = state.itemsArray.findIndex(
-          (item) => item.id === action.payload
-        );
-        // remove that item
-        if (index !== -1) {
-          state.itemsArray.splice(index, 1);
-        }
+        state.itemsArray = state.itemsArray.filter((item) => item.id !== action.payload.id);
         console.log("deleteItem payload", action.payload);
       })
       .addCase(deleteItem.rejected, (state, action) => {

@@ -8,6 +8,7 @@ import {
 } from "../reducers/itemSlice";
 import { sendMessage } from "../reducers/messageSlice";
 import { persistor } from "../store";
+import { useLocation } from "react-router-dom";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite, MdMessage } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
@@ -16,6 +17,7 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
   const dispatch = useDispatch();
+  const location = useLocation();
   const [inFavorites, setInFavorites] = useState(false);
 
   useEffect(() => {
@@ -67,8 +69,10 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
           onClick={() => handleSendMessage(user_id, name)}
         />
 
-        {login.isValid && (
+        {location.pathname === "/inventory" && login.isValid ? (
           <FaTrash className="text-gray-500 mt-2 cursor-pointer" onClick={() => dispatch(deleteItem(id))} />
+        ) : (
+          null
         )}
       </div>
     </ListGroup.Item>
