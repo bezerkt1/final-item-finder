@@ -4,7 +4,8 @@ import { appPages } from "../routes/AppRoutes";
 
 const BottomNavbar = () => {
   return (
-    <Navbar fluid className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 list-none">
+    <Navbar fluid className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300">
+      <ul className="flex w-full justify-around">
       {appPages
         .filter((page) => page.menus.includes("navbar"))
         .map(({ path, name, icon }, index) => (
@@ -18,6 +19,7 @@ const BottomNavbar = () => {
             <span className="mt-1">{name}</span>
           </Navbar.Link>
         ))}
+      </ul>
     </Navbar>
   );
 };

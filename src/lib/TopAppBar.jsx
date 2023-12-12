@@ -17,7 +17,7 @@ const TopAppBar = ({ children }) => {
   return (
     <div className="w-full">
       <Navbar fluid className="bg-gray-800 text-white lg:mx-10">
-        <Button pill color="gray" className="bg-transparent border-transparent" onClick={() => navigate(-1)}>
+        <Button id="backBtn" aria-label="back button" pill color="gray" className="bg-transparent border-transparent" onClick={() => navigate(-1)}>
           <IoIosArrowBack className="text-white" />
         </Button>
 

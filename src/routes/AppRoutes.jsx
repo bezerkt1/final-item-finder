@@ -50,7 +50,7 @@ export const appPages = [
     loginRequired: true,
   },
   {
-    name: "AddItem",
+    name: "Add Item",
     component: AddItem,
     menus: ["topAppBar"],
     path: "/additem",

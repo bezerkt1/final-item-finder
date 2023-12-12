@@ -47,7 +47,7 @@ const Search = () => {
         <Label
           htmlFor="inputSearch"
           value="What are you looking for?"
-          className="text-zinc-500 block mb-2"
+          className="text-zinc-700 block mb-2"
         ></Label>
         <div className="flex gap-4">
           <TextInput
@@ -60,7 +60,7 @@ const Search = () => {
         </div>
       </form>
 
-      <h3 className="text-zinc-500 font-bold ml-5 mb-2">Categories</h3>
+      <h3 className="text-zinc-700 font-bold ml-5 mb-2">Categories</h3>
       <ListGroup className="w-full">
         {categories.map(({ name, icon, id }) => (
           <Category name={name} icon={icon} key={id} />
