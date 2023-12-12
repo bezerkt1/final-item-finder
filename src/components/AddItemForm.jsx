@@ -168,6 +168,7 @@ const AddItemForm = () => {
       </div>
 
       <CustomButton
+        id="submitItemBtn"
         type="submit"
         color="success"
         className="mx-auto my-4 bg-emerald-500"

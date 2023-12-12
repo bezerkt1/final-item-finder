@@ -32,7 +32,7 @@ const SendMessageForm = ({ userId, threadId = null }) => {
             // Add any additional styles or props you need
           />
         </div>
-        <Button type="submit" className="">
+        <Button id="submitBtn" type="submit" className="">
           Send Message
         </Button>
       </form>

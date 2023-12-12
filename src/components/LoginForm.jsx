@@ -78,6 +78,7 @@ const LoginForm = () => {
             <p className="text-sm">
               Not a member? Click{" "}
               <button
+                id="registerBtn"
                 className="underline text-blue-500 focus:outline-none"
                 onClick={() => dispatch(setIsNew())}
               >

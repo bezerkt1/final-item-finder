@@ -18,6 +18,7 @@ const NotFound = () => {
 
       <div className="flex flex-col items-center gap-4">
         <CustomButton
+          id="homeBtn"
           color="success"
           className="bg-green-500 text-white"
           onClick={() => navigate("/home")}
@@ -26,6 +27,7 @@ const NotFound = () => {
         </CustomButton>
 
         <CustomButton
+          id="searchBtn"
           color="success"
           className="bg-green-500 text-white"
           onClick={() => navigate("/search")}

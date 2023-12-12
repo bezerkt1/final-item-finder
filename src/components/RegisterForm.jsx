@@ -97,6 +97,7 @@ const RegisterForm = () => {
 
           <div className="flex flex-col items-center gap-3">
             <CustomButton
+              id="confirmBtn"
               color="success"
               onClick={(e) => handleRegister(e)}
               type="submit"
@@ -107,6 +108,7 @@ const RegisterForm = () => {
             <p className="text-sm">
               Already a member? Click{" "}
               <button
+                id="loginBtn"
                 className="underline text-blue-500 focus:outline-none"
                 onClick={() => dispatch(setIsNew())}
               >
