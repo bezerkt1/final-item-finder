@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import TopAppBar from "../lib/TopAppBar";
-import logo from "/logo-gray.png";
+import logo from "/logo-grey.svg";
 import gif from "/SDG12.gif";
 
 const About = () => {
