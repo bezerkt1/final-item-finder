@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createItem } from "../reducers/itemSlice";
 import { useNavigate } from "react-router-dom";
-import { Select, Label, TextInput } from "flowbite-react";
+import { Select, Label, TextInput, Button } from "flowbite-react";
 import CustomButton from "../lib/CustomButton";
 import LocationButton from "../lib/LocationButton";
 import SelectLocationMap from "./SelectLocationMap";
@@ -50,7 +50,10 @@ const AddItemForm = () => {
   };
 
   return (
-    <form className="w-4/5 pb-20 md:w-2/4 md:pb-15 lg:w-full lg:flex-col" onSubmit={handleSubmit}>
+    <form
+      className="w-4/5 pb-20 md:w-2/4 md:pb-15 lg:w-full lg:flex-col"
+      onSubmit={handleSubmit}
+    >
       <div className="lg:flex lg:justify-center lg:mx-10 lg:gap-10">
         <div className="lg:w-full">
           <div className="mb-4">
@@ -106,7 +109,10 @@ const AddItemForm = () => {
               id="category"
               required
               onChange={(e) =>
-                setNewItem({ ...newItem, category_id: parseInt(e.target.value) })
+                setNewItem({
+                  ...newItem,
+                  category_id: parseInt(e.target.value),
+                })
               }
             >
               <option defaultValue="" hidden>
@@ -133,7 +139,7 @@ const AddItemForm = () => {
                   ...currentNewItem,
                   longitude: parseFloat(lng.toFixed(6)),
                   latitude: parseFloat(lat.toFixed(6)),
-                }))
+                }));
               }}
             />
           </div>
@@ -167,15 +173,15 @@ const AddItemForm = () => {
         </div>
       </div>
 
-      <CustomButton
+      <Button
         id="submitItemBtn"
         type="submit"
         color="success"
-        className="mx-auto my-4 bg-emerald-500"
+        className="mx-auto my-4" //bg-emerald-700"
         //onClick={handleClick}
       >
         Submit
-      </CustomButton>
+      </Button>
     </form>
   );
 };

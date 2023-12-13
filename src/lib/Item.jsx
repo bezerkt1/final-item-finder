@@ -53,7 +53,7 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
       as="div"
       className="relative text-gray-700 border-b border-gray-300 flex items-center"
     >
-      <div className="w-16 h-16 bg-cover bg-gray-300 rounded-full"></div>
+      <div className="w-16 h-16 bg-cover bg-gray-300 rounded-full bg-[url(https://i.pravatar.cc/100)]"></div>
 
       <div className="flex ml-5 flex-col text-left">
         <p className="font-bold text-lg">{name}</p>

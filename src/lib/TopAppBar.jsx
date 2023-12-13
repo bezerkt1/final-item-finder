@@ -17,17 +17,28 @@ const TopAppBar = ({ children }) => {
   return (
     <div className="w-full">
       <Navbar fluid className="bg-gray-800 text-white lg:mx-10">
-        <Button id="backBtn" aria-label="back button" pill color="gray" className="bg-transparent border-transparent" onClick={() => navigate(-1)}>
+        <Button
+          id="backBtn"
+          aria-label="back button"
+          pill
+          color="gray"
+          className="bg-transparent border-transparent"
+          onClick={() => navigate(-1)}
+        >
           <IoIosArrowBack className="text-white" />
         </Button>
 
         <Navbar.Brand className="text-xl">{children}</Navbar.Brand>
 
-        <Navbar.Toggle className="mr-5"/>
+        <Navbar.Toggle className="mr-5" />
 
         <Navbar.Collapse>
           {menuItems.map((item, index) => (
-            <Navbar.Link key={index} href={item.path} className="text-white">
+            <Navbar.Link
+              key={index}
+              href={item.path}
+              className="align-center text-white"
+            >
               {item.name}
             </Navbar.Link>
           ))}
