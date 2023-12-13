@@ -101,7 +101,7 @@ const RegisterForm = () => {
               color="success"
               onClick={(e) => handleRegister(e)}
               type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition duration-300"
             >
               Confirm
             </CustomButton>
@@ -109,7 +109,7 @@ const RegisterForm = () => {
               Already a member? Click{" "}
               <button
                 id="loginBtn"
-                className="underline text-blue-500 focus:outline-none"
+                className="underline focus:outline-none"
                 onClick={() => dispatch(setIsNew())}
               >
                 here
