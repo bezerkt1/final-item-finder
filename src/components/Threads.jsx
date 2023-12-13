@@ -27,7 +27,7 @@ const Threads = () => {
             active={thread.threadId === selectedThread}
           >
             <div className="flex-shrink-0">
-              <div className="w-16 h-16 bg-[url(https://i.pravatar.cc/100)] bg-cover"></div>
+              <div className="w-16 h-16 bg-[url(https://i.pravatar.cc/100)] bg-cover rounded-full"></div>
             </div>
             
             <div className="flex ml-5 flex-col justify-center text-left">
