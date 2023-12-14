@@ -13,7 +13,15 @@ import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite, MdMessage } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-const Item = ({ name, price, description, category_id, id, user_id, onClick  }) => {
+const Item = ({
+  name,
+  price,
+  description,
+  category_id,
+  id,
+  user_id,
+  onClick,
+}) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
   const selectedItem = useSelector((state) => state.items.selectedItem);
@@ -56,9 +64,11 @@ const Item = ({ name, price, description, category_id, id, user_id, onClick  }) 
       active={id === selectedItem}
       onClick={() => onClick && onClick(id)}
     >
-
       <div className="w-16 h-16 bg-cover bg-gray-300">
-        <img src={`https://source.unsplash.com/random/200x200?sig=${id}`} />
+        <img
+          src={`https://source.unsplash.com/random/200x200?sig=${id}`}
+          alt={description}
+        />
       </div>
 
       <div className="flex ml-5 flex-col text-left">

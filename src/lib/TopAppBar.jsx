@@ -4,6 +4,7 @@ import LogoutButton from "./LogoutButton";
 import { IoIosArrowBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { appPages } from "../routes/AppRoutes";
+import "./TopAppBar.css";
 
 const TopAppBar = ({ children }) => {
   const isValid = useSelector((state) => state.login.isValid);
@@ -34,11 +35,7 @@ const TopAppBar = ({ children }) => {
 
         <Navbar.Collapse>
           {menuItems.map((item, index) => (
-            <Navbar.Link
-              key={index}
-              href={item.path}
-              className="align-center text-white"
-            >
+            <Navbar.Link key={index} href={item.path} className="text-white">
               {item.name}
             </Navbar.Link>
           ))}
