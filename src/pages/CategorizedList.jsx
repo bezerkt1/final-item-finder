@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getCategories, getItems} from "../reducers/itemSlice";
+import { persistor } from "../store";
 import { ListGroup } from "flowbite-react";
 import TopAppBar from "../lib/TopAppBar";
 import BottomNavbar from "../lib/BottomNavbar";
@@ -13,18 +14,25 @@ const CategorizedList = () => {
   const dispatch = useDispatch();
   const { categoryId } = useParams();
   const itemsArray = useSelector((state) => state.items.itemsArray);
+  const selectedItem = useSelector((state) => state.items.selectedItem);
   const categories = useSelector((state) => state.items.categories);
   const [ categorizedItems, setCategorizedItems ] = useState([]);
   const [ mapLocation, setMapLocation] = useState([18.0686, 59.3293]);
   const [ header, setHeader ] = useState("");
 
   useEffect(() => {
-    dispatch(getItems);
-    dispatch(getCategories);
+    dispatch(getItems());
+    dispatch(getCategories());
   },[]);
 
   useEffect(() => {
     setCategorizedItems(itemsArray.filter((item) => item.category_id === parseInt(categoryId)));
+
+    if (selectedItem) {
+      const {longitude, latitude} = itemsArray.find((item) => item.id === selectedItem)
+      console.log("Selected", selectedItem, longitude, latitude)
+      setMapLocation([longitude, latitude])
+    }
   },[itemsArray]);
 
   useEffect(() => {
@@ -32,6 +40,17 @@ const CategorizedList = () => {
     setHeader(result[0].name);
   },[categories]);
 
+  useEffect(() => {
+    const lat = parseFloat(categorizedItems[0]?.longitude);
+    const lon = parseFloat(categorizedItems[0]?.latitude);
+    console.log("categorized", lat, lon)
+
+    // if (lat === 0 || lon === 0) {
+    //   setMapLocation([18.0686, 59.3293]);
+    // }
+    // console.log("categorized", lat, lon)
+    // setMapLocation([lat, lon]);
+  },[categorizedItems]);
 
   return (
     <div className="flex flex-col min-h-screen">
