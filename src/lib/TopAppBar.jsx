@@ -40,13 +40,15 @@ const TopAppBar = ({ children }) => {
             </Navbar.Link>
           ))}
 
-          {isValid ? (
-            <LogoutButton />
-          ) : (
-            <Navbar.Link href="/" className="text-white">
-              Sign in
-            </Navbar.Link>
-          )}
+          <li>
+            {isValid ? (
+              <LogoutButton />
+            ) : (
+              <Navbar.Link href="/" className="text-white">
+                Sign in
+              </Navbar.Link>
+            )}
+          </li>
         </Navbar.Collapse>
       </Navbar>
     </div>
