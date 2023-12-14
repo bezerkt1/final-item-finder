@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Label, Card, TextInput, Alert } from "flowbite-react";
 import { getToken } from "../reducers/loginSlice";
-import { setIsNew } from "../reducers/registerSlice";
+import { setIsNew, setAlert } from "../reducers/registerSlice";
 import CustomButton from "../lib/CustomButton";
 
 const LoginForm = () => {
@@ -16,14 +16,17 @@ const LoginForm = () => {
 
   const dispatch = useDispatch();
   const login = useSelector((state) => state.login);
+  const user = useSelector((state) => state.user);
+
 
   const handleConfirm = (e) => {
     e.preventDefault();
     dispatch(getToken(loginData)).then(() => {
       if (login.access_token !== null) {
+        dispatch(setAlert({ show: false, color: "", text: "" }));
         setIsValid(true);
       } else {
-        setIsValid(false);
+        dispatch(setAlert({ show: true, color: "failure", text: "Wrong username or password" }));
       }
     });
   };
@@ -34,9 +37,7 @@ const LoginForm = () => {
       <Card className="md:w-2/4 lg:w-1/4 bg-white shadow-md rounded-md p-4">
         <form className="space-y-2">
           <h3 className="text-xl font-medium text-gray-900">Login</h3>
-          {!isValid && (
-            <Alert color="failure">Wrong username or password</Alert>
-          )}
+          {user.alert.show && <Alert color={user.alert.color}>{user.alert.text}</Alert>}
           <div>
             <Label htmlFor="username" value="Username" />
             <TextInput
@@ -71,7 +72,7 @@ const LoginForm = () => {
               disabled={!isValid}
               onClick={(e) => handleConfirm(e)}
               type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition duration-300"
             >
               Confirm
             </CustomButton>
@@ -79,7 +80,7 @@ const LoginForm = () => {
               Not a member? Click{" "}
               <button
                 id="registerBtn"
-                className="underline text-blue-500 focus:outline-none"
+                className="underline focus:outline-none"
                 onClick={() => dispatch(setIsNew())}
               >
                 here

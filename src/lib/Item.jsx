@@ -13,9 +13,10 @@ import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite, MdMessage } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-const Item = ({ name, price, description, category_id, id, user_id }) => {
+const Item = ({ name, price, description, category_id, id, user_id, onClick  }) => {
   const login = useSelector((state) => state.login);
   const favorites = useSelector((state) => state.items.favorites);
+  const selectedItem = useSelector((state) => state.items.selectedItem);
   const dispatch = useDispatch();
   const location = useLocation();
   const [inFavorites, setInFavorites] = useState(false);
@@ -52,8 +53,13 @@ const Item = ({ name, price, description, category_id, id, user_id }) => {
     <ListGroup.Item
       as="div"
       className="relative text-gray-700 border-b border-gray-300 flex items-center"
+      active={id === selectedItem}
+      onClick={() => onClick && onClick(id)}
     >
-      <div className="w-16 h-16 bg-cover bg-gray-300 rounded-full bg-[url(https://i.pravatar.cc/100)]"></div>
+
+      <div className="w-16 h-16 bg-cover bg-gray-300">
+        <img src={`https://source.unsplash.com/random/200x200?sig=${id}`} />
+      </div>
 
       <div className="flex ml-5 flex-col text-left">
         <p className="font-bold text-lg">{name}</p>

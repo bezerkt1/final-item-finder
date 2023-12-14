@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Label, Card, TextInput, Alert } from "flowbite-react";
-import { setIsNew } from "../reducers/registerSlice";
+import { setIsNew, setAlert} from "../reducers/registerSlice";
 import { API_URL } from "../config/config";
 import CustomButton from "../lib/CustomButton";
 
@@ -11,7 +11,6 @@ const RegisterForm = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  const [alert, setAlert] = useState({ show: false, color: "", text: "" });
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -28,18 +27,19 @@ const RegisterForm = () => {
       }),
     }).then((response) => {
       if (response.status === 200) {
-        setAlert({
+        dispatch(setAlert({
           show: true,
           color: "success",
           text: "Successfully created user! You may now log in.",
-        });
+        }));
+        dispatch(setIsNew());
       } else {
         response.json().then((data) => {
           let message = data.detail;
           if (!message) {
             message = "Sorry. Something went wrong.";
           }
-          setAlert({ show: true, color: "failure", text: message });
+          dispatch(setAlert({ show: true, color: "failure", text: message }));
         });
       }
     });
@@ -50,7 +50,7 @@ const RegisterForm = () => {
       <Card className="md:w-2/4 lg:w-1/4 bg-white shadow-md rounded-md p-4">
         <form className="space-y-2" onSubmit={(e) => handleRegister(e)}>
           <h3 className="text-xl font-medium text-gray-900">Register New User</h3>
-          {alert.show && <Alert color={alert.color}>{alert.text}</Alert>}
+          {user.alert.show && <Alert color={user.alert.color}>{user.alert.text}</Alert>}
           <div>
             <Label htmlFor="email" value="Email" />
             <TextInput
@@ -101,7 +101,7 @@ const RegisterForm = () => {
               color="success"
               onClick={(e) => handleRegister(e)}
               type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition duration-300"
             >
               Confirm
             </CustomButton>
@@ -109,7 +109,7 @@ const RegisterForm = () => {
               Already a member? Click{" "}
               <button
                 id="loginBtn"
-                className="underline text-blue-500 focus:outline-none"
+                className="underline focus:outline-none"
                 onClick={() => dispatch(setIsNew())}
               >
                 here

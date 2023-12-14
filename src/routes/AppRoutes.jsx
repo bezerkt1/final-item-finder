@@ -8,6 +8,7 @@ import Search from "../pages/Search";
 import Messages from "../pages/Messages";
 import Favorites from "../pages/Favorites";
 import AddItem from "../pages/AddItem";
+import ItemDetail from "../pages/ItemDetails.jsx"
 import Inventory from "../pages/Inventory";
 import NotFound from "../pages/NotFound";
 import { MdHome, MdSearch, MdFavorite, MdAddBox, MdMessage } from "react-icons/md";
@@ -72,6 +73,14 @@ export const appPages = [
     path: "/messages",
     icon: <MdMessage />,
     loginRequired: true,
+  },
+  {
+    name: "Item Detail",
+    component: ItemDetail,
+    menus: [],
+    path: "/item/:itemId",
+    icon: "",
+    loginRequired: false,
   },
   {
     name: "Not Found",
