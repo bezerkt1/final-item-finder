@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { API_URL } from '../config/config';
 
 const ItemDetail = () => {
   const { itemId } = useParams();
@@ -9,7 +10,7 @@ const ItemDetail = () => {
     const fetchItem = async () => {
       try {
         const response = await fetch(
-          `http://basternet.ddns.net:8777/items/${itemId}`
+          `${API_URL}/items/${itemId}`
         );
         if (response.ok) {
           const data = await response.json();
