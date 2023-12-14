@@ -56,6 +56,7 @@ const Item = ({ name, price, description, category_id, id, user_id, onClick  }) 
       active={id === selectedItem}
       onClick={() => onClick && onClick(id)}
     >
+
       <div className="w-16 h-16 bg-cover bg-gray-300">
         <img src={`https://source.unsplash.com/random/200x200?sig=${id}`} />
       </div>

@@ -6,14 +6,14 @@ const CustomButton = ({ children, color, className, onClick, type }) => {
   // Set button color based on the prop received
   switch (color) {
     case "success":
-      buttonColor = "bg-green-500 hover:bg-green-600 text-white";
+      buttonColor = "bg-green-700 hover:bg-green-800 text-white";
       break;
     case "primary":
-      buttonColor = "bg-blue-500 hover:bg-blue-600 text-white";
+      buttonColor = "bg-blue-700 hover:bg-blue-800 text-white";
       break;
     // Add more cases as per your color variations
     default:
-      buttonColor = "bg-gray-500 hover:bg-gray-600 text-white";
+      buttonColor = "bg-gray-700 hover:bg-gray-800 text-white";
       break;
   }
 
