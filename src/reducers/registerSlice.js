@@ -5,7 +5,12 @@ const initialState = {
   isLoading: false,
   access_token: null,
   token_type: null,
-  isNew: false
+  isNew: false,
+  alert: { 
+    show: false, 
+    color: "", 
+    text: "" 
+  }
 };
 
 export const createUser = createAsyncThunk(
@@ -36,6 +41,9 @@ const registerSlice = createSlice({
   reducers: {
     setIsNew: (state) => {
       state.isNew = !state.isNew;
+    },
+    setAlert: (state, action) => {
+      state.alert = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -54,5 +62,5 @@ const registerSlice = createSlice({
   },
 });
 
-export const { setIsNew } = registerSlice.actions;
+export const { setIsNew, setAlert } = registerSlice.actions;
 export default registerSlice.reducer;
