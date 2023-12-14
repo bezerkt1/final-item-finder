@@ -42,14 +42,34 @@ export const getThreads = createAsyncThunk(
       const threads = await Promise.all(
         threadIds.map(thread => fetchThread(thread.id, headers))
       );
+
+      var allUserIds = [];
+      threads.forEach(thread => {
+        thread.messages.forEach(msg => {
+          if (!allUserIds.includes(msg.user_id)) {
+            allUserIds.push(msg.user_id);
+          }
+        });
+      });
+    
+      const members = await Promise.all(
+        allUserIds.map(userId => fetch(`${API_URL}/users/${userId}`, { headers })
+          .then(response => response.json())
+        )
+      );
       
       return threads.map(thread => {
         // Get unique user_ids
         const userIds = [...new Set(thread.messages.map(msg => msg.user_id))];
+        const threadMembers = members.filter(member => 
+          thread.messages.some(msg => msg.user_id === member.id)
+        );
+
         return {
           threadId: thread.threadId,
           messages: thread.messages,
-          userIds: userIds
+          userIds: userIds,
+          threadMembers: threadMembers
         }
       })
     
