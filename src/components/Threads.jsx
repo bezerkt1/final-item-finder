@@ -12,7 +12,6 @@ const Threads = () => {
   const filteredThreads = threads.filter(thread => 
     thread.userIds.some(id => id !== userId)
   );
-  console.log()
 
   return (
     <ListGroup className="w-screen rounded-none max-w-xl">
@@ -31,7 +30,7 @@ const Threads = () => {
             </div>
             
             <div className="flex ml-5 flex-col justify-center text-left">
-              <p className="font-bold">Chat between Users { thread.userIds.join(", ")}</p>
+              <p className="font-bold">Chat with { thread.threadMembers.filter(member => member.id !== userId).map(member => member.username).join(", ")}</p>
               <p className="font-normal">{thread.messages[0].message}</p>
             </div>
           </ListGroup.Item> 
