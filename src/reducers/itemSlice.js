@@ -7,6 +7,7 @@ const initialState = {
   categories: [],
   favorites: [],
   isLoading: true,
+  selectedItem: null,
 };
 
 // fetch all items
@@ -214,6 +215,11 @@ export const deleteItem = createAsyncThunk(
 const itemSlice = createSlice({
   name: "items",
   initialState,
+  reducers: {
+    setSelectedItem: (state, action) => {
+      state.selectedItem = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
     // fetch items
@@ -320,4 +326,5 @@ const itemSlice = createSlice({
   },
 });
 
+export const { setSelectedItem } = itemSlice.actions;
 export default itemSlice.reducer;
