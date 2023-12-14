@@ -19,38 +19,42 @@ const CategorizedList = () => {
   const [ categorizedItems, setCategorizedItems ] = useState([]);
   const [ mapLocation, setMapLocation] = useState([18.0686, 59.3293]);
   const [ header, setHeader ] = useState("");
+  const [ mapItem, setMapItem ] = useState({});
 
   useEffect(() => {
     dispatch(getItems());
     dispatch(getCategories());
   },[]);
 
+  // filter itemsArray by category
   useEffect(() => {
-    setCategorizedItems(itemsArray.filter((item) => item.category_id === parseInt(categoryId)));
-
-    if (selectedItem) {
-      const {longitude, latitude} = itemsArray.find((item) => item.id === selectedItem)
-      console.log("Selected", selectedItem, longitude, latitude)
-      setMapLocation([longitude, latitude])
-    }
+    setCategorizedItems(itemsArray.filter((item) => item.category_id === parseInt(categoryId)));   
   },[itemsArray]);
 
+  // retrieve category name for header
   useEffect(() => {
     const result = categories.filter((category) => category.id === parseInt(categoryId));
     setHeader(result[0].name);
   },[categories]);
 
+  // set selected item on initial render to be the first item's location on list
   useEffect(() => {
-    const lat = parseFloat(categorizedItems[0]?.longitude);
-    const lon = parseFloat(categorizedItems[0]?.latitude);
-    console.log("categorized", lat, lon)
+    if (categorizedItems) {
+      dispatch(setSelectedItem(categorizedItems[0]?.id));
+    }
+  },[categorizedItems])
 
-    // if (lat === 0 || lon === 0) {
-    //   setMapLocation([18.0686, 59.3293]);
-    // }
-    // console.log("categorized", lat, lon)
-    // setMapLocation([lat, lon]);
-  },[categorizedItems]);
+  // change selected item when click on another item
+  const handleClick = (id) => {
+    dispatch(setSelectedItem(id));
+  };
+
+  //set location on map to selected item
+  useEffect(() => {
+    const mapLocation = itemsArray?.find((item) => item.id === selectedItem);
+    console.log(mapLocation?.longitude, mapLocation?.latitude);
+    setMapLocation([mapLocation?.longitude, mapLocation?.latitude]);
+  },[selectedItem])
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -69,9 +73,7 @@ const CategorizedList = () => {
                 id={id}
                 user_id={user_id}
                 className="bg-white rounded-lg shadow-md p-4 mb-4"
-                onClick={(itemId) => {
-                  dispatch(setSelectedItem(itemId))
-                }}
+                onClick={handleClick}
               />
             ))}
           </ListGroup>

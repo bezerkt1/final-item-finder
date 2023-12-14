@@ -17,7 +17,7 @@ const TopAppBar = ({ children }) => {
 
   return (
     <div className="w-full">
-      <Navbar fluid className="bg-gray-800 text-white lg:mx-10">
+      <Navbar fluid className="bg-gray-800 text-white">
         <Button
           id="backBtn"
           aria-label="back button"
