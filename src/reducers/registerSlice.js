@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { API_URL } from '../config/config';
+import { API_URL } from "../config/config";
 
 const initialState = {
   isLoading: false,
   access_token: null,
   token_type: null,
   isNew: false,
-  alert: { 
-    show: false, 
-    color: "", 
-    text: "" 
-  }
+  alert: {
+    show: false,
+    color: "",
+    text: "",
+  },
 };
 
 export const createUser = createAsyncThunk(
@@ -44,7 +44,7 @@ const registerSlice = createSlice({
     },
     setAlert: (state, action) => {
       state.alert = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -58,7 +58,7 @@ const registerSlice = createSlice({
         state.isValid = true;
         state.isLoading = false;
       })
-      .addCase(createUser.rejected, () => initialState)
+      .addCase(createUser.rejected, () => initialState);
   },
 });
 

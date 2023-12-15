@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { API_URL } from '../config/config';
 
 const ItemDetail = () => {
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
 
-  useEffect(() => {
-    const fetchItem = async () => {
-      try {
-        const response = await fetch(
-          `${API_URL}/items/${itemId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setItem(data);
-        } else {
-          throw new Error("Failed to fetch item details");
-        }
-      } catch (error) {
-        console.error("Error fetching item details:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchItem = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${API_URL}/items/${itemId}`
+  //       );
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setItem(data);
+  //       } else {
+  //         throw new Error("Failed to fetch item details");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching item details:", error);
+  //     }
+  //   };
 
-    fetchItem();
-  }, [itemId]);
+  //   fetchItem();
+  // }, [itemId]);
 
   return (
     <div className="container mx-auto p-4">

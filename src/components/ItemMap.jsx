@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import { setSelectedItem } from '../reducers/itemSlice';
+import React, { useEffect, useRef } from "react";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { setSelectedItem } from "../reducers/itemSlice";
 import { useDispatch } from "react-redux";
 
 const ItemMap = ({ items, mapLocation }) => {
@@ -10,14 +10,14 @@ const ItemMap = ({ items, mapLocation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     if (!map.current) {
-      console.log("new map")
+      console.log("new map");
       map.current = new maplibregl.Map({
         container: mapContainer.current,
-        style: 'https://api.maptiler.com/maps/basic-v2/style.json?key=WmV5NqhpUv7xCFrD85kS',
+        style:
+          "https://api.maptiler.com/maps/basic-v2/style.json?key=WmV5NqhpUv7xCFrD85kS",
         center: mapLocation || [18.0686, 59.3293],
-        zoom: 12
+        zoom: 12,
       });
     }
 
@@ -26,7 +26,7 @@ const ItemMap = ({ items, mapLocation }) => {
     }
 
     if (items && items.length > 0) {
-      items.forEach(item => {
+      items.forEach((item) => {
         const { longitude, latitude } = item;
 
         const popupHTML = `
@@ -46,24 +46,22 @@ const ItemMap = ({ items, mapLocation }) => {
           .setPopup(popup)
           .addTo(map.current);
 
-        marker.getElement().addEventListener('click', () => {
-          console.log(item)
+        marker.getElement().addEventListener("click", () => {
+          console.log(item);
           dispatch(setSelectedItem(item.id));
         });
       });
     }
 
     // Update map size on window resize
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       if (map.current) {
         map.current.resize();
       }
     });
-
-
   }, [items, mapLocation]);
 
-useEffect(() => {
+  useEffect(() => {
     // Cleanup
     return () => {
       if (map.current) {
@@ -71,11 +69,9 @@ useEffect(() => {
         map.current = null;
       }
     };
-}, [])
+  }, []);
 
-  return (
-    <div ref={mapContainer} className="h-96 lg:h-screen w-full" />
-  );
+  return <div ref={mapContainer} className="h-96 lg:h-screen w-full" />;
 };
 
 export default ItemMap;

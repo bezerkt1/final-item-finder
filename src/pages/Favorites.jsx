@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getItems, getFavorites } from "../reducers/itemSlice";
+import { getFavorites } from "../reducers/itemSlice";
 import { ListGroup } from "flowbite-react";
 import { persistor } from "../store";
 import TopAppBar from "../lib/TopAppBar";
@@ -9,7 +9,6 @@ import Item from "../lib/Item";
 
 const Favorites = () => {
   const favorites = useSelector((state) => state.items.favorites);
-  const itemsArray = useSelector((state) => state.items.itemsArray);
   const dispatch = useDispatch();
 
   // Check that favorites state has been rehydrated before loading the list

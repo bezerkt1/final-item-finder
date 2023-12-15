@@ -50,7 +50,7 @@ export const getMyItems = createAsyncThunk(
       console.log(error);
       return thunkAPI.rejectWithValue({ error: error.message });
     }
-  },
+  }
 );
 
 // fetch only items logged in user has favorited
@@ -222,7 +222,7 @@ const itemSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    // fetch items
+      // fetch items
       .addCase(getItems.pending, (state) => {
         state.isLoading = true;
       })
@@ -234,7 +234,7 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
-    // fetch items added by user
+      // fetch items added by user
       .addCase(getMyItems.pending, (state) => {
         state.isLoading = true;
       })
@@ -247,7 +247,7 @@ const itemSlice = createSlice({
         state.error = action.payload;
         console.log(action);
       })
-    // fetch categories
+      // fetch categories
       .addCase(getCategories.pending, (state) => {
         state.isLoading = true;
       })
@@ -259,7 +259,7 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
-    // fetch items favorited by user
+      // fetch items favorited by user
       .addCase(getFavorites.pending, (state) => {
         state.isLoading = true;
       })
@@ -271,7 +271,7 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
-    // add item to favorites
+      // add item to favorites
       .addCase(favoriteItem.pending, (state) => {
         state.isLoading = true;
       })
@@ -284,20 +284,22 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
-    // remove item from favorites
+      // remove item from favorites
       .addCase(removeFavorite.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(removeFavorite.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.favorites = state.favorites.filter((item) => item.id !== action.payload.id);
+        state.favorites = state.favorites.filter(
+          (item) => item.id !== action.payload.id
+        );
         console.log("removeFavorite payload", action.payload);
       })
       .addCase(removeFavorite.rejected, (state, action) => {
         state.isLoading = false;
         console.log(action);
       })
-    // add new item
+      // add new item
       .addCase(createItem.pending, (state) => {
         state.isLoading = true;
       })
@@ -310,13 +312,15 @@ const itemSlice = createSlice({
         state.isLoading = false;
         console.log(action);
       })
-    // delete item 
+      // delete item
       .addCase(deleteItem.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(deleteItem.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.itemsArray = state.itemsArray.filter((item) => item.id !== action.payload.id);
+        state.itemsArray = state.itemsArray.filter(
+          (item) => item.id !== action.payload.id
+        );
         console.log("deleteItem payload", action.payload);
       })
       .addCase(deleteItem.rejected, (state, action) => {
