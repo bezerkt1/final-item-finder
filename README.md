@@ -35,7 +35,7 @@ As for which of the 2030 goals we believe it helps with goals 12 (Ensure sustain
 The first page you will see is a log in form where you can also create an user account if you do not have one already.
 
 > [!TIP]
-> The email should have a valid format (example@example.com), the username should be at least 6 alphanumerical (can include .-\_) characters and the password should be at least 8 characters long. If you struggle to make a user account you can use a test one.
+> The email should have a valid format (example@example.com), the username should be at least 6 alphanumerical in lower case (can include .-\_) characters and the password should be at least 8 characters long. If you struggle to make a user account you can use a test one.
 > Username: string
 > Password: string88
 

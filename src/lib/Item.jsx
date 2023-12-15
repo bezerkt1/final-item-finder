@@ -8,7 +8,7 @@ import {
 } from "../reducers/itemSlice";
 import { sendMessage } from "../reducers/messageSlice";
 import { persistor } from "../store";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ListGroup } from "flowbite-react";
 import { MdOutlineFavoriteBorder, MdFavorite, MdMessage } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
@@ -27,6 +27,7 @@ const Item = ({
   const selectedItem = useSelector((state) => state.items.selectedItem);
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const [inFavorites, setInFavorites] = useState(false);
 
   useEffect(() => {
@@ -45,7 +46,14 @@ const Item = ({
   const handleSendMessage = (userId, itemName) => {
     const message = `Hi! I would like to borrow ${itemName}`; // Define your preset message
     dispatch(sendMessage({ userId, message: message }));
+    navigate("/messages");
   };
+
+  {/*
+  NOTE! currently the api doesn’t return who is in a thread. So when you send a message there is no way of knowing who you sent it to. So there is still nothing to display in messages.
+  However the person you sent it to will now see the message in their inbox
+  */}
+
 
   const handleAddFavorite = () => {
     dispatch(favoriteItem(id));
