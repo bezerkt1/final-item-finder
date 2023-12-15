@@ -26,8 +26,8 @@ const AddItemForm = () => {
   useEffect(() => {
     setNewItem((newItem) => ({
       ...newItem,
-      longitude: longitude,
-      latitude: latitude,
+      longitude: longitude || 0.0,
+      latitude: latitude || 0.0,
     }));
   }, [longitude, latitude]);
 
