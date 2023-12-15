@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategories } from "../reducers/itemSlice";
-import { ListGroup, Label, TextInput } from "flowbite-react";
+import { List, Label, TextInput } from "flowbite-react";
 import { NavLink } from "react-router-dom";
 import Category from "../lib/Category";
 import TopAppBar from "../lib/TopAppBar";
@@ -50,13 +50,15 @@ const Search = () => {
       </form>
 
       <h3 className="text-zinc-700 font-bold ml-5 mb-2">Categories</h3>
-      <ListGroup className="w-full">
+      <List className="w-full list-none bg-white">
         {categoriesWithIcon?.map(({ name, icon, category_id }) => (
-          <NavLink to={`/category/${category_id}`} key={category_id}>
-            <Category name={name} icon={icon} />
-          </NavLink>
+          <List.Item key={category_id} className="w-full" >
+            <NavLink to={`/category/${category_id}`} >
+              <Category name={name} icon={icon} />
+            </NavLink>
+          </List.Item>
         ))}
-      </ListGroup>
+      </List>
       <BottomNavbar />
     </>
   );
