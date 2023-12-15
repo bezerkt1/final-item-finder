@@ -12,7 +12,13 @@ import ItemDetail from "../pages/ItemDetails.jsx";
 import CategorizedList from "../pages/CategorizedList.jsx";
 import Inventory from "../pages/Inventory";
 import NotFound from "../pages/NotFound";
-import { MdHome, MdSearch, MdFavorite, MdAddBox, MdMessage } from "react-icons/md";
+import {
+  MdHome,
+  MdSearch,
+  MdFavorite,
+  MdAddBox,
+  MdMessage,
+} from "react-icons/md";
 
 export const appPages = [
   {

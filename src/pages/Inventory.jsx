@@ -21,7 +21,6 @@ const Inventory = () => {
     if (persistor.getState().myItems) {
       dispatch(getMyItems());
     }
-
   }, [itemsArray]);
 
   return (

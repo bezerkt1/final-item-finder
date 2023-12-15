@@ -11,9 +11,8 @@ const Login = () => {
       <div className="w-3/4 h-1/5 max-w-sm border-red-500">
         <img src={logo} className="w-full rounded-lg" alt="Logo" />
       </div>
-     
-          {user.isNew ? <RegisterForm /> : <LoginForm />}
-        
+
+      {user.isNew ? <RegisterForm /> : <LoginForm />}
     </div>
   );
 };

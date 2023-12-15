@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { API_URL } from '../config/config';
+import { API_URL } from "../config/config";
 
 // placeholder data for items
 const initialState = {
@@ -17,7 +17,7 @@ const fetchThread = async (threadId, headers) => {
   const messages = await response.json();
   return {
     threadId,
-    messages
+    messages,
   };
 };
 
@@ -29,10 +29,9 @@ export const getThreads = createAsyncThunk(
       "Content-Type": "application/json",
       Authorization: `${state.login.token_type} ${state.login.access_token}`,
     });
-    
-    try { 
-      const response = await fetch(`${API_URL}/threads/me`, { headers}
-        );
+
+    try {
+      const response = await fetch(`${API_URL}/threads/me`, { headers });
       if (!response.ok) {
         throw new Error("Response was not ok");
       }
@@ -40,19 +39,18 @@ export const getThreads = createAsyncThunk(
       const threadIds = await response.json();
 
       const threads = await Promise.all(
-        threadIds.map(thread => fetchThread(thread.id, headers))
+        threadIds.map((thread) => fetchThread(thread.id, headers))
       );
-      
-      return threads.map(thread => {
+
+      return threads.map((thread) => {
         // Get unique user_ids
-        const userIds = [...new Set(thread.messages.map(msg => msg.user_id))];
+        const userIds = [...new Set(thread.messages.map((msg) => msg.user_id))];
         return {
           threadId: thread.threadId,
           messages: thread.messages,
-          userIds: userIds
-        }
-      })
-    
+          userIds: userIds,
+        };
+      });
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
@@ -69,7 +67,7 @@ export const sendMessage = createAsyncThunk(
         body: JSON.stringify({ message: payload.message }),
         headers: new Headers({
           "Content-Type": "application/json",
-          "Authorization": `${state.login.token_type} ${state.login.access_token}`,
+          Authorization: `${state.login.token_type} ${state.login.access_token}`,
         }),
       }).then((response) => {
         if (!response.ok) {
@@ -83,41 +81,38 @@ export const sendMessage = createAsyncThunk(
   }
 );
 
-
 const messageSlice = createSlice({
   name: "messages",
   initialState: initialState,
   reducers: {
     setSelectedThread: (state, action) => {
-      state.selectedThread = action.payload
-    }
+      state.selectedThread = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(sendMessage.fulfilled, (state, action) => {
-        console.log("Message sent")
-        const { threadId, message, senderUserId} = action.meta.arg;
-  
+        console.log("Message sent");
+        const { threadId, message, senderUserId } = action.meta.arg;
 
         // Find the thread to update
-        const threadIndex = state.threads.findIndex(t => t.threadId === threadId);
+        const threadIndex = state.threads.findIndex(
+          (t) => t.threadId === threadId
+        );
         if (threadIndex !== -1) {
           // Update the thread with the new message
-          state.threads[threadIndex].messages.push(
-            {
-              message,
-              threadId,
-              userId: senderUserId,
-
-            }
-          );
+          state.threads[threadIndex].messages.push({
+            message,
+            threadId,
+            userId: senderUserId,
+          });
         }
       })
       .addCase(getThreads.fulfilled, (state, action) => {
         state.threads = action.payload;
-      })
-  }
+      });
+  },
 });
 
-export const { setSelectedThread } =  messageSlice.actions;
+export const { setSelectedThread } = messageSlice.actions;
 export default messageSlice.reducer;

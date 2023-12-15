@@ -18,7 +18,6 @@ const LoginForm = () => {
   const login = useSelector((state) => state.login);
   const user = useSelector((state) => state.user);
 
-
   const handleConfirm = (e) => {
     e.preventDefault();
     dispatch(getToken(loginData)).then(() => {
@@ -26,7 +25,13 @@ const LoginForm = () => {
         dispatch(setAlert({ show: false, color: "", text: "" }));
         setIsValid(true);
       } else {
-        dispatch(setAlert({ show: true, color: "failure", text: "Wrong username or password" }));
+        dispatch(
+          setAlert({
+            show: true,
+            color: "failure",
+            text: "Wrong username or password",
+          })
+        );
       }
     });
   };
@@ -37,7 +42,9 @@ const LoginForm = () => {
       <Card className="md:w-2/4 lg:w-1/4 bg-white shadow-md rounded-md p-4">
         <form className="space-y-2">
           <h3 className="text-xl font-medium text-gray-900">Login</h3>
-          {user.alert.show && <Alert color={user.alert.color}>{user.alert.text}</Alert>}
+          {user.alert.show && (
+            <Alert color={user.alert.color}>{user.alert.text}</Alert>
+          )}
           <div>
             <Label htmlFor="username" value="Username" />
             <TextInput

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { createItem } from "../reducers/itemSlice";
 import { useNavigate } from "react-router-dom";
 import { Select, Label, TextInput, Button } from "flowbite-react";
-import CustomButton from "../lib/CustomButton";
 import LocationButton from "../lib/LocationButton";
 import SelectLocationMap from "./SelectLocationMap";
 import { DEFAULT_LOCATION } from "../config/config";

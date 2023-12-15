@@ -20,15 +20,16 @@ const About = () => {
             <section className="my-4">
               <h3 className="text-xl font-bold">About Us</h3>
               <p>
-                We are an online platform that connects people who have household
-                items to loan with those who want to borrow them.
+                We are an online platform that connects people who have
+                household items to loan with those who want to borrow them.
               </p>
             </section>
 
             <section>
               <h3 className="text-xl font-bold">Our Mission</h3>
               <p>
-                Our mission is to contribute to the UN's 2030 Agenda, specifically
+                Our mission is to contribute to the UN's 2030 Agenda,
+                specifically
                 <Link
                   className="decoration-solid"
                   to="https://sdgs.un.org/goals/goal12"

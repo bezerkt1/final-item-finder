@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { API_URL } from '../config/config';
+import { API_URL } from "../config/config";
 
 const initialState = {
   isLoading: false,

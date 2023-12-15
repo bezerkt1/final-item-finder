@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Label, Card, TextInput, Alert } from "flowbite-react";
-import { setIsNew, setAlert} from "../reducers/registerSlice";
+import { setIsNew, setAlert } from "../reducers/registerSlice";
 import { API_URL } from "../config/config";
 import CustomButton from "../lib/CustomButton";
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -27,11 +25,13 @@ const RegisterForm = () => {
       }),
     }).then((response) => {
       if (response.status === 200) {
-        dispatch(setAlert({
-          show: true,
-          color: "success",
-          text: "Successfully created user! You may now log in.",
-        }));
+        dispatch(
+          setAlert({
+            show: true,
+            color: "success",
+            text: "Successfully created user! You may now log in.",
+          })
+        );
         dispatch(setIsNew());
       } else {
         response.json().then((data) => {
@@ -49,8 +49,12 @@ const RegisterForm = () => {
     <>
       <Card className="md:w-2/4 lg:w-1/4 bg-white shadow-md rounded-md p-4">
         <form className="space-y-2" onSubmit={(e) => handleRegister(e)}>
-          <h3 className="text-xl font-medium text-gray-900">Register New User</h3>
-          {user.alert.show && <Alert color={user.alert.color}>{user.alert.text}</Alert>}
+          <h3 className="text-xl font-medium text-gray-900">
+            Register New User
+          </h3>
+          {user.alert.show && (
+            <Alert color={user.alert.color}>{user.alert.text}</Alert>
+          )}
           <div>
             <Label htmlFor="email" value="Email" />
             <TextInput

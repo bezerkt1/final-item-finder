@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getItems, getCategories } from "../reducers/itemSlice";
+import { getCategories } from "../reducers/itemSlice";
 import { ListGroup, Label, TextInput } from "flowbite-react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Category from "../lib/Category";
 import TopAppBar from "../lib/TopAppBar";
 import BottomNavbar from "../lib/BottomNavbar";
@@ -21,12 +21,13 @@ const Search = () => {
     { category_id: 1, icon: <PiTreeEvergreenFill /> },
     { category_id: 2, icon: <BsTools /> },
     { category_id: 3, icon: <PiTelevisionBold /> },
-    { category_id: 4, icon: <BsCarFrontFill /> }
+    { category_id: 4, icon: <BsCarFrontFill /> },
   ];
 
-  const categoriesWithIcon = categoryIcon.map((category) => (
-    {...category, name: categories.find(x => x.id === category.category_id).name }
-  ));
+  const categoriesWithIcon = categoryIcon.map((category) => ({
+    ...category,
+    name: categories.find((x) => x.id === category.category_id).name,
+  }));
 
   return (
     <>
@@ -51,7 +52,7 @@ const Search = () => {
       <h3 className="text-zinc-700 font-bold ml-5 mb-2">Categories</h3>
       <ListGroup className="w-full">
         {categoriesWithIcon?.map(({ name, icon, category_id }) => (
-          <NavLink to={`/category/${category_id}`} key={category_id} >
+          <NavLink to={`/category/${category_id}`} key={category_id}>
             <Category name={name} icon={icon} />
           </NavLink>
         ))}

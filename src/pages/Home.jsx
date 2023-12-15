@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getItems, getCategories, getFavorites } from "../reducers/itemSlice";
+import { getItems } from "../reducers/itemSlice";
 import { persistor } from "../store";
 import { ListGroup } from "flowbite-react";
 import TopAppBar from "../lib/TopAppBar";
@@ -14,12 +14,12 @@ const Home = () => {
   const itemsArray = useSelector((state) => state.items.itemsArray);
   const selectedItem = useSelector((state) => state.items.selectedItem);
   const userId = useSelector((state) => state.login.userId);
-  const [ notMyItems, setNotMyItems ] = useState();
-  const [ mapLocation, setMapLocation] = useState([18.0686, 59.3293]);
+  const [notMyItems, setNotMyItems] = useState();
+  const [mapLocation, setMapLocation] = useState([18.0686, 59.3293]);
 
   useEffect(() => {
     dispatch(getItems());
-    
+
     if (persistor.getState().itemsArray) {
       dispatch(getItems());
     }
@@ -27,17 +27,19 @@ const Home = () => {
 
   useEffect(() => {
     setNotMyItems(itemsArray.filter((item) => item.user_id !== userId));
-  },[itemsArray, userId]);
+  }, [itemsArray, userId]);
 
   useEffect(() => {
     if (selectedItem) {
-      const {longitude, latitude} = itemsArray.find((item) => item.id === selectedItem)
-      console.log("Selected", selectedItem, longitude, latitude)
-      setMapLocation([longitude, latitude])
+      const { longitude, latitude } = itemsArray.find(
+        (item) => item.id === selectedItem
+      );
+      console.log("Selected", selectedItem, longitude, latitude);
+      setMapLocation([longitude, latitude]);
     }
-  },[itemsArray, selectedItem]);
+  }, [itemsArray, selectedItem]);
 
-  console.log("Items Array", itemsArray)
+  console.log("Items Array", itemsArray);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -48,7 +50,7 @@ const Home = () => {
         </div>
         <div className="lg:w-1/2">
           <ListGroup className="w-full pb-20">
-            {notMyItems?.map(({ name, description, id, user_id  }) => (
+            {notMyItems?.map(({ name, description, id, user_id }) => (
               <Item
                 key={id}
                 name={name}
@@ -57,7 +59,7 @@ const Home = () => {
                 user_id={user_id}
                 className="bg-white rounded-lg shadow-md p-4 mb-4"
                 onClick={(itemId) => {
-                  dispatch(setSelectedItem(itemId))
+                  dispatch(setSelectedItem(itemId));
                 }}
               />
             ))}

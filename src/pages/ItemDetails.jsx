@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { API_URL } from '../config/config';
 
 const ItemDetail = () => {
   const { itemId } = useParams();

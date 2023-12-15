@@ -9,36 +9,37 @@ const Threads = () => {
   const selectedThread = useSelector((state) => state.messages.selectedThread);
   const userId = useSelector((state) => state.login.userId);
   // Lets filter out threads with out any answers
-  const filteredThreads = threads.filter(thread => 
-    thread.userIds.some(id => id !== userId)
+  const filteredThreads = threads.filter((thread) =>
+    thread.userIds.some((id) => id !== userId)
   );
-  console.log()
+  console.log();
 
   return (
     <ListGroup className="w-screen rounded-none max-w-xl">
       {filteredThreads.map((thread, index) => {
-        
         return (
-          <ListGroup.Item 
-            key={index} 
-            as="div" 
-            className={`relative text-zinc-500 flex items-center space-x-4`} 
-            onClick={() =>  dispatch(setSelectedThread(thread.threadId))}
+          <ListGroup.Item
+            key={index}
+            as="div"
+            className={`relative text-zinc-500 flex items-center space-x-4`}
+            onClick={() => dispatch(setSelectedThread(thread.threadId))}
             active={thread.threadId === selectedThread}
           >
             <div className="flex-shrink-0">
               <div className="w-16 h-16 bg-[url(https://i.pravatar.cc/100)] bg-cover rounded-full"></div>
             </div>
-            
+
             <div className="flex ml-5 flex-col justify-center text-left">
-              <p className="font-bold">Chat between Users { thread.userIds.join(", ")}</p>
+              <p className="font-bold">
+                Chat between Users {thread.userIds.join(", ")}
+              </p>
               <p className="font-normal">{thread.messages[0].message}</p>
             </div>
-          </ListGroup.Item> 
+          </ListGroup.Item>
         );
       })}
     </ListGroup>
-  )
-}
+  );
+};
 
 export default Threads;
