@@ -7,7 +7,7 @@ const Conversation = () => {
   const userId = useSelector((state) => state.login.userId);
 
   if (threads.length === 0) {
-    return <div>Loading...</div>;
+    return <div>You currently have no messages with this user.</div>;
   }
   const thread = threads.find((thread) => thread.threadId === selectedThread);
   console.log(thread);

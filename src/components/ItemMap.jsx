@@ -11,7 +11,7 @@ const ItemMap = ({ items, mapLocation }) => {
 
   useEffect(() => {
     if (!map.current) {
-      console.log("new map");
+      //console.log("new map");
       map.current = new maplibregl.Map({
         container: mapContainer.current,
         style:

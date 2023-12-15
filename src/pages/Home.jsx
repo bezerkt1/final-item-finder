@@ -34,12 +34,12 @@ const Home = () => {
       const { longitude, latitude } = itemsArray.find(
         (item) => item.id === selectedItem
       );
-      console.log("Selected", selectedItem, longitude, latitude);
+      //console.log("Selected", selectedItem, longitude, latitude);
       setMapLocation([longitude, latitude]);
     }
   }, [itemsArray, selectedItem]);
 
-  console.log("Items Array", itemsArray);
+  //console.log("Items Array", itemsArray);
 
   return (
     <div className="flex flex-col min-h-screen">
