@@ -52,13 +52,13 @@ const Search = () => {
 
       <h3 className="text-zinc-700 font-bold ml-5 mb-2">Categories</h3>
       <List className="w-full list-none bg-white">
-        {categoriesWithIcon?.map(({ name, icon, category_id }) => (
+        {/* {categoriesWithIcon?.map(({ name, icon, category_id }) => (
           <List.Item key={category_id} className="w-full">
             <NavLink to={`/category/${category_id}`}>
               <Category name={name} icon={icon} />
             </NavLink>
           </List.Item>
-        ))}
+        ))} */}
       </List>
       <BottomNavbar />
     </>
