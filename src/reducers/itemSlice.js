@@ -8,6 +8,7 @@ const initialState = {
   favorites: [],
   isLoading: true,
   selectedItem: null,
+  createItemMessage: "test",
 };
 
 // fetch all items
@@ -219,6 +220,12 @@ const itemSlice = createSlice({
     setSelectedItem: (state, action) => {
       state.selectedItem = action.payload;
     },
+    setItemMessage: (state, action) => {
+      state.itemMessage = action.payload;
+    },
+    clearItemMessage: (state) => {
+      state.itemMessage =  ""
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -330,5 +337,5 @@ const itemSlice = createSlice({
   },
 });
 
-export const { setSelectedItem } = itemSlice.actions;
+export const { setSelectedItem, setItemMessage, clearItemMessage } = itemSlice.actions;
 export default itemSlice.reducer;

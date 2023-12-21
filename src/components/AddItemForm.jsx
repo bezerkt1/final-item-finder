@@ -6,6 +6,8 @@ import { Select, Label, TextInput, Button } from "flowbite-react";
 import LocationButton from "../lib/LocationButton";
 import SelectLocationMap from "./SelectLocationMap";
 import { DEFAULT_LOCATION } from "../config/config";
+import { setItemMessage, clearItemMessage } from "../reducers/itemSlice";
+import { setSelectedItem } from "../reducers/itemSlice";
 
 const AddItemForm = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ const AddItemForm = () => {
     category_id: 0, //integer
   });
 
+  const [formErrors, setFormErrors] = useState({});
   const { longitude, latitude } = useSelector((state) => state.location);
 
   useEffect(() => {
@@ -31,21 +34,29 @@ const AddItemForm = () => {
     }));
   }, [longitude, latitude]);
 
-  // save date created on click the database will save the date an item is created
-  //const handleClick = () => {
-  //let dateCreated = new Date().toLocaleDateString("sv-SE");
-  //setNewItem({ ...newItem, created: dateCreated });
-  //console.log("clicked");
-  //};
-
   // save new item on submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("dispatched", newItem);
-    dispatch(createItem(newItem));
-    setTimeout(() => {
-      navigate("/inventory");
-    }, 2000);
+    try {
+      const result = await dispatch(createItem(newItem)).unwrap()
+        console.log("the result", result)
+        dispatch (setItemMessage(`Item ${result.name} listed`));
+        dispatch (setSelectedItem(result.id))
+        setTimeout(() => {
+          dispatch(clearItemMessage());
+        }, 10000);
+        navigate("/inventory");
+    } catch (error) {
+      const responseErrors = JSON.parse(error.error)
+      const responseFormErrors = responseErrors.detail.reduce( (acc, error) =>  ({
+        ...acc,
+        [error.loc[1]]: error.msg,
+      }), {});
+      setFormErrors(responseFormErrors);
+      console.log("its an error", responseFormErrors)
+      console.error("Error creating item:", error);
+    }
   };
 
   return (
@@ -67,6 +78,9 @@ const AddItemForm = () => {
               value={newItem.name}
               onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
             />
+            {formErrors.name && (
+              <span className="text-red-500">{formErrors.name}</span>
+            )}
           </div>
 
           <div className="mb-4">
@@ -83,6 +97,9 @@ const AddItemForm = () => {
                 setNewItem({ ...newItem, price: parseInt(e.target.value) || 0 })
               }
             />
+            {formErrors.price && (
+              <span className="text-red-500">{formErrors.price}</span>
+            )}
           </div>
 
           <div className="mb-4">
@@ -98,6 +115,9 @@ const AddItemForm = () => {
                 setNewItem({ ...newItem, description: e.target.value })
               }
             />
+            {formErrors.description && (
+              <span className="text-red-500">{formErrors.description}</span>
+            )}
           </div>
 
           <div className="mb-4">
@@ -156,6 +176,9 @@ const AddItemForm = () => {
               value={newItem.longitude}
               readOnly
             />
+            {formErrors.longitude && (
+              <span className="text-red-500">{formErrors.longitude}</span>
+            )}
           </div>
 
           <div className="mb-4">
@@ -168,6 +191,9 @@ const AddItemForm = () => {
               value={newItem.latitude}
               readOnly
             />
+            {formErrors.latitude && (
+              <span className="text-red-500">{formErrors.latitude}</span>
+            )}
           </div>
         </div>
       </div>
