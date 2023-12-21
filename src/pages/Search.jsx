@@ -26,7 +26,7 @@ const Search = () => {
 
   const categoriesWithIcon = categoryIcon.map((category) => ({
     ...category,
-    name: categories.find((x) => x.id === category.category_id).name,
+    name: categories?.find((x) => x.id === category.category_id).name,
   }));
 
   return (
