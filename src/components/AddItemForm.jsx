@@ -44,7 +44,7 @@ const AddItemForm = () => {
     console.log("dispatched", newItem);
     dispatch(createItem(newItem));
     setTimeout(() => {
-      navigate("/home");
+      navigate("/inventory");
     }, 2000);
   };
 

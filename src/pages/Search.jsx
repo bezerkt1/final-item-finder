@@ -32,7 +32,7 @@ const Search = () => {
   return (
     <>
       <TopAppBar>Search</TopAppBar>
-      <form className="m-5">
+      {/*<form className="m-5">
         <Label
           htmlFor="inputSearch"
           value="What are you looking for?"
@@ -47,13 +47,13 @@ const Search = () => {
             className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500"
           ></TextInput>
         </div>
-      </form>
+      </form>*/}
 
       <h3 className="text-zinc-700 font-bold ml-5 mb-2">Categories</h3>
       <List className="w-full list-none bg-white">
         {categoriesWithIcon?.map(({ name, icon, category_id }) => (
-          <List.Item key={category_id} className="w-full" >
-            <NavLink to={`/category/${category_id}`} >
+          <List.Item key={category_id} className="w-full">
+            <NavLink to={`/category/${category_id}`}>
               <Category name={name} icon={icon} />
             </NavLink>
           </List.Item>
