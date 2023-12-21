@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getCategories } from "../reducers/itemSlice";
+//import { useEffect } from "react";
+//import { useSelector, useDispatch } from "react-redux";
+//import { getCategories } from "../reducers/itemSlice";
 import { List, Label, TextInput } from "flowbite-react";
 import { NavLink } from "react-router-dom";
 import Category from "../lib/Category";
