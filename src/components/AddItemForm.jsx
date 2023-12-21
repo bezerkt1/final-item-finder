@@ -38,7 +38,6 @@ const AddItemForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("dispatched", newItem);
-   
     try {
       const result = await dispatch(createItem(newItem)).unwrap()
         console.log("the result", result)
