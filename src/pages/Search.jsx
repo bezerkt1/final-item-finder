@@ -28,6 +28,7 @@ const Search = () => {
     ...category,
     name: categories?.find((x) => x.id === category.category_id).name,
   }));
+  console.log(categoriesWithIcon);
 
   return (
     <>
