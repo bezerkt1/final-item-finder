@@ -29,7 +29,7 @@ const LocationButton = () => {
   return (
     <Button
       id="myLocationBtn"
-      onClick={getLocation}
+      onClick={() => getLocation()}
       className="bg-blue-600 text-white rounded-md px-4 py-2 hover:bg-blue-700 transition duration-300 ease-in-out"
     >
       Get my location

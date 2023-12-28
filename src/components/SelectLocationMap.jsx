@@ -1,8 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { useDispatch } from "react-redux";
+import { setLocation } from "../reducers/locationSlice";
 
 const SelectLocationMap = ({ items, startLocation, selectedLocation }) => {
+  const dispatch = useDispatch();
   const mapContainer = useRef(null);
   const map = useRef(null);
   const locationMarkerRef = useRef(null);
@@ -30,6 +33,12 @@ const SelectLocationMap = ({ items, startLocation, selectedLocation }) => {
     locationMarkerRef.current.on("dragend", () => {
       const { lng, lat } = locationMarkerRef.current.getLngLat();
       console.log("Marker position:", lng, lat);
+      dispatch(
+        setLocation({
+          longitude: lng.toFixed(6),
+          latitude: lat.toFixed(6),
+        })
+      );
       selectedLocation(parseFloat(lng.toFixed(6)), parseFloat(lat.toFixed(6)));
     });
   }, [startLocation]);
