@@ -30,12 +30,12 @@ const Home = () => {
   }, [itemsArray, userId]);
 
   useEffect(() => {
-    if (selectedItem) {
-      const { longitude, latitude } = itemsArray.find(
-        (item) => item.id === selectedItem
-      );
-      //console.log("Selected", selectedItem, longitude, latitude);
-      setMapLocation([longitude, latitude]);
+    if (selectedItem && itemsArray && itemsArray.length > 0) {
+      const selectedItemInfo = itemsArray.find((item) => item.id === selectedItem);
+      if (selectedItemInfo) {
+        const { longitude, latitude } = selectedItemInfo;
+        setMapLocation([longitude, latitude]);
+      }
     }
   }, [itemsArray, selectedItem]);
 

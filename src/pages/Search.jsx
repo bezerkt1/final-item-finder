@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getCategories } from "../reducers/itemSlice";
+//import { useEffect } from "react";
+//import { useSelector, useDispatch } from "react-redux";
+//import { getCategories } from "../reducers/itemSlice";
 import { List, Label, TextInput } from "flowbite-react";
 import { NavLink } from "react-router-dom";
 import Category from "../lib/Category";
@@ -10,25 +10,14 @@ import { BsTools, BsCarFrontFill, BsSearch } from "react-icons/bs";
 import { PiTreeEvergreenFill, PiTelevisionBold } from "react-icons/pi";
 
 const Search = () => {
-  const dispatch = useDispatch();
-  const categories = useSelector((state) => state.items.categories);
-
-  useEffect(() => {
-    dispatch(getCategories());
-  }, []);
 
   const categoryIcon = [
-    { category_id: 1, icon: <PiTreeEvergreenFill /> },
-    { category_id: 2, icon: <BsTools /> },
-    { category_id: 3, icon: <PiTelevisionBold /> },
-    { category_id: 4, icon: <BsCarFrontFill /> },
+    { category_id: 1, name: "Garden", icon: <PiTreeEvergreenFill /> },
+    { category_id: 2, name: "Building", icon: <BsTools /> },
+    { category_id: 3, name: "Electronics", icon: <PiTelevisionBold /> },
+    { category_id: 4, name: "Vehicles", icon: <BsCarFrontFill /> },
   ];
-
-  const categoriesWithIcon = categoryIcon.map((category) => ({
-    ...category,
-    name: categories.find((x) => x.id === category.category_id).name,
-  }));
-
+  
   return (
     <>
       <TopAppBar>Search</TopAppBar>
@@ -51,7 +40,7 @@ const Search = () => {
 
       <h3 className="text-zinc-700 font-bold ml-5 mb-2">Categories</h3>
       <List className="w-full list-none bg-white">
-        {categoriesWithIcon?.map(({ name, icon, category_id }) => (
+        {categoryIcon?.map(({ name, icon, category_id }) => (
           <List.Item key={category_id} className="w-full">
             <NavLink to={`/category/${category_id}`}>
               <Category name={name} icon={icon} />
@@ -65,3 +54,30 @@ const Search = () => {
 };
 
 export default Search;
+
+/* Originally fetched category names using redux, and it worked fine on local server
+but for some users did not work on deployed site (it worked for others).
+Therefore, category names and icons were hardcoded as a quick fix.
+
+
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.items.categories);
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
+
+  const categoryIcon = [
+    { category_id: 1, icon: <PiTreeEvergreenFill /> },
+    { category_id: 2, icon: <BsTools /> },
+    { category_id: 3, icon: <PiTelevisionBold /> },
+    { category_id: 4, icon: <BsCarFrontFill /> },
+  ];
+
+  const categoriesWithIcon = categoryIcon.map((category) => ({
+    ...category,
+    name: categories?.find((x) => x.id === category.category_id).name,
+  }));
+
+  then map thru categoriesWithIcon
+*/

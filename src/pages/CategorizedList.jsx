@@ -14,14 +14,21 @@ const CategorizedList = () => {
   const { categoryId } = useParams();
   const itemsArray = useSelector((state) => state.items.itemsArray);
   const selectedItem = useSelector((state) => state.items.selectedItem);
-  const categories = useSelector((state) => state.items.categories);
+  //const categories = useSelector((state) => state.items.categories);
   const [categorizedItems, setCategorizedItems] = useState([]);
   const [mapLocation, setMapLocation] = useState([18.0686, 59.3293]);
   const [header, setHeader] = useState("");
 
+  const categories = [
+    { category_id: 1, name: "Garden" },
+    { category_id: 2, name: "Building" },
+    { category_id: 3, name: "Electronics" },
+    { category_id: 4, name: "Vehicles" },
+  ];
+
   useEffect(() => {
     dispatch(getItems());
-    dispatch(getCategories());
+    //dispatch(getCategories());
   }, []);
 
   // filter itemsArray by category
@@ -39,7 +46,7 @@ const CategorizedList = () => {
   // retrieve category name for header
   useEffect(() => {
     const result = categories.filter(
-      (category) => category.id === parseInt(categoryId)
+      (category) => category.category_id === parseInt(categoryId)
     );
     setHeader(result[0].name);
   }, [categories]);
@@ -87,3 +94,7 @@ const CategorizedList = () => {
 };
 
 export default CategorizedList;
+
+/* encountered error on deployed site fetching categories but no error on local server
+as a quick fix, hardcoded the categories to avoid fetch
+*/
